@@ -23,14 +23,19 @@
 		103B45FE52A63A2DC8DF7311 /* ElementStudio-energy-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = A0F31C550FC1CB9DEFC7A1F4 /* ElementStudio-energy-forms20260910.json */; };
 		11D959A9CDDC3A368889742D /* ElementStudio-ribbon-ceramic-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 89587C19C8D3892B207FD456 /* ElementStudio-ribbon-ceramic-forms20260910.bin */; };
 		1307719E3C186ACF19C5DA73 /* ElementStudio-surface-glaze-7.png in Resources */ = {isa = PBXBuildFile; fileRef = B441E7526809FFB98A39E8E3 /* ElementStudio-surface-glaze-7.png */; };
+		1430D1C53D6A0BCB405902DC /* ElementStudio-pennant-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = BE4C70CD93C0BC60EFCCF19C /* ElementStudio-pennant-studio20260911.json */; };
 		150065BD0055EB4D24905CE3 /* ElementStudio-returning-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 79C5B10EE011CE91DE0D0F8B /* ElementStudio-returning-forms20260910.bin */; };
 		15FEE997CBC93CFEDAFDE4D4 /* ElementStudio-month-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = 08976E5B5D89AC24137F2DD6 /* ElementStudio-month-earlier.json */; };
+		16D55E97342C53980A45E693 /* ElementStudio-collection-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = E5CD529920B3DA0CE27E81FF /* ElementStudio-collection-studio20260911.bin */; };
 		1756CC03B856471FBE64B931 /* ElementStudio-month.bin in Resources */ = {isa = PBXBuildFile; fileRef = 2B35AE8FE00B30E28E2393F9 /* ElementStudio-month.bin */; };
 		17F2AA04DE546AE5C9093533 /* ElementStudio-sunrise.bin in Resources */ = {isa = PBXBuildFile; fileRef = 508071D11EC4C43C7A999516 /* ElementStudio-sunrise.bin */; };
+		1A4ED0AF7B73AF31D0A42933 /* ElementStudio-ribbon-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E5687CF442028C5E53CFA8C /* ElementStudio-ribbon-studio20260911.json */; };
 		1AA10EFE3B8CE24DF8CF20C5 /* ElementStudio-distance.json in Resources */ = {isa = PBXBuildFile; fileRef = 74EB3923E4E9602BDE231648 /* ElementStudio-distance.json */; };
 		1B41A755FC62FF69CBFF018E /* ElementStudio-hourglass.json in Resources */ = {isa = PBXBuildFile; fileRef = D404F789661603639E74929D /* ElementStudio-hourglass.json */; };
+		1BD4050394D3D4654C172378 /* ElementStudio-returning-folded-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 531BCDD79ABECF1CA91681D8 /* ElementStudio-returning-folded-studio20260911.json */; };
 		1D96649337068B1D7137F9E5 /* ElementStudio-ribbon-ceramic.json in Resources */ = {isa = PBXBuildFile; fileRef = 982429FBCAB4B164674B362F /* ElementStudio-ribbon-ceramic.json */; };
 		1E32C82939D34E964DF0D117 /* StudioFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78456EEBEAFE8D405C1B1A31 /* StudioFlowTests.swift */; };
+		1EA691A40DA9C48FCC04C90F /* ElementStudio-month-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 8E52D8A267B09D5D6EBE5C69 /* ElementStudio-month-studio20260911.json */; };
 		20ABB31ED3963358A8E12C18 /* ElementStudio-pennant-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 85D475F929A81E2C7063F759 /* ElementStudio-pennant-earlier.bin */; };
 		21CBE1773BA7F64B7CB48FAC /* ElementStudio-activity-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 485EEEBA82D10A47B17C8548 /* ElementStudio-activity-earlier.bin */; };
 		21D77C941BE5E747F2F0BA27 /* ElementStudio-frequency-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 8683239F5B6B30A170C77BFF /* ElementStudio-frequency-forms20260910.bin */; };
@@ -41,22 +46,30 @@
 		282313E7A71C84127D4754DB /* ElementStudio-returning-folded.json in Resources */ = {isa = PBXBuildFile; fileRef = 6CD3140EA6017E075B2DD338 /* ElementStudio-returning-folded.json */; };
 		294D2A8AB9D4EAB55064E336 /* ElementStudio-returning-ceramic.bin in Resources */ = {isa = PBXBuildFile; fileRef = DD735ABFB0419C6AE037951B /* ElementStudio-returning-ceramic.bin */; };
 		2B95BC98D34FD35EF9ECCE79 /* ElementStudio-surface-glaze-4.png in Resources */ = {isa = PBXBuildFile; fileRef = EF118DD5E8BEEFCC18BC237A /* ElementStudio-surface-glaze-4.png */; };
+		2E4F890DF771ECA5A1F57DDD /* ElementStudio-returning-folded-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 88DF7DE45C71677F1C4B7310 /* ElementStudio-returning-folded-studio20260911.bin */; };
+		2E5B5ADECA9FB67B8A470AE7 /* ElementStudio-sunrise-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = A90F3FE9F02A35D262D14C57 /* ElementStudio-sunrise-studio20260911.json */; };
 		2F325EA480A4CDB82CA16871 /* ElementStudio-memory-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = C1C39CC53BB809341F6A8B9C /* ElementStudio-memory-forms20260910.bin */; };
 		337F7CEB3E3E7228F301CD29 /* ElementStudio-hourglass-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = DEA614D482B90D3F3351E928 /* ElementStudio-hourglass-sculpted.bin */; };
 		33FB82B0493B57AC4959F21F /* ElementStudio-ribbon.json in Resources */ = {isa = PBXBuildFile; fileRef = E803CABF57A1D8E42FFC800D /* ElementStudio-ribbon.json */; };
+		34FFB010806B0199BF869867 /* ElementStudio-ribbon-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 602E4FB975B33C7B246CDD9D /* ElementStudio-ribbon-studio20260911.bin */; };
 		36ED2C8CB8DD87D8FC9E0F98 /* ElementStudio-frequency-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = BEE38B8D7F68EE612AE3A0BF /* ElementStudio-frequency-earlier.json */; };
 		39EBE5B7B61DBB6991375614 /* ElementStudioSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDC69E8591237BC07A5125 /* ElementStudioSettings.swift */; };
 		3A6F9FBAE184A4399B654711 /* ElementStudio-ribbon.bin in Resources */ = {isa = PBXBuildFile; fileRef = 8CD32926E2F5D990D0CF6E9E /* ElementStudio-ribbon.bin */; };
 		3B2797E5841E407F9C845DE3 /* ElementStudio-activity-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 4B55361E0CB6706C6413C105 /* ElementStudio-activity-sculpted.bin */; };
 		3B4C872613A2030EDC50E87D /* StudioLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E96535B59D3C5BFFD1C1F16 /* StudioLibrary.swift */; };
+		3B7532C1AF46B13A2DF738CA /* ElementStudio-activity-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 577DFA8181F2BA3343FAF997 /* ElementStudio-activity-studio20260911.bin */; };
+		3C94D182E15B210C4BF3D4C7 /* ElementStudio-returning-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = C7EFB90E602BEB6002595E7D /* ElementStudio-returning-studio20260911.bin */; };
 		3DBFF4ADCCEFCCA45ED67B1E /* ElementStudio-year.bin in Resources */ = {isa = PBXBuildFile; fileRef = F2D556F1595CB99ECB52192B /* ElementStudio-year.bin */; };
+		3E3B30868CD832340E9C976C /* ElementStudio-year-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 4B71311A71A227BA5B4536A9 /* ElementStudio-year-studio20260911.bin */; };
 		3E816FD9B63D23EC5FECAF6F /* ElementStudio-returning-ceramic.json in Resources */ = {isa = PBXBuildFile; fileRef = 97E1093253275C197E606703 /* ElementStudio-returning-ceramic.json */; };
 		3F6A2F5C381021019236C73B /* ElementStudio-month-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = B842C4AD63964FF3AA1CE176 /* ElementStudio-month-forms20260910.bin */; };
 		4003BF400DB47A6CF67B5D5B /* ElementStudio-year-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = D6A0234CE5CA81F03524B195 /* ElementStudio-year-forms20260910.bin */; };
+		41FEF2DC8DAB61354B672560 /* ElementStudio-halfYear-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 7FB0D9DE4D2656E7C4CE0A25 /* ElementStudio-halfYear-studio20260911.json */; };
 		45040D1A259E1C2996C83A79 /* ElementStudio-memory-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 3C987623A4A09CB25AF01E5E /* ElementStudio-memory-earlier.bin */; };
 		45791391C0CDE06F3FBC3631 /* ElementStudio-pennant-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = FFA1C10BE51C98C6249DC239 /* ElementStudio-pennant-sculpted.bin */; };
 		4665BFE09A695C57A58904C6 /* ElementStudio-frequency.bin in Resources */ = {isa = PBXBuildFile; fileRef = 261B878206D49531532E33EB /* ElementStudio-frequency.bin */; };
 		46C6C8AC81F0F0C1522CBFE1 /* ElementStudio-returning.json in Resources */ = {isa = PBXBuildFile; fileRef = CDA8EC3C05B72FA482AC6F49 /* ElementStudio-returning.json */; };
+		476D7B8567A2110308B617C9 /* ElementStudio-returning-ceramic-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 06D27E49A123D79415D82A7E /* ElementStudio-returning-ceramic-studio20260911.json */; };
 		483B6F747E2D3D52461118DA /* ElementStudio-energy-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = 43C9903F35DF1B612105D60B /* ElementStudio-energy-sculpted.json */; };
 		48F0A06D093F2367A521089C /* ElementStudio-year-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = D87F88ABDADFAC0831854362 /* ElementStudio-year-forms20260910.json */; };
 		4968E62373157D1DAA017278 /* ElementStudio-energy-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 7A2C805E910B23DB0DE26AFF /* ElementStudio-energy-earlier.bin */; };
@@ -64,7 +77,10 @@
 		529FCE9EDC099226AE864D2A /* ElementStudio-distance-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = 76A591A3B43E1A5121C15F7D /* ElementStudio-distance-sculpted.json */; };
 		53E892341D3F24C0A824158A /* ElementStudioRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55AAF2DD26952740B3429F6 /* ElementStudioRenderer.swift */; };
 		558B04AF7A89F7C965ECFCC0 /* ElementStudio-surface-brush-1.png in Resources */ = {isa = PBXBuildFile; fileRef = E7D5D9930238A95286BACC5E /* ElementStudio-surface-brush-1.png */; };
+		5664641AE264D72B4D305441 /* ElementStudio-collection-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F10CAD5751C8230625371C1 /* ElementStudio-collection-studio20260911.json */; };
+		5703EA0B1FAF68298D1D42FD /* ElementStudio-month-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = B657ADC59F062122E5FDB644 /* ElementStudio-month-studio20260911.bin */; };
 		5793429461790300500A1A50 /* StudioInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96436440CDC2542A8B25500B /* StudioInspector.swift */; };
+		581EE312E3CF3709BF25F068 /* ElementStudio-frequency-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9D13F7539C81471F34F27689 /* ElementStudio-frequency-studio20260911.bin */; };
 		582CF852FA0F525C3105EF98 /* StudioCameraGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301B02D744A42425D413ED71 /* StudioCameraGeometry.swift */; };
 		5CE2CE1BAF345A7ED45B5BEB /* ElementStudio-month.json in Resources */ = {isa = PBXBuildFile; fileRef = BC906CCD8D0E62F62806E482 /* ElementStudio-month.json */; };
 		5D22818053912610E80F84CA /* ElementStudio-surface-brush-3.png in Resources */ = {isa = PBXBuildFile; fileRef = E0576DCAD894E7EC5DF4B677 /* ElementStudio-surface-brush-3.png */; };
@@ -73,14 +89,18 @@
 		6170B9850477190D427AA1D4 /* ElementStudio-ribbon-curved-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 3CA8A622556ABC56EA7D5D3E /* ElementStudio-ribbon-curved-forms20260910.bin */; };
 		6312341380C926D12E10776D /* ElementStudio-sunrise-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9CD1FB2906E130D38B1B2237 /* ElementStudio-sunrise-earlier.bin */; };
 		6378D341DDD62452C793CB19 /* ElementStudio-week-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 4DB153FA76FC628F6986C9C3 /* ElementStudio-week-sculpted.bin */; };
+		63B8473F1F83D2C91A0BF427 /* ElementStudio-distance-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 4D0AE3591661390D1403A26C /* ElementStudio-distance-studio20260911.json */; };
 		6451005EF891BECBF072EF77 /* ElementStudio-distance.bin in Resources */ = {isa = PBXBuildFile; fileRef = 1B34ADA38B3A4E099323AF34 /* ElementStudio-distance.bin */; };
+		66E73DC4543BBE1918D235A7 /* ElementStudio-ribbon-ceramic-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 09A20A02E2B3808CD4CE9C4D /* ElementStudio-ribbon-ceramic-studio20260911.bin */; };
 		67F0A50EBFA3667095E16223 /* ElementStudio-sunrise.json in Resources */ = {isa = PBXBuildFile; fileRef = DAB3EACA1D5007560FB0568C /* ElementStudio-sunrise.json */; };
 		6B1A1FCA8797E3441B9B9795 /* ElementStudio-energy-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = F536BBD24CCDCC0C5CA48CD3 /* ElementStudio-energy-forms20260910.bin */; };
 		6BF671D5ACA8F989C01C58A0 /* ElementStudio-stopwatch-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = F9A1C3B8462720DEE7C2CC94 /* ElementStudio-stopwatch-earlier.bin */; };
 		6D3054D19535FD6605A88AD1 /* ElementStudio-frequency-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 2C34A5F67E7F992D9C579AB9 /* ElementStudio-frequency-sculpted.bin */; };
 		6D33FE7F4481125E1302C7B9 /* ElementStudio-returning.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D667E37ED0BB17249366F /* ElementStudio-returning.bin */; };
+		6DD21554640EDD69A162E912 /* ElementStudio-stopwatch-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 10B67B5054BEF29DA6F0FAC6 /* ElementStudio-stopwatch-studio20260911.json */; };
 		6FED9FB7D5D8F82330EE162A /* ElementStudio-returning-folded-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 241ABC81E34461B922E342A1 /* ElementStudio-returning-folded-forms20260910.bin */; };
 		722723F198D7D691A261721C /* ElementStudio-ribbon-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = D8A74070AAABA0CE71099F4C /* ElementStudio-ribbon-forms20260910.json */; };
+		73D57637A4E3148F30FEDE08 /* ElementStudio-week-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = B76C6DC2C44FB9B12F051BFC /* ElementStudio-week-studio20260911.bin */; };
 		75BF075704EB478A8FF25294 /* ElementStudio-collection-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = B5BC237366246013B5BDD44E /* ElementStudio-collection-forms20260910.bin */; };
 		75FAC19525668A29CFAD7871 /* ElementStudio-energy.json in Resources */ = {isa = PBXBuildFile; fileRef = EF1ED16FEE4601B98581857B /* ElementStudio-energy.json */; };
 		776A9919AD5A67318E12B6B1 /* ElementStudio-memory-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = 6327CE3585C1E0C8A18DF7CE /* ElementStudio-memory-sculpted.json */; };
@@ -92,6 +112,7 @@
 		78F12942AC168E58FE58D481 /* ElementStudio-week-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = FC1B3A944594C02985613601 /* ElementStudio-week-forms20260910.bin */; };
 		7959CF9739C722DE167CBFD3 /* ElementStudio-hourglass-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = 8463FCC469DDDFABDF6BF360 /* ElementStudio-hourglass-sculpted.json */; };
 		7A4D51F84DC5A11D20119BA9 /* ElementStudio-sunrise-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = 2915B49A5173B341A837FEC9 /* ElementStudio-sunrise-sculpted.json */; };
+		7C99471AA125A6C9C090CB7E /* ElementStudio-distance-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = F967F32920EF428F2660DAE7 /* ElementStudio-distance-studio20260911.bin */; };
 		7CBA31AC621891A9B6B8261E /* ElementStudio-stopwatch-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 95A2A4DBD17C2A6646833BD0 /* ElementStudio-stopwatch-sculpted.bin */; };
 		7E1CD251A6C3AD9FEDB68C1C /* ElementStudio-ribbon-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 0E1B8C302236EB6555F4ED6A /* ElementStudio-ribbon-sculpted.bin */; };
 		808C5821C02E4A423B9630DD /* ElementStudio-surface-brush-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FF6E4E44D60B32764C072EF /* ElementStudio-surface-brush-8.png */; };
@@ -102,6 +123,8 @@
 		850D440AB53F9082C6FFABA0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B1F1BD91FFDF65588BC58D9 /* Assets.xcassets */; };
 		85E5C916797038205BFDF5CD /* ElementStudio-memory.json in Resources */ = {isa = PBXBuildFile; fileRef = B48B7F590ADC29EA5DAD076B /* ElementStudio-memory.json */; };
 		86037470F82371C8F9901001 /* ElementStudio-week-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = F68CFE77E879A9B5A9C8ABA7 /* ElementStudio-week-sculpted.json */; };
+		8693B2D5E6600C4F9D004799 /* ElementStudio-ribbon-ceramic-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F314462AFC3DE7B04BA6EBA /* ElementStudio-ribbon-ceramic-studio20260911.json */; };
+		872CBC8CC96F7AE13D2477B3 /* ElementStudio-ribbon-curved-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 036657957C75CE8280F96116 /* ElementStudio-ribbon-curved-studio20260911.bin */; };
 		8816B3EE3BE7763D3B3BBDA4 /* ElementStudio-sand.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AB4BEF6F02D290289CAAAD0 /* ElementStudio-sand.png */; };
 		8872D2D360A8A56034D4D800 /* ElementStudio-returning-folded.bin in Resources */ = {isa = PBXBuildFile; fileRef = DBA6F6121BB2AB5B56327924 /* ElementStudio-returning-folded.bin */; };
 		894E84A1A6B3FFA876C26E30 /* ElementStudio-surface-glaze-6.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AD8AE79F0F8D506DD940AEC /* ElementStudio-surface-glaze-6.png */; };
@@ -110,24 +133,30 @@
 		912B51E620429B6694BC8CB1 /* ElementStudio-hourglass-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = 44346ABF01D013FA336A0351 /* ElementStudio-hourglass-earlier.json */; };
 		917F3F997BA8B0E4C102B4F1 /* ElementStudio-sunrise-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = 96B5486169909ACB74B84E1B /* ElementStudio-sunrise-earlier.json */; };
 		9355FC4600E1A20AB6A7C8E6 /* ElementStudio-hourglass.bin in Resources */ = {isa = PBXBuildFile; fileRef = FCF7CDCCF067EDBA4B6DF86B /* ElementStudio-hourglass.bin */; };
+		93BE8FBE12C5AFA30B888D0B /* ElementStudio-halfYear-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 836345B68D8BC7F472023265 /* ElementStudio-halfYear-studio20260911.bin */; };
 		941E7FC0C76A98EB08EF1DD7 /* ElementStudio-returning-folded-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = 064D0B8008C63C216E2B34F6 /* ElementStudio-returning-folded-forms20260910.json */; };
 		9446F03369327FB08DC38323 /* ElementStudio-distance-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = FD612FA4AF3E29710FDEB6AA /* ElementStudio-distance-earlier.bin */; };
 		94E6D7DCA682ED949F7477B4 /* ElementStudio-week-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 18F0CAA5BA1C89D9697096F0 /* ElementStudio-week-earlier.bin */; };
 		97E5D3AD1AE8EFFD5E770AC3 /* ElementStudio-surface-glaze-5.png in Resources */ = {isa = PBXBuildFile; fileRef = 823AC1C7C600234DD1D16154 /* ElementStudio-surface-glaze-5.png */; };
 		97F7E109B97C6A70656811DC /* ElementStudio-pennant-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = 19BD9F47F9159ABF368206A3 /* ElementStudio-pennant-sculpted.json */; };
 		988429FFD6C6ACC312E6AC99 /* ElementStudio-ribbon-curved.bin in Resources */ = {isa = PBXBuildFile; fileRef = 86B23BA8E5C7FFB89EF394F6 /* ElementStudio-ribbon-curved.bin */; };
+		993827C29D7910BDCEC0E84E /* ElementStudio-hourglass-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 424C86D51DF764C1BA5625CA /* ElementStudio-hourglass-studio20260911.json */; };
 		993BF3FCDAA677C8AE977415 /* ElementStudio-ribbon-curved.json in Resources */ = {isa = PBXBuildFile; fileRef = 6684E5FB9E4F25F2FC59E55E /* ElementStudio-ribbon-curved.json */; };
+		9980EE48B33C21328D401C65 /* ElementStudio-frequency-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 6CC4CABDE6947439AB6DAB92 /* ElementStudio-frequency-studio20260911.json */; };
 		99B8311D2F5086ACAA3ABE46 /* ElementStudio-memory.bin in Resources */ = {isa = PBXBuildFile; fileRef = DB38DADD93BD866CB3E03250 /* ElementStudio-memory.bin */; };
 		9A24455B61A6AB3F948E9564 /* ElementStudio-ribbon-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = F481D2A3486EAC6E467876D7 /* ElementStudio-ribbon-forms20260910.bin */; };
 		9A8FC87E853B602DD46A8B50 /* ElementStudio-pennant-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = 06BAA13AEEF515D0CC454255 /* ElementStudio-pennant-forms20260910.json */; };
+		9C9D82581BD2A0E14D99B8D6 /* ElementStudio-pennant-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 38D30D6B2A18FACA17FEE73A /* ElementStudio-pennant-studio20260911.bin */; };
 		9D68546A456002692EBD0664 /* ElementStudio-stopwatch.json in Resources */ = {isa = PBXBuildFile; fileRef = 66F8ADFF546453C6AF0E56A1 /* ElementStudio-stopwatch.json */; };
 		9E4F4F3373B3A87D8ACEA2DA /* ElementStudio-frequency-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = 0E2A3DF68F6290F127F8B4D3 /* ElementStudio-frequency-forms20260910.json */; };
 		A090A9AEA54C38CDF3FC765E /* ElementStudio-collection-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = FC6F39A27C3C7D49EF72C4FE /* ElementStudio-collection-earlier.json */; };
 		A1D1894E4C5CB453D4284033 /* ElementStudio-activity.bin in Resources */ = {isa = PBXBuildFile; fileRef = AA865315BFF89861B4D64669 /* ElementStudio-activity.bin */; };
 		A295E9659BBB33B58D588A60 /* ElementStudio-month-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = F456DA6E39E70A93A8695E1D /* ElementStudio-month-forms20260910.json */; };
 		A2F5FB6431650F2FC1E023FB /* ElementStudioAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB357B19D1A3D73089E95DEE /* ElementStudioAssets.swift */; };
+		A36C77B28FB0E16EE0ED7702 /* ElementStudio-memory-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 4836FC6066C2180B7DAFB39F /* ElementStudio-memory-studio20260911.bin */; };
 		A49C79E7BB6F6C47DC45F0C5 /* ElementStudio-LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = CC633303215DF6AB22E626B2 /* ElementStudio-LICENSE.txt */; };
 		A75A916EE9EB5DF02D3C4621 /* ElementStudio-surface-glaze-8.png in Resources */ = {isa = PBXBuildFile; fileRef = F38014C58DDE1FE1388C1F99 /* ElementStudio-surface-glaze-8.png */; };
+		A77E73789DE77D64E200213F /* ElementStudio-sunrise-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = F6C5FF034284813F6F6C6AD4 /* ElementStudio-sunrise-studio20260911.bin */; };
 		A863E6A2F4CB974CD513883F /* ElementStudio-distance-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 0B4647E4FF18D21940D0F998 /* ElementStudio-distance-forms20260910.bin */; };
 		A8F65E9BE6E34F7FCAB08AD3 /* ElementStudio-halfYear-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = AEECB446C45A6CAE27B620D2 /* ElementStudio-halfYear-sculpted.json */; };
 		A9095409EB8794081EE4308D /* ElementStudio-ribbon-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = DB417F7D5738602B7D7B91FA /* ElementStudio-ribbon-earlier.json */; };
@@ -138,31 +167,38 @@
 		B1D77E230BF1F9DED6C6BAE8 /* ElementStudio-ribbon-ceramic.bin in Resources */ = {isa = PBXBuildFile; fileRef = B3F8E80B9953408FF01AFD97 /* ElementStudio-ribbon-ceramic.bin */; };
 		B37F29307B279BFE83425CE1 /* CameraGeometryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6B1A9AACCBD7078E9ED368 /* CameraGeometryTests.swift */; };
 		B4D93660DD54B296700C1292 /* ElementStudio-week-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = D19755165207DBDABB70207F /* ElementStudio-week-earlier.json */; };
+		B7AF3CEEA3D1CC124B52D3CE /* ElementStudio-activity-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = A58BCE0E89821757F6EAA7B8 /* ElementStudio-activity-studio20260911.json */; };
 		B7D39196C464D453B7A2EE85 /* ElementStudio-memory-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = 8C61D9DDB172001544A56514 /* ElementStudio-memory-earlier.json */; };
 		B7FF5D0E25F024B691F5DEB1 /* ElementStudio-surface-glaze-1.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB842C1CCCDCFC238203AE8 /* ElementStudio-surface-glaze-1.png */; };
 		B82A93659BB7722B00936FC3 /* ElementStudio-Glass.metal in Sources */ = {isa = PBXBuildFile; fileRef = 2BA94058B495D4A5FE249129 /* ElementStudio-Glass.metal */; };
 		B9350E119B273A4A49454372 /* ElementStudio-returning-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = F00CF364AE20A9661AE0B226 /* ElementStudio-returning-earlier.bin */; };
+		BA825D7A87054D30CB4FF0FF /* ElementStudio-returning-ceramic-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = B8A62F7C9016CBB8160F0CE1 /* ElementStudio-returning-ceramic-studio20260911.bin */; };
 		BC9B9341407574F8FD210BBC /* ElementStudio-year-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = D27E56FCE7EDA6BBDC50F92D /* ElementStudio-year-earlier.bin */; };
 		BD5A4890CEFA3BEB2BF81705 /* ElementStudio-year-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 184863D390B669118339BC36 /* ElementStudio-year-sculpted.bin */; };
 		BDA1221D2AD27049058736F0 /* ElementStudio-memory-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 84ADD0191C6A7169CD040F72 /* ElementStudio-memory-sculpted.bin */; };
+		BEA9D3C7CFCE0630D343A123 /* ElementStudio-energy-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F341B3613A2B5EC5588DFB0 /* ElementStudio-energy-studio20260911.json */; };
 		C0BB1212DAC5ED093D231470 /* ElementStudio-surface-brush-5.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DD44DA0D5D7CC632323B03F /* ElementStudio-surface-brush-5.png */; };
 		C86F6CAB212B544C0355E168 /* ElementStudio-collection-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9E51527798C77D906DA7AD4F /* ElementStudio-collection-sculpted.bin */; };
 		C8D04DC4588A1582BFF4E392 /* ElementStudioApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606D295345F9BD8FF949251D /* ElementStudioApp.swift */; };
+		C95C488C5B0AB7D819ED2C82 /* ElementStudio-week-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 3E77419885B1809FE2BBBF1E /* ElementStudio-week-studio20260911.json */; };
 		C96139962E2A6B197212BA72 /* ElementStudio-hourglass-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = D22AC4E2B290BED599F693FE /* ElementStudio-hourglass-forms20260910.json */; };
 		CA38BA792B6E5C5CC5541786 /* ElementStudio-memory-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = 76DECBDA0BAEABDD165D9D6F /* ElementStudio-memory-forms20260910.json */; };
 		CA8618A79E0353BBC57400A6 /* ElementStudio-surface-brush-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 418A07DA9145154E426D6B89 /* ElementStudio-surface-brush-4.png */; };
 		CAD204F86E6106D93918A4BE /* ElementStudio-sunrise-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = FCF79767D9F23C6A889E14D6 /* ElementStudio-sunrise-forms20260910.json */; };
 		CAE1C0DA84378CFA639CBFFE /* ElementStudio-pennant.json in Resources */ = {isa = PBXBuildFile; fileRef = F5806982F35D4A75C862C41D /* ElementStudio-pennant.json */; };
 		CB6D963519339421773A9FC1 /* ElementStudio-collection-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = E425EF57D4375443CF9EAB31 /* ElementStudio-collection-sculpted.json */; };
+		CBB5428D454815D6CCB075E1 /* ElementStudio-stopwatch-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 6FBE91E15E8548A0AFAC9219 /* ElementStudio-stopwatch-studio20260911.bin */; };
 		CBE080C809B9742E9D3F16F7 /* ElementStudio-halfYear-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = F3C0B5B0768AC15757265BB6 /* ElementStudio-halfYear-forms20260910.json */; };
 		CCFD4DE35B8C87338F0A0B27 /* ElementStudio-activity.json in Resources */ = {isa = PBXBuildFile; fileRef = DF3E214EA6620E63C14B7F94 /* ElementStudio-activity.json */; };
 		CE4CA64D73E58173F8BBF209 /* ElementStudio-returning-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 65538083DEDCCE78B1527753 /* ElementStudio-returning-sculpted.bin */; };
 		CF1EDDE1C56A3881DD9E1348 /* ElementStudio-surface-roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = 67571440710E6D0F367515F0 /* ElementStudio-surface-roughness.png */; };
+		D0647EF4A901CA99C769C335 /* ElementStudio-year-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = 92388F996DE54780B7731976 /* ElementStudio-year-studio20260911.json */; };
 		D11638D3DC60474778CC1AC2 /* ElementStudio-pennant-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = EC16617F33E4C507ED95544C /* ElementStudio-pennant-earlier.json */; };
 		D49CF872F17C247FDDE50838 /* ElementStudio-hourglass-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 143049646349547C87D91198 /* ElementStudio-hourglass-earlier.bin */; };
 		D5449E4A93E7A180F368993D /* ElementStudio-collection-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = 6DB4328CD173D15D5E9782B0 /* ElementStudio-collection-forms20260910.json */; };
 		D6EA4A62F56945F36F3DA678 /* ElementStudio-week.bin in Resources */ = {isa = PBXBuildFile; fileRef = 53F48216E7340C4D6E970049 /* ElementStudio-week.bin */; };
 		D810BC772901541FB1FF6F63 /* ElementStudio-activity-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 2FDE1B18478FC863658BE7E0 /* ElementStudio-activity-forms20260910.bin */; };
+		D9BE93FE6E9B40CAD579AD12 /* ElementStudio-energy-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 5C77874CB9BEDAF616BBF0F3 /* ElementStudio-energy-studio20260911.bin */; };
 		DA695EE4B5FDA0445122762E /* ElementStudio-year.json in Resources */ = {isa = PBXBuildFile; fileRef = 6FF5DA5436386573430064D7 /* ElementStudio-year.json */; };
 		DC0F36ECA299B838AA2C93BD /* ElementStudio-collection-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 1C7E1E653B0200F22A0FF743 /* ElementStudio-collection-earlier.bin */; };
 		DD532C7E75AE06224FD5708E /* ElementStudio-halfYear-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 21AD8DA46008851A991AC835 /* ElementStudio-halfYear-earlier.bin */; };
@@ -170,11 +206,14 @@
 		DEDF77980EE45D1E296B6904 /* ElementStudio-week.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F794AE1BBE6717F5D437C5D /* ElementStudio-week.json */; };
 		DF6D23F54702BDD6D2712E89 /* LibraryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A2B16C70E80850919E5CED /* LibraryViews.swift */; };
 		E3E279A3D23F9C7523EF31FC /* ElementStudio-energy-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 3C2A5D672D1E1FF822D9D102 /* ElementStudio-energy-sculpted.bin */; };
+		E502347254EDAA89BA480FC7 /* ElementStudio-memory-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = C99A66814BE098FC6C069DB3 /* ElementStudio-memory-studio20260911.json */; };
 		E6484673026A0DD670F00655 /* ElementStudio-surface-brush-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 143AA6A5EEE3352D8D0F5B52 /* ElementStudio-surface-brush-2.png */; };
 		E80687E6A3155FB7A1C5F6D9 /* ElementStudio-sunrise-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 240BE152D9E8FA02BB128294 /* ElementStudio-sunrise-forms20260910.bin */; };
+		E91A61EF27A383DA5D08E5B4 /* ElementStudio-hourglass-studio20260911.bin in Resources */ = {isa = PBXBuildFile; fileRef = 23FBB0E1D5E2B4B155AABF2C /* ElementStudio-hourglass-studio20260911.bin */; };
 		E999BC139AC4F33D82128543 /* ElementStudio-ribbon-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = 955908D5B548290511487AEB /* ElementStudio-ribbon-sculpted.json */; };
 		EB29543E44BFC5BD15AC83E0 /* ElementStudio-returning-ceramic-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = 28CE2C47ED7F3784E0B9426B /* ElementStudio-returning-ceramic-forms20260910.json */; };
 		EDFD9864F9BDF905236DD016 /* ElementStudio-returning-ceramic-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = B109D84F4969B5ABA783F20C /* ElementStudio-returning-ceramic-forms20260910.bin */; };
+		EFE4BF5BC311B744B5A6584C /* ElementStudio-ribbon-curved-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = D131F83A33657BF21324BF5D /* ElementStudio-ribbon-curved-studio20260911.json */; };
 		F069EAFDD2508B32D02B041F /* ElementStudio-stopwatch-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = 296B5939B30A72B36D732084 /* ElementStudio-stopwatch-earlier.json */; };
 		F138F9BB668F49079631DD50 /* ElementStudio-frequency-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = C8D98D4AEAFA3D580F31D754 /* ElementStudio-frequency-earlier.bin */; };
 		F21ADB65727DB0E3759961FD /* ElementStudio-photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B787A596EDF33CD394BAA54 /* ElementStudio-photo.png */; };
@@ -182,6 +221,7 @@
 		F4F84E71412CFDFEB0CE900D /* ElementStudio-halfYear-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9243AD192298AA64404DB221 /* ElementStudio-halfYear-sculpted.bin */; };
 		F523FC9CC71CCFD0C839CE9F /* ElementStudio-stopwatch-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 8FF530D2BDDC58E68650022D /* ElementStudio-stopwatch-forms20260910.bin */; };
 		F5C8F044664FB4856FC6408A /* ElementStudio-week-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = 903E4FFC5E56D7CE83B7138B /* ElementStudio-week-forms20260910.json */; };
+		F9A39C40ADAA835E1E2CDBFD /* ElementStudio-returning-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = DEFEA8A43B0761C90E4314E5 /* ElementStudio-returning-studio20260911.json */; };
 		FB608D646F4603ADFC205C42 /* ElementStudio-ribbon-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 6B00168752C36ED1CE2AFDDF /* ElementStudio-ribbon-earlier.bin */; };
 		FD1913D5FD2D9A8FA6B5CD0D /* ElementStudio-activity-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = 0383EC1D55E09C53FBDEAB63 /* ElementStudio-activity-sculpted.json */; };
 		FD55639A24CAAC1762A0519C /* ElementStudio-year-sculpted.json in Resources */ = {isa = PBXBuildFile; fileRef = EB8A9CD7BF584A97B306BAE9 /* ElementStudio-year-sculpted.json */; };
@@ -206,16 +246,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		036657957C75CE8280F96116 /* ElementStudio-ribbon-curved-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-curved-studio20260911.bin"; sourceTree = "<group>"; };
 		0383EC1D55E09C53FBDEAB63 /* ElementStudio-activity-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-activity-sculpted.json"; sourceTree = "<group>"; };
 		05BE7C7EB6515C7A826F5B84 /* ElementStudio-stopwatch-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-stopwatch-sculpted.json"; sourceTree = "<group>"; };
 		064D0B8008C63C216E2B34F6 /* ElementStudio-returning-folded-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning-folded-forms20260910.json"; sourceTree = "<group>"; };
 		06BAA13AEEF515D0CC454255 /* ElementStudio-pennant-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-pennant-forms20260910.json"; sourceTree = "<group>"; };
+		06D27E49A123D79415D82A7E /* ElementStudio-returning-ceramic-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning-ceramic-studio20260911.json"; sourceTree = "<group>"; };
 		08976E5B5D89AC24137F2DD6 /* ElementStudio-month-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-month-earlier.json"; sourceTree = "<group>"; };
 		090CE9F7E490BD10B0EBE050 /* ElementStudio-distance-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-distance-forms20260910.json"; sourceTree = "<group>"; };
+		09A20A02E2B3808CD4CE9C4D /* ElementStudio-ribbon-ceramic-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-ceramic-studio20260911.bin"; sourceTree = "<group>"; };
 		0AB4BEF6F02D290289CAAAD0 /* ElementStudio-sand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-sand.png"; sourceTree = "<group>"; };
 		0B4647E4FF18D21940D0F998 /* ElementStudio-distance-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-distance-forms20260910.bin"; sourceTree = "<group>"; };
 		0E1B8C302236EB6555F4ED6A /* ElementStudio-ribbon-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-sculpted.bin"; sourceTree = "<group>"; };
 		0E2A3DF68F6290F127F8B4D3 /* ElementStudio-frequency-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-frequency-forms20260910.json"; sourceTree = "<group>"; };
+		10B67B5054BEF29DA6F0FAC6 /* ElementStudio-stopwatch-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-stopwatch-studio20260911.json"; sourceTree = "<group>"; };
 		143049646349547C87D91198 /* ElementStudio-hourglass-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-hourglass-earlier.bin"; sourceTree = "<group>"; };
 		143AA6A5EEE3352D8D0F5B52 /* ElementStudio-surface-brush-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-brush-2.png"; sourceTree = "<group>"; };
 		184863D390B669118339BC36 /* ElementStudio-year-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-year-sculpted.bin"; sourceTree = "<group>"; };
@@ -227,6 +271,7 @@
 		1F794AE1BBE6717F5D437C5D /* ElementStudio-week.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-week.json"; sourceTree = "<group>"; };
 		219A7D99B37F30C5ABCAC18A /* ElementStudio-surface-brush-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-brush-6.png"; sourceTree = "<group>"; };
 		21AD8DA46008851A991AC835 /* ElementStudio-halfYear-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-halfYear-earlier.bin"; sourceTree = "<group>"; };
+		23FBB0E1D5E2B4B155AABF2C /* ElementStudio-hourglass-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-hourglass-studio20260911.bin"; sourceTree = "<group>"; };
 		240BE152D9E8FA02BB128294 /* ElementStudio-sunrise-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-sunrise-forms20260910.bin"; sourceTree = "<group>"; };
 		241ABC81E34461B922E342A1 /* ElementStudio-returning-folded-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning-folded-forms20260910.bin"; sourceTree = "<group>"; };
 		261B878206D49531532E33EB /* ElementStudio-frequency.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-frequency.bin"; sourceTree = "<group>"; };
@@ -242,27 +287,37 @@
 		2FDE1B18478FC863658BE7E0 /* ElementStudio-activity-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-activity-forms20260910.bin"; sourceTree = "<group>"; };
 		301B02D744A42425D413ED71 /* StudioCameraGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioCameraGeometry.swift; sourceTree = "<group>"; };
 		30A2B16C70E80850919E5CED /* LibraryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViews.swift; sourceTree = "<group>"; };
+		38D30D6B2A18FACA17FEE73A /* ElementStudio-pennant-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-pennant-studio20260911.bin"; sourceTree = "<group>"; };
 		3C2A5D672D1E1FF822D9D102 /* ElementStudio-energy-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-energy-sculpted.bin"; sourceTree = "<group>"; };
 		3C987623A4A09CB25AF01E5E /* ElementStudio-memory-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-memory-earlier.bin"; sourceTree = "<group>"; };
 		3CA8A622556ABC56EA7D5D3E /* ElementStudio-ribbon-curved-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-curved-forms20260910.bin"; sourceTree = "<group>"; };
 		3D0C1B4176CBACDF357E96F7 /* ElementStudio-halfYear.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-halfYear.bin"; sourceTree = "<group>"; };
 		3DD44DA0D5D7CC632323B03F /* ElementStudio-surface-brush-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-brush-5.png"; sourceTree = "<group>"; };
+		3E77419885B1809FE2BBBF1E /* ElementStudio-week-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-week-studio20260911.json"; sourceTree = "<group>"; };
 		418A07DA9145154E426D6B89 /* ElementStudio-surface-brush-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-brush-4.png"; sourceTree = "<group>"; };
+		424C86D51DF764C1BA5625CA /* ElementStudio-hourglass-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-hourglass-studio20260911.json"; sourceTree = "<group>"; };
 		43C9903F35DF1B612105D60B /* ElementStudio-energy-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-energy-sculpted.json"; sourceTree = "<group>"; };
 		44346ABF01D013FA336A0351 /* ElementStudio-hourglass-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-hourglass-earlier.json"; sourceTree = "<group>"; };
 		44B7A95E1DEC4FD3DF8E1847 /* ElementStudio-surface-glaze-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-glaze-3.png"; sourceTree = "<group>"; };
 		47AC2D7D16523C9D39FF37C1 /* ElementStudio-returning-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning-forms20260910.json"; sourceTree = "<group>"; };
+		4836FC6066C2180B7DAFB39F /* ElementStudio-memory-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-memory-studio20260911.bin"; sourceTree = "<group>"; };
 		485EEEBA82D10A47B17C8548 /* ElementStudio-activity-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-activity-earlier.bin"; sourceTree = "<group>"; };
 		49C6B905D167849BF21AF1BE /* ElementStudio-energy.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-energy.bin"; sourceTree = "<group>"; };
 		4A5A70F7A66BFC4072093666 /* ElementStudio-pennant-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-pennant-forms20260910.bin"; sourceTree = "<group>"; };
 		4B55361E0CB6706C6413C105 /* ElementStudio-activity-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-activity-sculpted.bin"; sourceTree = "<group>"; };
+		4B71311A71A227BA5B4536A9 /* ElementStudio-year-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-year-studio20260911.bin"; sourceTree = "<group>"; };
+		4D0AE3591661390D1403A26C /* ElementStudio-distance-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-distance-studio20260911.json"; sourceTree = "<group>"; };
 		4DB153FA76FC628F6986C9C3 /* ElementStudio-week-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-week-sculpted.bin"; sourceTree = "<group>"; };
 		4FF6E4E44D60B32764C072EF /* ElementStudio-surface-brush-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-brush-8.png"; sourceTree = "<group>"; };
 		508071D11EC4C43C7A999516 /* ElementStudio-sunrise.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-sunrise.bin"; sourceTree = "<group>"; };
 		52EDB6A054DBB23F8EE0BD3F /* ElementStudio-returning-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning-sculpted.json"; sourceTree = "<group>"; };
+		531BCDD79ABECF1CA91681D8 /* ElementStudio-returning-folded-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning-folded-studio20260911.json"; sourceTree = "<group>"; };
 		53F48216E7340C4D6E970049 /* ElementStudio-week.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-week.bin"; sourceTree = "<group>"; };
 		54A7241ED37C31711981A319 /* ElementStudio-ribbon-curved-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-ribbon-curved-forms20260910.json"; sourceTree = "<group>"; };
+		577DFA8181F2BA3343FAF997 /* ElementStudio-activity-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-activity-studio20260911.bin"; sourceTree = "<group>"; };
 		5B1F1BD91FFDF65588BC58D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5C77874CB9BEDAF616BBF0F3 /* ElementStudio-energy-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-energy-studio20260911.bin"; sourceTree = "<group>"; };
+		602E4FB975B33C7B246CDD9D /* ElementStudio-ribbon-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-studio20260911.bin"; sourceTree = "<group>"; };
 		606D295345F9BD8FF949251D /* ElementStudioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementStudioApp.swift; sourceTree = "<group>"; };
 		6327CE3585C1E0C8A18DF7CE /* ElementStudio-memory-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-memory-sculpted.json"; sourceTree = "<group>"; };
 		65538083DEDCCE78B1527753 /* ElementStudio-returning-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning-sculpted.bin"; sourceTree = "<group>"; };
@@ -271,9 +326,13 @@
 		67571440710E6D0F367515F0 /* ElementStudio-surface-roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-roughness.png"; sourceTree = "<group>"; };
 		6AD8AE79F0F8D506DD940AEC /* ElementStudio-surface-glaze-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-glaze-6.png"; sourceTree = "<group>"; };
 		6B00168752C36ED1CE2AFDDF /* ElementStudio-ribbon-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-earlier.bin"; sourceTree = "<group>"; };
+		6CC4CABDE6947439AB6DAB92 /* ElementStudio-frequency-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-frequency-studio20260911.json"; sourceTree = "<group>"; };
 		6CD3140EA6017E075B2DD338 /* ElementStudio-returning-folded.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning-folded.json"; sourceTree = "<group>"; };
 		6CEAA1092C73C6519FF0DEFA /* ElementStudio-stopwatch.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-stopwatch.bin"; sourceTree = "<group>"; };
 		6DB4328CD173D15D5E9782B0 /* ElementStudio-collection-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-collection-forms20260910.json"; sourceTree = "<group>"; };
+		6F314462AFC3DE7B04BA6EBA /* ElementStudio-ribbon-ceramic-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-ribbon-ceramic-studio20260911.json"; sourceTree = "<group>"; };
+		6F341B3613A2B5EC5588DFB0 /* ElementStudio-energy-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-energy-studio20260911.json"; sourceTree = "<group>"; };
+		6FBE91E15E8548A0AFAC9219 /* ElementStudio-stopwatch-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-stopwatch-studio20260911.bin"; sourceTree = "<group>"; };
 		6FF5DA5436386573430064D7 /* ElementStudio-year.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-year.json"; sourceTree = "<group>"; };
 		74EB3923E4E9602BDE231648 /* ElementStudio-distance.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-distance.json"; sourceTree = "<group>"; };
 		76A591A3B43E1A5121C15F7D /* ElementStudio-distance-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-distance-sculpted.json"; sourceTree = "<group>"; };
@@ -283,23 +342,28 @@
 		79C5B10EE011CE91DE0D0F8B /* ElementStudio-returning-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning-forms20260910.bin"; sourceTree = "<group>"; };
 		7A2C805E910B23DB0DE26AFF /* ElementStudio-energy-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-energy-earlier.bin"; sourceTree = "<group>"; };
 		7E96535B59D3C5BFFD1C1F16 /* StudioLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioLibrary.swift; sourceTree = "<group>"; };
+		7FB0D9DE4D2656E7C4CE0A25 /* ElementStudio-halfYear-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-halfYear-studio20260911.json"; sourceTree = "<group>"; };
 		80F872D4AB94AD60FC383C72 /* ElementStudio-halfYear-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-halfYear-earlier.json"; sourceTree = "<group>"; };
 		823AC1C7C600234DD1D16154 /* ElementStudio-surface-glaze-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-glaze-5.png"; sourceTree = "<group>"; };
+		836345B68D8BC7F472023265 /* ElementStudio-halfYear-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-halfYear-studio20260911.bin"; sourceTree = "<group>"; };
 		8463FCC469DDDFABDF6BF360 /* ElementStudio-hourglass-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-hourglass-sculpted.json"; sourceTree = "<group>"; };
 		84ADD0191C6A7169CD040F72 /* ElementStudio-memory-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-memory-sculpted.bin"; sourceTree = "<group>"; };
 		85D475F929A81E2C7063F759 /* ElementStudio-pennant-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-pennant-earlier.bin"; sourceTree = "<group>"; };
 		8683239F5B6B30A170C77BFF /* ElementStudio-frequency-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-frequency-forms20260910.bin"; sourceTree = "<group>"; };
 		86B23BA8E5C7FFB89EF394F6 /* ElementStudio-ribbon-curved.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-curved.bin"; sourceTree = "<group>"; };
 		87CDC69E8591237BC07A5125 /* ElementStudioSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementStudioSettings.swift; sourceTree = "<group>"; };
+		88DF7DE45C71677F1C4B7310 /* ElementStudio-returning-folded-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning-folded-studio20260911.bin"; sourceTree = "<group>"; };
 		89587C19C8D3892B207FD456 /* ElementStudio-ribbon-ceramic-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-ceramic-forms20260910.bin"; sourceTree = "<group>"; };
 		8B11BD40F6233D7861857B6C /* ElementStudio-returning-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning-earlier.json"; sourceTree = "<group>"; };
 		8C61D9DDB172001544A56514 /* ElementStudio-memory-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-memory-earlier.json"; sourceTree = "<group>"; };
 		8CD32926E2F5D990D0CF6E9E /* ElementStudio-ribbon.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon.bin"; sourceTree = "<group>"; };
 		8DB62FE59A7748F1641BECBA /* ElementStudio-activity-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-activity-forms20260910.json"; sourceTree = "<group>"; };
+		8E52D8A267B09D5D6EBE5C69 /* ElementStudio-month-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-month-studio20260911.json"; sourceTree = "<group>"; };
 		8F0E8E4FC276A0A00ACA1F86 /* ElementStudio-surface-brush-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-brush-7.png"; sourceTree = "<group>"; };
 		8FF530D2BDDC58E68650022D /* ElementStudio-stopwatch-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-stopwatch-forms20260910.bin"; sourceTree = "<group>"; };
 		903E4FFC5E56D7CE83B7138B /* ElementStudio-week-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-week-forms20260910.json"; sourceTree = "<group>"; };
 		90F1829A1A2E3DBBD3AC1B88 /* ElementStudio-frequency.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-frequency.json"; sourceTree = "<group>"; };
+		92388F996DE54780B7731976 /* ElementStudio-year-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-year-studio20260911.json"; sourceTree = "<group>"; };
 		9243AD192298AA64404DB221 /* ElementStudio-halfYear-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-halfYear-sculpted.bin"; sourceTree = "<group>"; };
 		955908D5B548290511487AEB /* ElementStudio-ribbon-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-ribbon-sculpted.json"; sourceTree = "<group>"; };
 		95A2A4DBD17C2A6646833BD0 /* ElementStudio-stopwatch-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-stopwatch-sculpted.bin"; sourceTree = "<group>"; };
@@ -310,8 +374,13 @@
 		982429FBCAB4B164674B362F /* ElementStudio-ribbon-ceramic.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-ribbon-ceramic.json"; sourceTree = "<group>"; };
 		98E547F55E261D52F83EBC9A /* ElementStudio-month-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-month-earlier.bin"; sourceTree = "<group>"; };
 		9CD1FB2906E130D38B1B2237 /* ElementStudio-sunrise-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-sunrise-earlier.bin"; sourceTree = "<group>"; };
+		9D13F7539C81471F34F27689 /* ElementStudio-frequency-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-frequency-studio20260911.bin"; sourceTree = "<group>"; };
 		9E51527798C77D906DA7AD4F /* ElementStudio-collection-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-collection-sculpted.bin"; sourceTree = "<group>"; };
+		9E5687CF442028C5E53CFA8C /* ElementStudio-ribbon-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-ribbon-studio20260911.json"; sourceTree = "<group>"; };
+		9F10CAD5751C8230625371C1 /* ElementStudio-collection-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-collection-studio20260911.json"; sourceTree = "<group>"; };
 		A0F31C550FC1CB9DEFC7A1F4 /* ElementStudio-energy-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-energy-forms20260910.json"; sourceTree = "<group>"; };
+		A58BCE0E89821757F6EAA7B8 /* ElementStudio-activity-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-activity-studio20260911.json"; sourceTree = "<group>"; };
+		A90F3FE9F02A35D262D14C57 /* ElementStudio-sunrise-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-sunrise-studio20260911.json"; sourceTree = "<group>"; };
 		A9E4DAFEA01DC727A5AC950C /* ElementStudio-environment.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-environment.bin"; sourceTree = "<group>"; };
 		AA865315BFF89861B4D64669 /* ElementStudio-activity.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-activity.bin"; sourceTree = "<group>"; };
 		AB357B19D1A3D73089E95DEE /* ElementStudioAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementStudioAssets.swift; sourceTree = "<group>"; };
@@ -324,19 +393,26 @@
 		B441E7526809FFB98A39E8E3 /* ElementStudio-surface-glaze-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-glaze-7.png"; sourceTree = "<group>"; };
 		B48B7F590ADC29EA5DAD076B /* ElementStudio-memory.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-memory.json"; sourceTree = "<group>"; };
 		B5BC237366246013B5BDD44E /* ElementStudio-collection-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-collection-forms20260910.bin"; sourceTree = "<group>"; };
+		B657ADC59F062122E5FDB644 /* ElementStudio-month-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-month-studio20260911.bin"; sourceTree = "<group>"; };
+		B76C6DC2C44FB9B12F051BFC /* ElementStudio-week-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-week-studio20260911.bin"; sourceTree = "<group>"; };
 		B842C4AD63964FF3AA1CE176 /* ElementStudio-month-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-month-forms20260910.bin"; sourceTree = "<group>"; };
+		B8A62F7C9016CBB8160F0CE1 /* ElementStudio-returning-ceramic-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning-ceramic-studio20260911.bin"; sourceTree = "<group>"; };
 		BC906CCD8D0E62F62806E482 /* ElementStudio-month.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-month.json"; sourceTree = "<group>"; };
+		BE4C70CD93C0BC60EFCCF19C /* ElementStudio-pennant-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-pennant-studio20260911.json"; sourceTree = "<group>"; };
 		BEE38B8D7F68EE612AE3A0BF /* ElementStudio-frequency-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-frequency-earlier.json"; sourceTree = "<group>"; };
 		C05D7EC35BD86E7C371E651D /* ElementStudio-halfYear.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-halfYear.json"; sourceTree = "<group>"; };
 		C1C39CC53BB809341F6A8B9C /* ElementStudio-memory-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-memory-forms20260910.bin"; sourceTree = "<group>"; };
 		C48843D8772525140B1D70A0 /* ElementStudio-energy-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-energy-earlier.json"; sourceTree = "<group>"; };
 		C567B336C0DA82E80D4B1A6C /* ElementStudio-stopwatch-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-stopwatch-forms20260910.json"; sourceTree = "<group>"; };
 		C6FF9FE1FB74CEAA68132370 /* ElementStudio.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ElementStudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7EFB90E602BEB6002595E7D /* ElementStudio-returning-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning-studio20260911.bin"; sourceTree = "<group>"; };
 		C8D98D4AEAFA3D580F31D754 /* ElementStudio-frequency-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-frequency-earlier.bin"; sourceTree = "<group>"; };
+		C99A66814BE098FC6C069DB3 /* ElementStudio-memory-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-memory-studio20260911.json"; sourceTree = "<group>"; };
 		CC633303215DF6AB22E626B2 /* ElementStudio-LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ElementStudio-LICENSE.txt"; sourceTree = "<group>"; };
 		CDA8EC3C05B72FA482AC6F49 /* ElementStudio-returning.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning.json"; sourceTree = "<group>"; };
 		CEB842C1CCCDCFC238203AE8 /* ElementStudio-surface-glaze-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-glaze-1.png"; sourceTree = "<group>"; };
 		D03D667E37ED0BB17249366F /* ElementStudio-returning.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning.bin"; sourceTree = "<group>"; };
+		D131F83A33657BF21324BF5D /* ElementStudio-ribbon-curved-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-ribbon-curved-studio20260911.json"; sourceTree = "<group>"; };
 		D19755165207DBDABB70207F /* ElementStudio-week-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-week-earlier.json"; sourceTree = "<group>"; };
 		D22AC4E2B290BED599F693FE /* ElementStudio-hourglass-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-hourglass-forms20260910.json"; sourceTree = "<group>"; };
 		D27E56FCE7EDA6BBDC50F92D /* ElementStudio-year-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-year-earlier.bin"; sourceTree = "<group>"; };
@@ -350,6 +426,7 @@
 		DBA6F6121BB2AB5B56327924 /* ElementStudio-returning-folded.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning-folded.bin"; sourceTree = "<group>"; };
 		DD735ABFB0419C6AE037951B /* ElementStudio-returning-ceramic.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-returning-ceramic.bin"; sourceTree = "<group>"; };
 		DEA614D482B90D3F3351E928 /* ElementStudio-hourglass-sculpted.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-hourglass-sculpted.bin"; sourceTree = "<group>"; };
+		DEFEA8A43B0761C90E4314E5 /* ElementStudio-returning-studio20260911.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-returning-studio20260911.json"; sourceTree = "<group>"; };
 		DF3E214EA6620E63C14B7F94 /* ElementStudio-activity.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-activity.json"; sourceTree = "<group>"; };
 		DFAF5BE546D0BB795C2FD885 /* ElementStudio-surface-dial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-dial.png"; sourceTree = "<group>"; };
 		E0576DCAD894E7EC5DF4B677 /* ElementStudio-surface-brush-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-brush-3.png"; sourceTree = "<group>"; };
@@ -358,6 +435,7 @@
 		E425EF57D4375443CF9EAB31 /* ElementStudio-collection-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-collection-sculpted.json"; sourceTree = "<group>"; };
 		E517FB57D66AAC226135687E /* LibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTests.swift; sourceTree = "<group>"; };
 		E55AAF2DD26952740B3429F6 /* ElementStudioRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementStudioRenderer.swift; sourceTree = "<group>"; };
+		E5CD529920B3DA0CE27E81FF /* ElementStudio-collection-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-collection-studio20260911.bin"; sourceTree = "<group>"; };
 		E7D5D9930238A95286BACC5E /* ElementStudio-surface-brush-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-brush-1.png"; sourceTree = "<group>"; };
 		E803CABF57A1D8E42FFC800D /* ElementStudio-ribbon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-ribbon.json"; sourceTree = "<group>"; };
 		EB8A9CD7BF584A97B306BAE9 /* ElementStudio-year-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-year-sculpted.json"; sourceTree = "<group>"; };
@@ -379,7 +457,9 @@
 		F573725C493CD0401EBC6E1E /* ElementStudio-distance-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-distance-earlier.json"; sourceTree = "<group>"; };
 		F5806982F35D4A75C862C41D /* ElementStudio-pennant.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-pennant.json"; sourceTree = "<group>"; };
 		F68CFE77E879A9B5A9C8ABA7 /* ElementStudio-week-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-week-sculpted.json"; sourceTree = "<group>"; };
+		F6C5FF034284813F6F6C6AD4 /* ElementStudio-sunrise-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-sunrise-studio20260911.bin"; sourceTree = "<group>"; };
 		F8BDD848F3218914FFC08BF0 /* ElementStudio-surface-glaze-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-surface-glaze-2.png"; sourceTree = "<group>"; };
+		F967F32920EF428F2660DAE7 /* ElementStudio-distance-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-distance-studio20260911.bin"; sourceTree = "<group>"; };
 		F9A1C3B8462720DEE7C2CC94 /* ElementStudio-stopwatch-earlier.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-stopwatch-earlier.bin"; sourceTree = "<group>"; };
 		FC1B3A944594C02985613601 /* ElementStudio-week-forms20260910.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-week-forms20260910.bin"; sourceTree = "<group>"; };
 		FC6F39A27C3C7D49EF72C4FE /* ElementStudio-collection-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-collection-earlier.json"; sourceTree = "<group>"; };
@@ -420,6 +500,8 @@
 				8DB62FE59A7748F1641BECBA /* ElementStudio-activity-forms20260910.json */,
 				4B55361E0CB6706C6413C105 /* ElementStudio-activity-sculpted.bin */,
 				0383EC1D55E09C53FBDEAB63 /* ElementStudio-activity-sculpted.json */,
+				577DFA8181F2BA3343FAF997 /* ElementStudio-activity-studio20260911.bin */,
+				A58BCE0E89821757F6EAA7B8 /* ElementStudio-activity-studio20260911.json */,
 				AA865315BFF89861B4D64669 /* ElementStudio-activity.bin */,
 				DF3E214EA6620E63C14B7F94 /* ElementStudio-activity.json */,
 				1C7E1E653B0200F22A0FF743 /* ElementStudio-collection-earlier.bin */,
@@ -428,6 +510,8 @@
 				6DB4328CD173D15D5E9782B0 /* ElementStudio-collection-forms20260910.json */,
 				9E51527798C77D906DA7AD4F /* ElementStudio-collection-sculpted.bin */,
 				E425EF57D4375443CF9EAB31 /* ElementStudio-collection-sculpted.json */,
+				E5CD529920B3DA0CE27E81FF /* ElementStudio-collection-studio20260911.bin */,
+				9F10CAD5751C8230625371C1 /* ElementStudio-collection-studio20260911.json */,
 				19670F7F97EF94F70DB38122 /* ElementStudio-collection.bin */,
 				AC23C0E5F383AF4A742C4880 /* ElementStudio-collection.json */,
 				FD612FA4AF3E29710FDEB6AA /* ElementStudio-distance-earlier.bin */,
@@ -436,6 +520,8 @@
 				090CE9F7E490BD10B0EBE050 /* ElementStudio-distance-forms20260910.json */,
 				9693EEDC464D6E13C7F51D65 /* ElementStudio-distance-sculpted.bin */,
 				76A591A3B43E1A5121C15F7D /* ElementStudio-distance-sculpted.json */,
+				F967F32920EF428F2660DAE7 /* ElementStudio-distance-studio20260911.bin */,
+				4D0AE3591661390D1403A26C /* ElementStudio-distance-studio20260911.json */,
 				1B34ADA38B3A4E099323AF34 /* ElementStudio-distance.bin */,
 				74EB3923E4E9602BDE231648 /* ElementStudio-distance.json */,
 				7A2C805E910B23DB0DE26AFF /* ElementStudio-energy-earlier.bin */,
@@ -444,6 +530,8 @@
 				A0F31C550FC1CB9DEFC7A1F4 /* ElementStudio-energy-forms20260910.json */,
 				3C2A5D672D1E1FF822D9D102 /* ElementStudio-energy-sculpted.bin */,
 				43C9903F35DF1B612105D60B /* ElementStudio-energy-sculpted.json */,
+				5C77874CB9BEDAF616BBF0F3 /* ElementStudio-energy-studio20260911.bin */,
+				6F341B3613A2B5EC5588DFB0 /* ElementStudio-energy-studio20260911.json */,
 				49C6B905D167849BF21AF1BE /* ElementStudio-energy.bin */,
 				EF1ED16FEE4601B98581857B /* ElementStudio-energy.json */,
 				A9E4DAFEA01DC727A5AC950C /* ElementStudio-environment.bin */,
@@ -453,6 +541,8 @@
 				0E2A3DF68F6290F127F8B4D3 /* ElementStudio-frequency-forms20260910.json */,
 				2C34A5F67E7F992D9C579AB9 /* ElementStudio-frequency-sculpted.bin */,
 				E38903933B4DB578ACEF69AB /* ElementStudio-frequency-sculpted.json */,
+				9D13F7539C81471F34F27689 /* ElementStudio-frequency-studio20260911.bin */,
+				6CC4CABDE6947439AB6DAB92 /* ElementStudio-frequency-studio20260911.json */,
 				261B878206D49531532E33EB /* ElementStudio-frequency.bin */,
 				90F1829A1A2E3DBBD3AC1B88 /* ElementStudio-frequency.json */,
 				21AD8DA46008851A991AC835 /* ElementStudio-halfYear-earlier.bin */,
@@ -461,6 +551,8 @@
 				F3C0B5B0768AC15757265BB6 /* ElementStudio-halfYear-forms20260910.json */,
 				9243AD192298AA64404DB221 /* ElementStudio-halfYear-sculpted.bin */,
 				AEECB446C45A6CAE27B620D2 /* ElementStudio-halfYear-sculpted.json */,
+				836345B68D8BC7F472023265 /* ElementStudio-halfYear-studio20260911.bin */,
+				7FB0D9DE4D2656E7C4CE0A25 /* ElementStudio-halfYear-studio20260911.json */,
 				3D0C1B4176CBACDF357E96F7 /* ElementStudio-halfYear.bin */,
 				C05D7EC35BD86E7C371E651D /* ElementStudio-halfYear.json */,
 				143049646349547C87D91198 /* ElementStudio-hourglass-earlier.bin */,
@@ -469,6 +561,8 @@
 				D22AC4E2B290BED599F693FE /* ElementStudio-hourglass-forms20260910.json */,
 				DEA614D482B90D3F3351E928 /* ElementStudio-hourglass-sculpted.bin */,
 				8463FCC469DDDFABDF6BF360 /* ElementStudio-hourglass-sculpted.json */,
+				23FBB0E1D5E2B4B155AABF2C /* ElementStudio-hourglass-studio20260911.bin */,
+				424C86D51DF764C1BA5625CA /* ElementStudio-hourglass-studio20260911.json */,
 				FCF7CDCCF067EDBA4B6DF86B /* ElementStudio-hourglass.bin */,
 				D404F789661603639E74929D /* ElementStudio-hourglass.json */,
 				CC633303215DF6AB22E626B2 /* ElementStudio-LICENSE.txt */,
@@ -478,6 +572,8 @@
 				76DECBDA0BAEABDD165D9D6F /* ElementStudio-memory-forms20260910.json */,
 				84ADD0191C6A7169CD040F72 /* ElementStudio-memory-sculpted.bin */,
 				6327CE3585C1E0C8A18DF7CE /* ElementStudio-memory-sculpted.json */,
+				4836FC6066C2180B7DAFB39F /* ElementStudio-memory-studio20260911.bin */,
+				C99A66814BE098FC6C069DB3 /* ElementStudio-memory-studio20260911.json */,
 				DB38DADD93BD866CB3E03250 /* ElementStudio-memory.bin */,
 				B48B7F590ADC29EA5DAD076B /* ElementStudio-memory.json */,
 				98E547F55E261D52F83EBC9A /* ElementStudio-month-earlier.bin */,
@@ -486,6 +582,8 @@
 				F456DA6E39E70A93A8695E1D /* ElementStudio-month-forms20260910.json */,
 				FCB99F8F6DA38FC95152ADB4 /* ElementStudio-month-sculpted.bin */,
 				F0306C87DD3D7E25F76A2E6C /* ElementStudio-month-sculpted.json */,
+				B657ADC59F062122E5FDB644 /* ElementStudio-month-studio20260911.bin */,
+				8E52D8A267B09D5D6EBE5C69 /* ElementStudio-month-studio20260911.json */,
 				2B35AE8FE00B30E28E2393F9 /* ElementStudio-month.bin */,
 				BC906CCD8D0E62F62806E482 /* ElementStudio-month.json */,
 				85D475F929A81E2C7063F759 /* ElementStudio-pennant-earlier.bin */,
@@ -494,31 +592,43 @@
 				06BAA13AEEF515D0CC454255 /* ElementStudio-pennant-forms20260910.json */,
 				FFA1C10BE51C98C6249DC239 /* ElementStudio-pennant-sculpted.bin */,
 				19BD9F47F9159ABF368206A3 /* ElementStudio-pennant-sculpted.json */,
+				38D30D6B2A18FACA17FEE73A /* ElementStudio-pennant-studio20260911.bin */,
+				BE4C70CD93C0BC60EFCCF19C /* ElementStudio-pennant-studio20260911.json */,
 				EEB04449CE268D90F49D4A01 /* ElementStudio-pennant.bin */,
 				F5806982F35D4A75C862C41D /* ElementStudio-pennant.json */,
 				2B787A596EDF33CD394BAA54 /* ElementStudio-photo.png */,
 				B109D84F4969B5ABA783F20C /* ElementStudio-returning-ceramic-forms20260910.bin */,
 				28CE2C47ED7F3784E0B9426B /* ElementStudio-returning-ceramic-forms20260910.json */,
+				B8A62F7C9016CBB8160F0CE1 /* ElementStudio-returning-ceramic-studio20260911.bin */,
+				06D27E49A123D79415D82A7E /* ElementStudio-returning-ceramic-studio20260911.json */,
 				DD735ABFB0419C6AE037951B /* ElementStudio-returning-ceramic.bin */,
 				97E1093253275C197E606703 /* ElementStudio-returning-ceramic.json */,
 				F00CF364AE20A9661AE0B226 /* ElementStudio-returning-earlier.bin */,
 				8B11BD40F6233D7861857B6C /* ElementStudio-returning-earlier.json */,
 				241ABC81E34461B922E342A1 /* ElementStudio-returning-folded-forms20260910.bin */,
 				064D0B8008C63C216E2B34F6 /* ElementStudio-returning-folded-forms20260910.json */,
+				88DF7DE45C71677F1C4B7310 /* ElementStudio-returning-folded-studio20260911.bin */,
+				531BCDD79ABECF1CA91681D8 /* ElementStudio-returning-folded-studio20260911.json */,
 				DBA6F6121BB2AB5B56327924 /* ElementStudio-returning-folded.bin */,
 				6CD3140EA6017E075B2DD338 /* ElementStudio-returning-folded.json */,
 				79C5B10EE011CE91DE0D0F8B /* ElementStudio-returning-forms20260910.bin */,
 				47AC2D7D16523C9D39FF37C1 /* ElementStudio-returning-forms20260910.json */,
 				65538083DEDCCE78B1527753 /* ElementStudio-returning-sculpted.bin */,
 				52EDB6A054DBB23F8EE0BD3F /* ElementStudio-returning-sculpted.json */,
+				C7EFB90E602BEB6002595E7D /* ElementStudio-returning-studio20260911.bin */,
+				DEFEA8A43B0761C90E4314E5 /* ElementStudio-returning-studio20260911.json */,
 				D03D667E37ED0BB17249366F /* ElementStudio-returning.bin */,
 				CDA8EC3C05B72FA482AC6F49 /* ElementStudio-returning.json */,
 				89587C19C8D3892B207FD456 /* ElementStudio-ribbon-ceramic-forms20260910.bin */,
 				F20AC648BC5A646D9D2F96B1 /* ElementStudio-ribbon-ceramic-forms20260910.json */,
+				09A20A02E2B3808CD4CE9C4D /* ElementStudio-ribbon-ceramic-studio20260911.bin */,
+				6F314462AFC3DE7B04BA6EBA /* ElementStudio-ribbon-ceramic-studio20260911.json */,
 				B3F8E80B9953408FF01AFD97 /* ElementStudio-ribbon-ceramic.bin */,
 				982429FBCAB4B164674B362F /* ElementStudio-ribbon-ceramic.json */,
 				3CA8A622556ABC56EA7D5D3E /* ElementStudio-ribbon-curved-forms20260910.bin */,
 				54A7241ED37C31711981A319 /* ElementStudio-ribbon-curved-forms20260910.json */,
+				036657957C75CE8280F96116 /* ElementStudio-ribbon-curved-studio20260911.bin */,
+				D131F83A33657BF21324BF5D /* ElementStudio-ribbon-curved-studio20260911.json */,
 				86B23BA8E5C7FFB89EF394F6 /* ElementStudio-ribbon-curved.bin */,
 				6684E5FB9E4F25F2FC59E55E /* ElementStudio-ribbon-curved.json */,
 				6B00168752C36ED1CE2AFDDF /* ElementStudio-ribbon-earlier.bin */,
@@ -527,6 +637,8 @@
 				D8A74070AAABA0CE71099F4C /* ElementStudio-ribbon-forms20260910.json */,
 				0E1B8C302236EB6555F4ED6A /* ElementStudio-ribbon-sculpted.bin */,
 				955908D5B548290511487AEB /* ElementStudio-ribbon-sculpted.json */,
+				602E4FB975B33C7B246CDD9D /* ElementStudio-ribbon-studio20260911.bin */,
+				9E5687CF442028C5E53CFA8C /* ElementStudio-ribbon-studio20260911.json */,
 				8CD32926E2F5D990D0CF6E9E /* ElementStudio-ribbon.bin */,
 				E803CABF57A1D8E42FFC800D /* ElementStudio-ribbon.json */,
 				0AB4BEF6F02D290289CAAAD0 /* ElementStudio-sand.png */,
@@ -536,6 +648,8 @@
 				C567B336C0DA82E80D4B1A6C /* ElementStudio-stopwatch-forms20260910.json */,
 				95A2A4DBD17C2A6646833BD0 /* ElementStudio-stopwatch-sculpted.bin */,
 				05BE7C7EB6515C7A826F5B84 /* ElementStudio-stopwatch-sculpted.json */,
+				6FBE91E15E8548A0AFAC9219 /* ElementStudio-stopwatch-studio20260911.bin */,
+				10B67B5054BEF29DA6F0FAC6 /* ElementStudio-stopwatch-studio20260911.json */,
 				6CEAA1092C73C6519FF0DEFA /* ElementStudio-stopwatch.bin */,
 				66F8ADFF546453C6AF0E56A1 /* ElementStudio-stopwatch.json */,
 				9CD1FB2906E130D38B1B2237 /* ElementStudio-sunrise-earlier.bin */,
@@ -544,6 +658,8 @@
 				FCF79767D9F23C6A889E14D6 /* ElementStudio-sunrise-forms20260910.json */,
 				E40678D86A0D01F193753388 /* ElementStudio-sunrise-sculpted.bin */,
 				2915B49A5173B341A837FEC9 /* ElementStudio-sunrise-sculpted.json */,
+				F6C5FF034284813F6F6C6AD4 /* ElementStudio-sunrise-studio20260911.bin */,
+				A90F3FE9F02A35D262D14C57 /* ElementStudio-sunrise-studio20260911.json */,
 				508071D11EC4C43C7A999516 /* ElementStudio-sunrise.bin */,
 				DAB3EACA1D5007560FB0568C /* ElementStudio-sunrise.json */,
 				E7D5D9930238A95286BACC5E /* ElementStudio-surface-brush-1.png */,
@@ -570,6 +686,8 @@
 				903E4FFC5E56D7CE83B7138B /* ElementStudio-week-forms20260910.json */,
 				4DB153FA76FC628F6986C9C3 /* ElementStudio-week-sculpted.bin */,
 				F68CFE77E879A9B5A9C8ABA7 /* ElementStudio-week-sculpted.json */,
+				B76C6DC2C44FB9B12F051BFC /* ElementStudio-week-studio20260911.bin */,
+				3E77419885B1809FE2BBBF1E /* ElementStudio-week-studio20260911.json */,
 				53F48216E7340C4D6E970049 /* ElementStudio-week.bin */,
 				1F794AE1BBE6717F5D437C5D /* ElementStudio-week.json */,
 				D27E56FCE7EDA6BBDC50F92D /* ElementStudio-year-earlier.bin */,
@@ -578,6 +696,8 @@
 				D87F88ABDADFAC0831854362 /* ElementStudio-year-forms20260910.json */,
 				184863D390B669118339BC36 /* ElementStudio-year-sculpted.bin */,
 				EB8A9CD7BF584A97B306BAE9 /* ElementStudio-year-sculpted.json */,
+				4B71311A71A227BA5B4536A9 /* ElementStudio-year-studio20260911.bin */,
+				92388F996DE54780B7731976 /* ElementStudio-year-studio20260911.json */,
 				F2D556F1595CB99ECB52192B /* ElementStudio-year.bin */,
 				6FF5DA5436386573430064D7 /* ElementStudio-year.json */,
 			);
@@ -734,6 +854,8 @@
 				77C06CA1A29BFC3C5CADC7DD /* ElementStudio-activity-forms20260910.json in Resources */,
 				3B2797E5841E407F9C845DE3 /* ElementStudio-activity-sculpted.bin in Resources */,
 				FD1913D5FD2D9A8FA6B5CD0D /* ElementStudio-activity-sculpted.json in Resources */,
+				3B7532C1AF46B13A2DF738CA /* ElementStudio-activity-studio20260911.bin in Resources */,
+				B7AF3CEEA3D1CC124B52D3CE /* ElementStudio-activity-studio20260911.json in Resources */,
 				A1D1894E4C5CB453D4284033 /* ElementStudio-activity.bin in Resources */,
 				CCFD4DE35B8C87338F0A0B27 /* ElementStudio-activity.json in Resources */,
 				DC0F36ECA299B838AA2C93BD /* ElementStudio-collection-earlier.bin in Resources */,
@@ -742,6 +864,8 @@
 				D5449E4A93E7A180F368993D /* ElementStudio-collection-forms20260910.json in Resources */,
 				C86F6CAB212B544C0355E168 /* ElementStudio-collection-sculpted.bin in Resources */,
 				CB6D963519339421773A9FC1 /* ElementStudio-collection-sculpted.json in Resources */,
+				16D55E97342C53980A45E693 /* ElementStudio-collection-studio20260911.bin in Resources */,
+				5664641AE264D72B4D305441 /* ElementStudio-collection-studio20260911.json in Resources */,
 				256CBF8BD6B633F0AFF2F2BB /* ElementStudio-collection.bin in Resources */,
 				06C34C6AF0D31FC8F207697D /* ElementStudio-collection.json in Resources */,
 				9446F03369327FB08DC38323 /* ElementStudio-distance-earlier.bin in Resources */,
@@ -750,6 +874,8 @@
 				60CE2D01AB27E379C17B3E13 /* ElementStudio-distance-forms20260910.json in Resources */,
 				069C9126ECB8FF7BCCC58B81 /* ElementStudio-distance-sculpted.bin in Resources */,
 				529FCE9EDC099226AE864D2A /* ElementStudio-distance-sculpted.json in Resources */,
+				7C99471AA125A6C9C090CB7E /* ElementStudio-distance-studio20260911.bin in Resources */,
+				63B8473F1F83D2C91A0BF427 /* ElementStudio-distance-studio20260911.json in Resources */,
 				6451005EF891BECBF072EF77 /* ElementStudio-distance.bin in Resources */,
 				1AA10EFE3B8CE24DF8CF20C5 /* ElementStudio-distance.json in Resources */,
 				4968E62373157D1DAA017278 /* ElementStudio-energy-earlier.bin in Resources */,
@@ -758,6 +884,8 @@
 				103B45FE52A63A2DC8DF7311 /* ElementStudio-energy-forms20260910.json in Resources */,
 				E3E279A3D23F9C7523EF31FC /* ElementStudio-energy-sculpted.bin in Resources */,
 				483B6F747E2D3D52461118DA /* ElementStudio-energy-sculpted.json in Resources */,
+				D9BE93FE6E9B40CAD579AD12 /* ElementStudio-energy-studio20260911.bin in Resources */,
+				BEA9D3C7CFCE0630D343A123 /* ElementStudio-energy-studio20260911.json in Resources */,
 				0C463AF999243E4A3E08BFA1 /* ElementStudio-energy.bin in Resources */,
 				75FAC19525668A29CFAD7871 /* ElementStudio-energy.json in Resources */,
 				AB997BA168B97E71ADB5CE7F /* ElementStudio-environment.bin in Resources */,
@@ -767,6 +895,8 @@
 				9E4F4F3373B3A87D8ACEA2DA /* ElementStudio-frequency-forms20260910.json in Resources */,
 				6D3054D19535FD6605A88AD1 /* ElementStudio-frequency-sculpted.bin in Resources */,
 				033B2B6146F11D9D24FA2C87 /* ElementStudio-frequency-sculpted.json in Resources */,
+				581EE312E3CF3709BF25F068 /* ElementStudio-frequency-studio20260911.bin in Resources */,
+				9980EE48B33C21328D401C65 /* ElementStudio-frequency-studio20260911.json in Resources */,
 				4665BFE09A695C57A58904C6 /* ElementStudio-frequency.bin in Resources */,
 				0A715D6D20FD738AFC7347F1 /* ElementStudio-frequency.json in Resources */,
 				DD532C7E75AE06224FD5708E /* ElementStudio-halfYear-earlier.bin in Resources */,
@@ -775,6 +905,8 @@
 				CBE080C809B9742E9D3F16F7 /* ElementStudio-halfYear-forms20260910.json in Resources */,
 				F4F84E71412CFDFEB0CE900D /* ElementStudio-halfYear-sculpted.bin in Resources */,
 				A8F65E9BE6E34F7FCAB08AD3 /* ElementStudio-halfYear-sculpted.json in Resources */,
+				93BE8FBE12C5AFA30B888D0B /* ElementStudio-halfYear-studio20260911.bin in Resources */,
+				41FEF2DC8DAB61354B672560 /* ElementStudio-halfYear-studio20260911.json in Resources */,
 				81E295109D3DB5BA570DCBE4 /* ElementStudio-halfYear.bin in Resources */,
 				FEDFBDE65B5D57E415006FE6 /* ElementStudio-halfYear.json in Resources */,
 				D49CF872F17C247FDDE50838 /* ElementStudio-hourglass-earlier.bin in Resources */,
@@ -783,6 +915,8 @@
 				C96139962E2A6B197212BA72 /* ElementStudio-hourglass-forms20260910.json in Resources */,
 				337F7CEB3E3E7228F301CD29 /* ElementStudio-hourglass-sculpted.bin in Resources */,
 				7959CF9739C722DE167CBFD3 /* ElementStudio-hourglass-sculpted.json in Resources */,
+				E91A61EF27A383DA5D08E5B4 /* ElementStudio-hourglass-studio20260911.bin in Resources */,
+				993827C29D7910BDCEC0E84E /* ElementStudio-hourglass-studio20260911.json in Resources */,
 				9355FC4600E1A20AB6A7C8E6 /* ElementStudio-hourglass.bin in Resources */,
 				1B41A755FC62FF69CBFF018E /* ElementStudio-hourglass.json in Resources */,
 				45040D1A259E1C2996C83A79 /* ElementStudio-memory-earlier.bin in Resources */,
@@ -791,6 +925,8 @@
 				CA38BA792B6E5C5CC5541786 /* ElementStudio-memory-forms20260910.json in Resources */,
 				BDA1221D2AD27049058736F0 /* ElementStudio-memory-sculpted.bin in Resources */,
 				776A9919AD5A67318E12B6B1 /* ElementStudio-memory-sculpted.json in Resources */,
+				A36C77B28FB0E16EE0ED7702 /* ElementStudio-memory-studio20260911.bin in Resources */,
+				E502347254EDAA89BA480FC7 /* ElementStudio-memory-studio20260911.json in Resources */,
 				99B8311D2F5086ACAA3ABE46 /* ElementStudio-memory.bin in Resources */,
 				85E5C916797038205BFDF5CD /* ElementStudio-memory.json in Resources */,
 				00521E366F285B214BCAE6B9 /* ElementStudio-month-earlier.bin in Resources */,
@@ -799,6 +935,8 @@
 				A295E9659BBB33B58D588A60 /* ElementStudio-month-forms20260910.json in Resources */,
 				0930E1B4470FFF9E65CBCDCA /* ElementStudio-month-sculpted.bin in Resources */,
 				DDA2146ED3CB273C0A9DDFD2 /* ElementStudio-month-sculpted.json in Resources */,
+				5703EA0B1FAF68298D1D42FD /* ElementStudio-month-studio20260911.bin in Resources */,
+				1EA691A40DA9C48FCC04C90F /* ElementStudio-month-studio20260911.json in Resources */,
 				1756CC03B856471FBE64B931 /* ElementStudio-month.bin in Resources */,
 				5CE2CE1BAF345A7ED45B5BEB /* ElementStudio-month.json in Resources */,
 				20ABB31ED3963358A8E12C18 /* ElementStudio-pennant-earlier.bin in Resources */,
@@ -807,31 +945,43 @@
 				9A8FC87E853B602DD46A8B50 /* ElementStudio-pennant-forms20260910.json in Resources */,
 				45791391C0CDE06F3FBC3631 /* ElementStudio-pennant-sculpted.bin in Resources */,
 				97F7E109B97C6A70656811DC /* ElementStudio-pennant-sculpted.json in Resources */,
+				9C9D82581BD2A0E14D99B8D6 /* ElementStudio-pennant-studio20260911.bin in Resources */,
+				1430D1C53D6A0BCB405902DC /* ElementStudio-pennant-studio20260911.json in Resources */,
 				2529BB3239369A44634AC0B1 /* ElementStudio-pennant.bin in Resources */,
 				CAE1C0DA84378CFA639CBFFE /* ElementStudio-pennant.json in Resources */,
 				F21ADB65727DB0E3759961FD /* ElementStudio-photo.png in Resources */,
 				EDFD9864F9BDF905236DD016 /* ElementStudio-returning-ceramic-forms20260910.bin in Resources */,
 				EB29543E44BFC5BD15AC83E0 /* ElementStudio-returning-ceramic-forms20260910.json in Resources */,
+				BA825D7A87054D30CB4FF0FF /* ElementStudio-returning-ceramic-studio20260911.bin in Resources */,
+				476D7B8567A2110308B617C9 /* ElementStudio-returning-ceramic-studio20260911.json in Resources */,
 				294D2A8AB9D4EAB55064E336 /* ElementStudio-returning-ceramic.bin in Resources */,
 				3E816FD9B63D23EC5FECAF6F /* ElementStudio-returning-ceramic.json in Resources */,
 				B9350E119B273A4A49454372 /* ElementStudio-returning-earlier.bin in Resources */,
 				0C7067EA029AE136866E504E /* ElementStudio-returning-earlier.json in Resources */,
 				6FED9FB7D5D8F82330EE162A /* ElementStudio-returning-folded-forms20260910.bin in Resources */,
 				941E7FC0C76A98EB08EF1DD7 /* ElementStudio-returning-folded-forms20260910.json in Resources */,
+				2E4F890DF771ECA5A1F57DDD /* ElementStudio-returning-folded-studio20260911.bin in Resources */,
+				1BD4050394D3D4654C172378 /* ElementStudio-returning-folded-studio20260911.json in Resources */,
 				8872D2D360A8A56034D4D800 /* ElementStudio-returning-folded.bin in Resources */,
 				282313E7A71C84127D4754DB /* ElementStudio-returning-folded.json in Resources */,
 				150065BD0055EB4D24905CE3 /* ElementStudio-returning-forms20260910.bin in Resources */,
 				605380CECC3930BFFF530BC5 /* ElementStudio-returning-forms20260910.json in Resources */,
 				CE4CA64D73E58173F8BBF209 /* ElementStudio-returning-sculpted.bin in Resources */,
 				898015A717CF3A3035F37D74 /* ElementStudio-returning-sculpted.json in Resources */,
+				3C94D182E15B210C4BF3D4C7 /* ElementStudio-returning-studio20260911.bin in Resources */,
+				F9A39C40ADAA835E1E2CDBFD /* ElementStudio-returning-studio20260911.json in Resources */,
 				6D33FE7F4481125E1302C7B9 /* ElementStudio-returning.bin in Resources */,
 				46C6C8AC81F0F0C1522CBFE1 /* ElementStudio-returning.json in Resources */,
 				11D959A9CDDC3A368889742D /* ElementStudio-ribbon-ceramic-forms20260910.bin in Resources */,
 				8500A53BB6E4741428B3E691 /* ElementStudio-ribbon-ceramic-forms20260910.json in Resources */,
+				66E73DC4543BBE1918D235A7 /* ElementStudio-ribbon-ceramic-studio20260911.bin in Resources */,
+				8693B2D5E6600C4F9D004799 /* ElementStudio-ribbon-ceramic-studio20260911.json in Resources */,
 				B1D77E230BF1F9DED6C6BAE8 /* ElementStudio-ribbon-ceramic.bin in Resources */,
 				1D96649337068B1D7137F9E5 /* ElementStudio-ribbon-ceramic.json in Resources */,
 				6170B9850477190D427AA1D4 /* ElementStudio-ribbon-curved-forms20260910.bin in Resources */,
 				07B62E8EB565F4319182AC05 /* ElementStudio-ribbon-curved-forms20260910.json in Resources */,
+				872CBC8CC96F7AE13D2477B3 /* ElementStudio-ribbon-curved-studio20260911.bin in Resources */,
+				EFE4BF5BC311B744B5A6584C /* ElementStudio-ribbon-curved-studio20260911.json in Resources */,
 				988429FFD6C6ACC312E6AC99 /* ElementStudio-ribbon-curved.bin in Resources */,
 				993BF3FCDAA677C8AE977415 /* ElementStudio-ribbon-curved.json in Resources */,
 				FB608D646F4603ADFC205C42 /* ElementStudio-ribbon-earlier.bin in Resources */,
@@ -840,6 +990,8 @@
 				722723F198D7D691A261721C /* ElementStudio-ribbon-forms20260910.json in Resources */,
 				7E1CD251A6C3AD9FEDB68C1C /* ElementStudio-ribbon-sculpted.bin in Resources */,
 				E999BC139AC4F33D82128543 /* ElementStudio-ribbon-sculpted.json in Resources */,
+				34FFB010806B0199BF869867 /* ElementStudio-ribbon-studio20260911.bin in Resources */,
+				1A4ED0AF7B73AF31D0A42933 /* ElementStudio-ribbon-studio20260911.json in Resources */,
 				3A6F9FBAE184A4399B654711 /* ElementStudio-ribbon.bin in Resources */,
 				33FB82B0493B57AC4959F21F /* ElementStudio-ribbon.json in Resources */,
 				8816B3EE3BE7763D3B3BBDA4 /* ElementStudio-sand.png in Resources */,
@@ -849,6 +1001,8 @@
 				7811A8925070F6275E60D15C /* ElementStudio-stopwatch-forms20260910.json in Resources */,
 				7CBA31AC621891A9B6B8261E /* ElementStudio-stopwatch-sculpted.bin in Resources */,
 				23C9AFBA55725C428BCB5D8B /* ElementStudio-stopwatch-sculpted.json in Resources */,
+				CBB5428D454815D6CCB075E1 /* ElementStudio-stopwatch-studio20260911.bin in Resources */,
+				6DD21554640EDD69A162E912 /* ElementStudio-stopwatch-studio20260911.json in Resources */,
 				8170D6A3985C9F9230D9A546 /* ElementStudio-stopwatch.bin in Resources */,
 				9D68546A456002692EBD0664 /* ElementStudio-stopwatch.json in Resources */,
 				6312341380C926D12E10776D /* ElementStudio-sunrise-earlier.bin in Resources */,
@@ -857,6 +1011,8 @@
 				CAD204F86E6106D93918A4BE /* ElementStudio-sunrise-forms20260910.json in Resources */,
 				F4C583FDEAAB4B6E216C37B5 /* ElementStudio-sunrise-sculpted.bin in Resources */,
 				7A4D51F84DC5A11D20119BA9 /* ElementStudio-sunrise-sculpted.json in Resources */,
+				A77E73789DE77D64E200213F /* ElementStudio-sunrise-studio20260911.bin in Resources */,
+				2E5B5ADECA9FB67B8A470AE7 /* ElementStudio-sunrise-studio20260911.json in Resources */,
 				17F2AA04DE546AE5C9093533 /* ElementStudio-sunrise.bin in Resources */,
 				67F0A50EBFA3667095E16223 /* ElementStudio-sunrise.json in Resources */,
 				558B04AF7A89F7C965ECFCC0 /* ElementStudio-surface-brush-1.png in Resources */,
@@ -883,6 +1039,8 @@
 				F5C8F044664FB4856FC6408A /* ElementStudio-week-forms20260910.json in Resources */,
 				6378D341DDD62452C793CB19 /* ElementStudio-week-sculpted.bin in Resources */,
 				86037470F82371C8F9901001 /* ElementStudio-week-sculpted.json in Resources */,
+				73D57637A4E3148F30FEDE08 /* ElementStudio-week-studio20260911.bin in Resources */,
+				C95C488C5B0AB7D819ED2C82 /* ElementStudio-week-studio20260911.json in Resources */,
 				D6EA4A62F56945F36F3DA678 /* ElementStudio-week.bin in Resources */,
 				DEDF77980EE45D1E296B6904 /* ElementStudio-week.json in Resources */,
 				BC9B9341407574F8FD210BBC /* ElementStudio-year-earlier.bin in Resources */,
@@ -891,6 +1049,8 @@
 				48F0A06D093F2367A521089C /* ElementStudio-year-forms20260910.json in Resources */,
 				BD5A4890CEFA3BEB2BF81705 /* ElementStudio-year-sculpted.bin in Resources */,
 				FD55639A24CAAC1762A0519C /* ElementStudio-year-sculpted.json in Resources */,
+				3E3B30868CD832340E9C976C /* ElementStudio-year-studio20260911.bin in Resources */,
+				D0647EF4A901CA99C769C335 /* ElementStudio-year-studio20260911.json in Resources */,
 				3DBFF4ADCCEFCCA45ED67B1E /* ElementStudio-year.bin in Resources */,
 				DA695EE4B5FDA0445122762E /* ElementStudio-year.json in Resources */,
 			);

@@ -13,6 +13,32 @@ import XCTest
         XCTAssertEqual(reopened.archive.looks.first, saved)
         XCTAssertEqual(reopened.archive.looks.first?.settings, settings)
     }
+    func testCatalogueRefreshPreservesOldLooksAndKeepsNewLooksCurrent() throws {
+        let url = file()
+        var old = StudioArchive(); old.version = 1
+        var settings = ElementStudioSettings(); settings.selected = "halfYear"
+        settings.tintRGB = [0.2, 0.3, 0.5]; settings.camera = [1.2, 0.1, 1.5]
+        old.looks = [StudioLook(name: "Saved fan", settings: settings)]
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try JSONEncoder().encode(old).write(to: url)
+        let library = StudioLibrary(url: url)
+        let preserved = try XCTUnwrap(library.archive.looks.first)
+        XCTAssertEqual(preserved.id, old.looks[0].id)
+        XCTAssertEqual(preserved.settings.assetIDs, ["halfYear-studio20260911"])
+        XCTAssertEqual(preserved.settings.tintRGB, settings.tintRGB)
+        XCTAssertEqual(preserved.settings.camera, settings.camera)
+        XCTAssertEqual(library.archive.workspace.chosenEdition, .latest)
+        XCTAssertEqual(library.archive.version, 2)
+        let current = library.saveLook(name: "New medallion", settings: settings, collection: nil)
+        let reopened = StudioLibrary(url: url)
+        XCTAssertEqual(reopened.archive.looks.first, current)
+        XCTAssertEqual(reopened.archive.looks.last, preserved)
+        XCTAssertEqual(current.settings.assetIDs, ["halfYear"])
+        let imported = StudioLibrary(url: file())
+        try imported.importData(JSONEncoder().encode(old))
+        XCTAssertEqual(imported.archive.looks.first?.settings.assetIDs, ["halfYear-studio20260911"])
+    }
+
     func testDeletingCollectionKeepsLooks() {
         let library = StudioLibrary(url: file()), id = library.archive.collections[0].id
         let look = library.saveLook(name: "Keep me", settings: .init(), collection: id)

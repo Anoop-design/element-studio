@@ -18,7 +18,7 @@ struct StudioCollection: Codable, Identifiable, Equatable {
 }
 
 struct StudioArchive: Codable {
-    var version = 1
+    var version = 2
     var looks: [StudioLook] = []
     var collections: [StudioCollection] = [
         .init(name: "Highlights", objects: ElementStudioSettings.choices.map(\.id)),
@@ -28,7 +28,7 @@ struct StudioArchive: Codable {
     var workspace = ElementStudioSettings()
 
     mutating func validate() throws {
-        guard version == 1, looks.count <= 2000, collections.count <= 200,
+        guard (1...2).contains(version), looks.count <= 2000, collections.count <= 200,
               Set(looks.map(\.id)).count == looks.count,
               Set(collections.map(\.id)).count == collections.count else { throw StudioError.invalidLibrary }
         let allowed = Set(ElementStudioSettings.choices.map(\.id))
@@ -42,10 +42,14 @@ struct StudioArchive: Codable {
             guard !looks[index].name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
                   looks[index].name.count <= 100,
                   allowed.contains(looks[index].settings.selected) else { throw StudioError.invalidLibrary }
+            if version == 1, looks[index].settings.chosenEdition == .latest {
+                looks[index].settings.edition = .studioOriginal
+            }
             looks[index].settings.clamp()
             if let id = looks[index].collectionID, !ids.contains(id) { looks[index].collectionID = nil }
         }
         workspace.clamp()
+        version = 2
     }
 }
 

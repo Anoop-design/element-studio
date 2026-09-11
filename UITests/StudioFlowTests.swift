@@ -72,8 +72,16 @@ import XCTest
             app.buttons["element-" + id].tap()
             XCTAssertTrue(save.waitForExistence(timeout: 5))
             XCTAssertTrue(save.isEnabled)
+            let refreshed = ["energy", "returning", "halfYear", "activity"].contains(id)
+            if refreshed { capture("Updated " + id + " initial pose") }
             viewport.swipeRight()
-            if id == "returning" || id == "ribbon" { capture("Rotated " + id) }
+            if refreshed {
+                capture("Updated " + id + " first turn")
+                viewport.swipeRight()
+                capture("Updated " + id + " second turn")
+                viewport.swipeRight()
+                capture("Updated " + id + " third turn")
+            } else if id == "ribbon" { capture("Rotated " + id) }
             app.buttons["close-studio"].tap()
             XCTAssertTrue(tile.waitForExistence(timeout: 5))
         }

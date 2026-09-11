@@ -21,7 +21,7 @@ function shapeFromPath(path, side, rise) {
 }
 
 export function reverseLogoPlacement(id) {
-  const narrow={returning:[-.47,-.60,.18],hourglass:[0,-.918,.10],halfYear:[0,-.48,.13],
+  const narrow={returning:[0,-.74,.14],hourglass:[0,-.918,.10],halfYear:[0,0,.34],
     sunrise:[0,-.02,.26],activity:[0,0,.30],ribbon:[0,.10,.34],collection:[.13,.17,.34],memory:[0,-.02,.34]};
   return narrow[id] || [0,0,.38];
 }

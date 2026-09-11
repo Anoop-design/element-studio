@@ -2,7 +2,7 @@ import Foundation
 
 nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
     enum Edition: String, Codable, CaseIterable, Identifiable {
-        case latest = "Latest", newForms = "New forms", sculpted = "Sculpted", earlier = "Earlier"
+        case latest = "Latest", studioOriginal = "Studio original", newForms = "New forms", sculpted = "Sculpted", earlier = "Earlier"
         var id: String { rawValue }
     }
     enum Finish: String, Codable, CaseIterable, Identifiable {
@@ -53,7 +53,7 @@ nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
         ("distance", "Distance", "hexagon"), ("sunrise", "First light", "sunrise"),
         ("pennant", "First distance", "flag"), ("returning", "Comeback", "arrow.uturn.backward"),
         ("week", "Perfect week", "calendar"), ("month", "Active month", "calendar"),
-        ("halfYear", "Half year", "sun.horizon"), ("year", "Full year", "rosette"),
+        ("halfYear", "6 months", "calendar"), ("year", "Full year", "rosette"),
         ("ribbon", "12 active weeks", "bookmark"), ("activity", "Activity", "figure.run"),
         ("frequency", "Frequency", "triangle"), ("collection", "Collection crest", "square.stack")
     ]
@@ -69,12 +69,13 @@ nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
         objectIDs.map { id in
             if chosenEdition == .earlier { return id + "-earlier" }
             if chosenEdition == .sculpted { return id + "-sculpted" }
+            let suffix = chosenEdition == .studioOriginal ? "-studio20260911" : chosenEdition == .newForms ? "-forms20260910" : ""
             if id == "returning" || id == "ribbon" {
                 let selectedStudy = study(for: id)
                 let defaultStudy: ShapeStudy = id == "ribbon" ? .folded : .curved
-                if selectedStudy != defaultStudy { return id + "-" + selectedStudy.rawValue.lowercased() + (chosenEdition == .newForms ? "-forms20260910" : "") }
+                if selectedStudy != defaultStudy { return id + "-" + selectedStudy.rawValue.lowercased() + suffix }
             }
-            return id + (chosenEdition == .newForms ? "-forms20260910" : "")
+            return id + suffix
         }
     }
     var sceneKey: String { assetIDs.joined(separator: ",") }

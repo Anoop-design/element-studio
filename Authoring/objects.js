@@ -32,8 +32,8 @@ export const BADGES = [{
   sub: 'Sculpted flame',
   color: '#d54835',
   category: 'Energy',
-  description: 'A tapered flame with a rising sculpted ridge. Red enamel sits inside a narrow polished perimeter.',
-  geometry: 'A curved front rises toward its center; an independent crest adds relief. The outline narrows deliberately toward two asymmetric tips.'
+  description: 'A continuous fire-red enamel flame with a softly crowned face and a fine satin edge. Light passes across it without an internal metal seam.',
+  geometry: 'The concave flame is triangulated as one closed outline, then finely subdivided and bent by a smooth analytic surface. The front has no radial fan or crossing ridge.'
 }, {
   id: 'distance',
   name: 'Farthest',
@@ -61,11 +61,11 @@ export const BADGES = [{
 }, {
   id: 'returning',
   name: 'Comeback',
-  sub: 'Returning loop',
+  sub: 'Return arrow',
   color: '#ca8c43',
   category: 'Returning',
-  description: 'A swept, crowned comeback arrow. The amber face rolls across the band and rises into the integrated arrowhead, with a quiet satin casting and a fine polished chamfer.',
-  geometry: 'The arrowhead is joined to the curved band by a true polygon union. The entire casting, enamel and reverse inscription follow a curved cross-section; the tip rises toward the light.'
+  description: 'One rounded return arrow around a workout symbol, with a clear head and an amber enamel face seated inside its satin casting.',
+  geometry: 'The curved shaft, round tail and arrowhead form one united outline. A continuous bevel follows the complete silhouette, including the neck of the arrow.'
 }, {
   id: 'week',
   name: 'Perfect week',
@@ -85,11 +85,11 @@ export const BADGES = [{
 }, {
   id: 'halfYear',
   name: 'Active half-year',
-  sub: 'Six-part fan',
+  sub: 'Six-month medallion',
   color: '#a25b98',
   category: 'Long commitment',
-  description: 'Six shallow overlapping fan segments, each with its own enamel face and light-catching edge.',
-  geometry: 'Six separate wedge-shaped solids share one pivot. Physical overlap provides depth between adjacent segments.'
+  description: 'A complete six-lobed medallion, clearly marked 6 MONTHS. Six month markers sit around a calm violet enamel center.',
+  geometry: 'Six broad scallops belong to one closed casting with a continuous rounded edge. The number and unit carry the meaning from the first glance.'
 }, {
   id: 'year',
   name: 'Active year',
@@ -109,11 +109,11 @@ export const BADGES = [{
 }, {
   id: 'activity',
   name: 'Weekly run',
-  sub: 'Flowing band',
+  sub: 'Weekly activity medal',
   color: '#289fac',
   category: 'Activity rhythm',
-  description: 'A continuous gently twisted band with a quieter activity mark. The curve is a composition, not a metric.',
-  geometry: 'The broad surface twists along its horizontal axis. Opposing inset curves reinforce direction without fabricating a trend.'
+  description: 'An upright activity medal with a sport symbol, explicit week count and teal enamel. Its rounded track-shaped case replaces the eye silhouette.',
+  geometry: 'A softly crowned enamel face sits within one continuous satin case. The top and bottom share the same broad radius; there is no artificial twist.'
 }, {
   id: 'frequency',
   name: 'Run rhythm',
@@ -449,6 +449,63 @@ function tessellateCaps(geometry, maxEdge = .065) {
   result.setAttribute('normal',new T.Float32BufferAttribute(normals,3));
   return result;
 }
+// Split each shared cap edge on both incident triangles, including its bevel.
+// Independent triangle subdivision leaves T-junctions that can open after bending.
+function conformingCaps(geometry, maxEdge = .065) {
+  const source = geometry.index ? geometry.toNonIndexed() : geometry;
+  const p=source.attributes.position, n=source.attributes.normal, uv=source.attributes.uv;
+  const vertex=i=>[p.getX(i),p.getY(i),p.getZ(i),uv.getX(i),uv.getY(i),n.getX(i),n.getY(i),n.getZ(i)];
+  const length=(a,b)=>(a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2;
+  const pointKey=v=>v.slice(0,3).map(x=>Math.round(x*1e6)).join(',');
+  const edgeKey=(a,b)=>{const x=pointKey(a),y=pointKey(b);return x<y?x+'|'+y:y+'|'+x;};
+  const midpoint=(a,b)=>a.map((x,i)=>(x+b[i])/2);
+  let triangles=[];
+  for(let i=0;i<p.count;i+=3)triangles.push({v:[vertex(i),vertex(i+1),vertex(i+2)],cap:
+    Math.abs(p.getZ(i)-p.getZ(i+1))<1e-7&&Math.abs(p.getZ(i)-p.getZ(i+2))<1e-7});
+  for(let pass=0;pass<12;pass++) {
+    const splits=new Set();
+    for(const {v,cap} of triangles)if(cap)for(let j=0;j<3;j++)
+      if(length(v[j],v[(j+1)%3])>maxEdge**2)splits.add(edgeKey(v[j],v[(j+1)%3]));
+    if(!splits.size)break;
+    const next=[];
+    for(const {v:[a,b,c],cap} of triangles) {
+      const ab=splits.has(edgeKey(a,b)),bc=splits.has(edgeKey(b,c)),ca=splits.has(edgeKey(c,a));
+      const d=ab?midpoint(a,b):null,e=bc?midpoint(b,c):null,f=ca?midpoint(c,a):null;
+      const add=(...v)=>next.push({v,cap});
+      switch(Number(ab)+2*Number(bc)+4*Number(ca)) {
+        case 0:add(a,b,c);break;
+        case 1:add(a,d,c);add(d,b,c);break;
+        case 2:add(b,e,a);add(e,c,a);break;
+        case 4:add(c,f,b);add(f,a,b);break;
+        case 3:add(d,b,e);add(a,d,c);add(d,e,c);break;
+        case 5:add(a,d,f);add(d,b,c);add(d,c,f);break;
+        case 6:add(c,f,e);add(a,b,f);add(b,e,f);break;
+        case 7:add(a,d,f);add(d,b,e);add(f,e,c);add(d,e,f);break;
+      }
+    }
+    triangles=next;
+  }
+  const positions=[],normals=[],coordinates=[],indices=[],vertices=new Map();
+  for(const {v} of triangles) {
+    if(new Set(v.map(point=>point.slice(0,3).map(x=>Math.round(x*1e7)).join(','))).size<3)continue;
+    for(const point of v) {
+      const magnitude=Math.hypot(...point.slice(5))||1;
+      const normal=point.slice(5).map(x=>x/magnitude);
+      const key=[...point.slice(0,5),...normal].map(x=>Math.round(x*1e8)).join(',');
+      if(!vertices.has(key)) {
+        vertices.set(key,positions.length/3);
+        positions.push(...point.slice(0,3));coordinates.push(...point.slice(3,5));normals.push(...normal);
+      }
+      indices.push(vertices.get(key));
+    }
+  }
+  const result=new T.BufferGeometry();
+  result.setAttribute('position',new T.Float32BufferAttribute(positions,3));
+  result.setAttribute('normal',new T.Float32BufferAttribute(normals,3));
+  result.setAttribute('uv',new T.Float32BufferAttribute(coordinates,2));
+  result.setIndex(indices);
+  return result;
+}
 function unionOutline(shapes, samples = 320) {
   const C = window.ClipperLib, scale = 100000;
   const paths = shapes.map(points => points.map(p => ({X: Math.round(p.x * scale), Y: Math.round(p.y * scale)})));
@@ -463,7 +520,7 @@ function bendAssembly(group, height) {
   const point = new T.Vector3(), normal = new T.Vector3(), epsilon = .0001;
   group.traverse(node => {
     if (!node.isMesh) return;
-    if (node.geometry.type === 'ExtrudeGeometry') node.geometry = tessellateCaps(softenedNormals(node.geometry), .045);
+    if (node.geometry.type === 'ExtrudeGeometry') node.geometry = (group.userData.conformingCaps ? conformingCaps : tessellateCaps)(softenedNormals(node.geometry), .045);
     const inverse = node.matrixWorld.clone().invert();
     const normalMatrix = new T.Matrix3().getNormalMatrix(node.matrixWorld), inverseNormal = normalMatrix.clone().invert();
     const positions = node.geometry.attributes.position, normals = node.geometry.attributes.normal;
@@ -577,6 +634,27 @@ function medal(points, color, m, font, {
   group.userData.face = face;
   group.userData.faceHeight=radialHeight(facePoints,.080,rise);
   group.userData.warp=warp;
+  return group;
+}
+
+// A continuous cap also works for concave outlines. A radial triangle fan can
+// fold across a flame's notch; constrained outline triangulation cannot.
+function castMedal(points, color, m, font, { label = '', sub = '', crown = .045 } = {}) {
+  const group = new T.Group();
+  group.userData.conformingCaps = true;
+  part(group, extruded(inset(points, .018), .15, .034, m.satin, -.09), 'Rounded satin casting');
+  const face = new T.Group();
+  const enamel = m.enamel(color).clone();
+  enamel.normalScale.set(.32, .32);
+  enamel.userData.studioRole = 'enamel';
+  part(face, extruded(inset(points, .063), .023, .025, enamel, .063), 'Continuous enamel crown');
+  if (label) face.add(text(font, label, .44, .004, m.lettering, 0, .08, .115));
+  if (sub) face.add(text(font, sub, .095, .002, m.lettering, 0, -.28, .115));
+  part(group, face, 'Fitted enamel face', [0, 0, .35]);
+  group.userData.face = face;
+  group.userData.faceHeight = () => .111;
+  // One differentiable height function deforms body, bevel and inscriptions.
+  group.userData.warp = (x, y) => crown * (1 - .62*x*x - .30*y*y);
   return group;
 }
 
@@ -726,7 +804,19 @@ export function drawMemory() {
 export function buildBadge(id, m, font, photoTexture, study = null) {
   let group;
   const data = BADGES.find(b => b.id === id);
-  if (id === 'returning' || id === 'ribbon') {
+  if (id === 'returning' && (!study || study === 'curved')) {
+    const r = .74, half = .135, start = 50*Math.PI/180, end = 330*Math.PI/180;
+    const band = [];
+    for (let i=0;i<=160;i++) { const a=start+(end-start)*i/160; band.push(new T.Vector2(Math.cos(a)*(r+half),Math.sin(a)*(r+half))); }
+    for (let i=160;i>=0;i--) { const a=start+(end-start)*i/160; band.push(new T.Vector2(Math.cos(a)*(r-half),Math.sin(a)*(r-half))); }
+    const c = new T.Vector2(Math.cos(end)*r,Math.sin(end)*r);
+    const tangent = new T.Vector2(-Math.sin(end),Math.cos(end)), radial = new T.Vector2(Math.cos(end),Math.sin(end));
+    const head = [c.clone().addScaledVector(tangent,.41), c.clone().addScaledVector(tangent,-.085).addScaledVector(radial,.30), c.clone().addScaledVector(tangent,-.085).addScaledVector(radial,-.30)];
+    const tail = circlePoints(half,64).map(p=>p.add(new T.Vector2(Math.cos(start)*r,Math.sin(start)*r)));
+    const united = unionOutline([band,head.reverse(),tail],260);
+    const outline = inset(inset(united,.045),-.045);
+    group = castMedal(outline, '#b77c29', m, font, { crown:.024 });
+  } else if (id === 'returning' || id === 'ribbon') {
     group=buildFormStudy(id,study || (id==='ribbon'?'folded':'curved'),m,font,{part,text,tube,bendAssembly});
   } else if (id === 'stopwatch') {
     group = new T.Group();
@@ -861,12 +951,7 @@ export function buildBadge(id, m, font, photoTexture, study = null) {
     s.bezierCurveTo(.43, .84, .38, .45, .31, .26);
     s.bezierCurveTo(.52, .37, .66, .52, .63, .68);
     s.bezierCurveTo(1.04, .09, 1.03, -.64, 0, -1);
-    group = medal(shapePoints(s), '#bc3024', m, font, {
-      back: 'BIGGEST BURN',
-      rise: .085
-    });
-    const crest = tube([[0, -.82, .085], [.22, -.45, .25], [.04, -.06, .23], [-.05, .31, .21], [.09, .80, .090]], .027, m.polished, 90);
-    part(group, crest, 'Sculpted rising crest', [0, 0, .48]);
+    group = castMedal(shapePoints(s,260), '#bc3024', m, font, { crown:.072 });
     const run = runner(m.lettering, .4);
     run.position.set(-.19, -.3, .21);
     group.userData.face.add(run);
@@ -962,40 +1047,22 @@ export function buildBadge(id, m, font, photoTexture, study = null) {
     const seam = tube([[-.60, .77, .13], [0, .79, .17], [.60, .77, .13]], .025, m.satin, 50);
     group.userData.face.add(seam);
   } else if (id === 'halfYear') {
-    group = new T.Group();
-    for (let i = 0; i < 6; i++) {
-      const a = i * Math.PI / 6,
-        b = (i + 1) * Math.PI / 6;
-      const pts = [new T.Vector2(0, -.49)];
-      for (let k = 0; k <= 18; k++) {
-        const t = a + (b - a) * k / 18;
-        pts.push(new T.Vector2(Math.cos(t) * .98, Math.sin(t) * .98 - .49));
-      }
-      const wedge = extruded(smoothPolygon(pts, .025), .10, .008, [m.enamel(new T.Color('#884b87').offsetHSL(0, 0, i * .025)), m.polished]);
-      wedge.position.z = i * .025;
-      part(group, wedge, 'Fan segment ' + (i + 1), [Math.cos((a + b) / 2) * .26, Math.sin((a + b) / 2) * .22, i * .13]);
+    group = castMedal(circlePoints(.88,264,6,.063), '#884b87', m, font, {label:'6',sub:'MONTHS',crown:.05});
+    for(let i=0;i<6;i++) {
+      const a=Math.PI/2+i*Math.PI/3;
+      const marker=mesh(new T.SphereGeometry(.026,20,12),m.polished);
+      marker.scale.z=.32; marker.position.set(Math.cos(a)*.68,Math.sin(a)*.68,.115);
+      group.userData.face.add(marker);
     }
-    const pivot = mesh(new T.SphereGeometry(.12, 24, 16), m.polished);
-    pivot.scale.z = .35;
-    pivot.position.set(0, -.48, .26);
-    group.add(pivot);
-    const spindle=mesh(new T.CylinderGeometry(.077,.077,.37,64),m.satin);
-    spindle.rotation.x=Math.PI/2;spindle.position.set(0,-.48,.075);
-    part(group,spindle,'Through spindle',[0,0,-.25]);
   } else if (id === 'activity') {
-    const s = new T.Shape();
-    s.moveTo(-1, 0);
-    s.bezierCurveTo(-.53, .69, .53, .69, 1, 0);
-    s.bezierCurveTo(.54, -.67, -.54, -.67, -1, 0);
-    group = medal(shapePoints(s), '#248894', m, font, {
-      back: 'WEEKLY RUN',
-      rise: .065,
-      warp: (x, y) => .065 * Math.sin(x * 2) * y
-    });
-    const run = runner(m.lettering, .75);
-    run.position.set(.07, -.02, .21);
+    const s=new T.Shape();
+    s.moveTo(-.66,-.29);s.lineTo(-.66,.29);
+    s.absarc(0,.29,.66,Math.PI,0,true);s.lineTo(.66,-.29);
+    s.absarc(0,-.29,.66,0,-Math.PI,true);s.closePath();
+    group = castMedal(shapePoints(s,240), '#248894', m, font, { label:'12', sub:'WEEKS', crown:.045 });
+    const run = runner(m.lettering, .43);
+    run.position.set(0,.58,.115);
     group.userData.face.add(run);
-    for (let side of [-1, 1]) group.userData.face.add(tube([[-.73, side * .07, .11], [-.35, side * .30, .15], [.25, side * .31, .17], [.75, side * .06, .12]], .008, m.polished, 60));
   } else if (id === 'frequency') {
     group = medal(smoothPolygon([[-.61, .84], [.61, .84], [.84, .08], [.49, -.83], [-.49, -.83], [-.84, .08]].map(p => new T.Vector2(...p)), .18), '#247f87', m, font, {
       label: '3+',
@@ -1020,6 +1087,11 @@ export function buildBadge(id, m, font, photoTexture, study = null) {
   }
   seatFaceDetails(group);
   group.traverse(node=>{if(node.userData.warp)bendAssembly(node,node.userData.warp);});
+  if (id === 'returning') {
+    const activity = runner(m.satin,.80);
+    activity.position.set(.056,-.035,.14);
+    part(group,activity,'Workout symbol');
+  }
   addReverseLogo(group,id,m.ink,tessellateCaps);
   group.name = id;
   group.userData.badgeId = id;

@@ -19,7 +19,7 @@ The iOS app is self-contained. It has no Swift Package Manager or CocoaPods depe
 
 `ElementStudioApp.swift` composes the collection and focused editor using the same rendering surface. The native bottom toolbar expands into controls through Apple’s zoom transition. Its partial-height sheet allows interaction with the object above it. Reset changes the workspace; saved looks are separate versions.
 
-`StudioLibrary.swift` stores the local library atomically and validates imports. Never uninstall the app or reset its container to deliver an update. Retain `com.anoop.elementstudio.dev` so current libraries survive the repository move.
+`StudioLibrary.swift` stores the local library atomically and validates imports. Schema 2 accepts version-1 exports and preserves their Latest saved looks using the original standalone geometry edition. Keep this migration one-time: new Latest looks must remain current on subsequent loads. The working collection receives current geometry while saved versions retain their chosen edition. Never uninstall the app or reset its container to deliver an update. Retain `com.anoop.elementstudio.dev` so current libraries survive the repository move.
 
 ## Verification
 

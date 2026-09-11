@@ -1,0 +1,86 @@
+{
+  "source": "Daywake working copy: Features/Moments/Debug/ElementStudio/Resources",
+  "importedAt": "2026-09-11T16:43:18.327725+00:00",
+  "preservedEdition": "Studio original",
+  "preservedSuffix": "-studio20260911",
+  "updated": [
+    {
+      "id": "energy",
+      "files": {
+        ".json": {
+          "sha256": "817cdf8f2d44312c82d489cf8f44222be62f91db573dd1aa0aab443a971fbf4f",
+          "bytes": 1772
+        },
+        ".bin": {
+          "sha256": "6c02671e455d44814fa1da5cfa68470b97d5ad6b048cb2972cd3190edbe53c36",
+          "bytes": 3980048
+        }
+      }
+    },
+    {
+      "id": "returning",
+      "files": {
+        ".json": {
+          "sha256": "a99b2ff9185c52134e1bf383d7d99ec89b794844f84c6c95db27a126055b8fb2",
+          "bytes": 1728
+        },
+        ".bin": {
+          "sha256": "912bbf1577f3a6fbf4221ffffb3a419af2c5ea0cc6f137bd4a1b89605bb0df51",
+          "bytes": 2786496
+        }
+      }
+    },
+    {
+      "id": "halfYear",
+      "files": {
+        ".json": {
+          "sha256": "7258a23917e574be1586b258756f15c4d23e508198dfdc3d47caf469936924b0",
+          "bytes": 2074
+        },
+        ".bin": {
+          "sha256": "5616f13faec6158006290bbb7d22ac9e317f35225b11272ba35d411bd8370e9f",
+          "bytes": 3713064
+        }
+      }
+    },
+    {
+      "id": "activity",
+      "files": {
+        ".json": {
+          "sha256": "a3cce59c5e2b53f55897357e456dd7cf1961e69fbf75e7ff5d53dd801663151a",
+          "bytes": 1768
+        },
+        ".bin": {
+          "sha256": "6364a2c4d39ab244352ec06f20525b6a9506d588d59991cee6653984661015a8",
+          "bytes": 3004144
+        }
+      }
+    },
+    {
+      "id": "returning-folded",
+      "files": {
+        ".json": {
+          "sha256": "b3907295cb56f50ce8f08f83540bc6fb4e5d8ba593050c3303c9a2006deb36a8",
+          "bytes": 1716
+        },
+        ".bin": {
+          "sha256": "0ce643b24884f442d3c549a8f9f6ff19a7a67f4de01087736582f3632920d37d",
+          "bytes": 3389152
+        }
+      }
+    },
+    {
+      "id": "returning-ceramic",
+      "files": {
+        ".json": {
+          "sha256": "4b08ac8953bbf3cb99383532f3803689322c4d50b104eb3e4647a3a794baca40",
+          "bytes": 1379
+        },
+        ".bin": {
+          "sha256": "07e01a740839bc8a944be65b4c5465f9165e1c2a0ee0dca7850f9d4e9405dd78",
+          "bytes": 2855488
+        }
+      }
+    }
+  ]
+}
