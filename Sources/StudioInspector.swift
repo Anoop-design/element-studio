@@ -2,7 +2,7 @@ import SwiftUI
 
 struct StudioInspector: View {
     @Binding var settings: ElementStudioSettings
-    let renderer: ElementStudioRenderer
+    @Bindable var renderer: ElementStudioRenderer
     let panel: String
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.dynamicTypeSize) private var typeSize
@@ -51,7 +51,7 @@ struct StudioInspector: View {
                    display: settings.thickness.formatted(.number.precision(.fractionLength(2))) + "×", low: "Slim", high: "Substantial")
             slider("Separate components", value: $settings.explode, range: 0...1,
                    display: percent(settings.explode), low: "Assembled", high: "Exploded")
-            Toggle("Show mesh", isOn: $settings.wireframe)
+            Toggle("Show mesh", isOn: Binding(get: { renderer.showsMesh }, set: { renderer.setMeshInspection($0) }))
 
         }
     }

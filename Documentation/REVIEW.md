@@ -10,6 +10,12 @@ Verified from this independent checkout using the ElementStudio scheme on the de
 
 The two simulator UI flows were rerun after separating the toolbar controls and passed with zero failures (133.9 seconds, `SeparateToolsVerification.xcresult`). This includes Surface → Light → Reset → Form, Share, Save/relaunch, every object, and dark-mode rotation above expanded controls. The dark toolbar capture has been refreshed from this passing run. The earlier unit results above remain the baseline; camera, library and geometry code did not change in this follow-up.
 
+## Shaded collection follow-up
+
+A persisted mesh-inspection flag was being applied to every cached object at scene load. Turning it off while focused updated only that object, leaving a mixture of filled surfaces and see-through triangle edges in the collection. Mesh inspection now lives in the renderer, is limited to the focused object, and clears on focus changes, Reset, Save, Share and scene load. Existing materials return to filled triangles without replacing their individual finishes. Legacy settings cannot initialize the catalogue in wireframe.
+
+The dedicated mesh regression passed (49.6 seconds, `ShadedCollectionVerification.xcresult`): enable mesh, change a material, return to the collection, open another object, reopen the inspected object, and relaunch while inspection is active. Captures confirm filled surfaces after each return and relaunch. Both the fronts and backs of the collection were reviewed; see `collection-shaded.png` and `collection-backs.png`.
+
 ## Interaction design
 
 The full collection is the minimum 1× view. At that scale the camera cannot pan beyond the content. Pinch follows its finger anchor; at higher magnification, pan stops at the visible content edges. Focus transitions interpolate projected position and logarithmic distance, with eased endpoints, so an object opens directly from its collection position. Closing restores the collection camera.

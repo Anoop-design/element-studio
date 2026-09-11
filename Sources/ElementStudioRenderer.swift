@@ -9,6 +9,7 @@ import CoreMotion
 @MainActor @Observable
 final class ElementStudioRenderer {
     private(set) var focusedID: String?
+    private(set) var showsMesh = false
     @ObservationIgnored var onSelect: ((String) -> Void)?
     @ObservationIgnored private var flight: Flight?
     @ObservationIgnored private var focusBlend: Float = 0
@@ -69,6 +70,7 @@ final class ElementStudioRenderer {
     }
 
     func load(_ newSettings: ElementStudioSettings) async {
+        setMeshInspection(false)
         let token = UUID()
         loadIdentity = token
         loading = true; error = nil; settings = newSettings; reportedFrame = false
@@ -189,11 +191,11 @@ final class ElementStudioRenderer {
             animation = nil; yaw = Float(pose[0]); pitch = Float(pose[1]); zoom = Float(pose[2])
         }
         let changedMaterial = forceMaterials || previous.chosenEdition != settings.chosenEdition || previous.finish != settings.finish || previous.roughness != settings.roughness ||
-            previous.grain != settings.grain || previous.clearcoat != settings.clearcoat || previous.glass != settings.glass || previous.wireframe != settings.wireframe || previous.tintRGB != settings.tintRGB
+            previous.grain != settings.grain || previous.clearcoat != settings.clearcoat || previous.glass != settings.glass || previous.tintRGB != settings.tintRGB
         if changedMaterial {
             for assembly in active where focusedID == nil || assembly.objectID == focusedID {
                 for (model, batch) in assembly.models {
-                    model.model?.materials = [makeMaterial(batch)]
+                    model.model?.materials = [makeMaterial(batch, inspectingMesh: showsMesh && assembly.objectID == focusedID)]
                     model.components.set(DynamicLightShadowComponent(castsShadow:
                         settings.finish != .crafted || (batch.role != "glass" && batch.role != "photo")))
                 }
@@ -217,8 +219,11 @@ final class ElementStudioRenderer {
         invalidate()
     }
 
-    private func makeMaterial(_ batch: ElementStudioAsset.Batch) -> any RealityKit.Material {
-        var result = materials.make(batch, settings: settings)
+    private func makeMaterial(_ batch: ElementStudioAsset.Batch, inspectingMesh: Bool = false) -> any RealityKit.Material {
+        // Inspection is a transient view mode, never inherited from a saved workspace.
+        var materialSettings = settings
+        materialSettings.wireframe = inspectingMesh
+        var result = materials.make(batch, settings: materialSettings)
         if settings.finish == .crafted, let rgb = settings.tintRGB, ["enamel", "dial", "ceramic"].contains(batch.role), var pbr = result as? PhysicallyBasedMaterial {
             pbr.baseColor = .init(tint: UIColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: 1))
             result = pbr
@@ -318,8 +323,35 @@ final class ElementStudioRenderer {
         updateTransforms(); invalidate()
     }
 
+    func setMeshInspection(_ enabled: Bool) {
+        let enabled = enabled && focusedID != nil
+        guard showsMesh != enabled else { return }
+        showsMesh = enabled
+        // Change only rasterization on the existing materials. Rebuilding from the
+        // current object's settings would overwrite other cached objects' finishes.
+        for assembly in active {
+            let mode: MaterialParameterTypes.TriangleFillMode = enabled && assembly.objectID == focusedID ? .lines : .fill
+            for (model, _) in assembly.models {
+                guard var component = model.model else { continue }
+                var changed = false
+                component.materials = component.materials.map { original in
+                    if var material = original as? PhysicallyBasedMaterial, material.triangleFillMode != mode {
+                        material.triangleFillMode = mode; changed = true; return material
+                    }
+                    if var material = original as? CustomMaterial, material.triangleFillMode != mode {
+                        material.triangleFillMode = mode; changed = true; return material
+                    }
+                    return original
+                }
+                if changed { model.model = component }
+            }
+        }
+        invalidate()
+    }
+
     func focus(on id: String?, preservePose: Bool = false) {
         guard !loading else { return }
+        setMeshInspection(false)
         let previous = focusedID
         if previous == nil { savedOverview = (zoom, cameraPan) }
         let from = camera.position
@@ -334,6 +366,7 @@ final class ElementStudioRenderer {
 
     func resetOverview() { zoom = 1; cameraPan = .zero; pose(-0.28) }
     func resetObject() {
+        setMeshInspection(false)
         let from = camera.position
         zoom = 1; cameraPan = .zero
         pose(-0.28)

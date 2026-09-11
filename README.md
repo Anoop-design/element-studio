@@ -20,7 +20,7 @@ A standalone, native iOS studio for developing 3D elements, materials and Metal 
 - **Reset edits:** the counterclockwise arrow restores the selected object’s original material, lighting, form and camera. Saved looks remain intact. Save (+) still stores a named version.
 - **Surface:** Finish, Texture and Color. Design editions, material types and shape-study selectors have been removed from the editing surface. Existing saved looks retain their original geometry and material settings.
 - **Light:** direction and brightness.
-- **Form:** depth, separated components and mesh inspection.
+- **Form:** depth, separated components and optional mesh inspection. Objects start fully shaded. Show mesh applies only to the current object and clears when you return to Collections, open another object, reset, save, share or restart the app.
 - **Collections:** use the top menu to select, create, edit or delete a collection. Filtering reuses the live scene.
 - **Share look:** the upper-right share control renders a clean 1440 × 1440 image of the current object and camera. Inspect the preview, then use Share image to choose the destination. Opening the preview does not send anything.
 - **Save look (+):** name the current version and choose a collection. Each version keeps geometry edition, study, color, material, lighting, form, and camera angle. Its thumbnail is rendered from that saved state.

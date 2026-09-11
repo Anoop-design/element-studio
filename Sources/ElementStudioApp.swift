@@ -166,7 +166,7 @@ struct StudioEditor: View {
         }
         .task {
             guard !ready else { return }
-            settings = initial; settings.reduceMotion = settings.reduceMotion || reduceMotion
+            settings = initial; settings.wireframe = false; settings.reduceMotion = settings.reduceMotion || reduceMotion
             settings.chosenEdition = .latest; settings.camera = nil; settings.clamp()
             renderer.onSelect = { id in openObject(id) }
             renderer.setAppearance(dark: colorScheme == .dark)
@@ -197,7 +197,7 @@ struct StudioEditor: View {
         .sheet(isPresented: $showLooks, onDismiss: {
             if let pendingLook {
                 self.pendingLook = nil
-                Task { settings = pendingLook.settings; await loadCollection(settings); renderer.focus(on: settings.selected, preservePose: true) }
+                Task { settings = pendingLook.settings; settings.wireframe = false; await loadCollection(settings); renderer.focus(on: settings.selected, preservePose: true) }
             }
         }) { LooksLibraryView(library: library) { pendingLook = $0; showLooks = false } }
         .sheet(isPresented: $saveSheet) { SaveLookView(library: library, settings: settings, renderer: renderer) }
@@ -233,6 +233,7 @@ struct StudioEditor: View {
             .accessibilityIdentifier("panel-" + tool.rawValue)
     }
     private func performAfterTools(_ action: String) {
+        renderer.setMeshInspection(false)
         if panel != nil { pendingAction = action; changeTool(nil); return }
         if action == "save" { saveSheet = true; return }
         sharing = true

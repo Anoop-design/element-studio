@@ -11,6 +11,7 @@ This is the self-contained Element Studio iOS app. Scheme: `ElementStudio`. Bund
 - Latest geometry is imported from the Daywake native studio. New forms points to preserved -forms20260910 assets so older looks retain their geometry.
 - Surface exposes only Finish, Texture and Color. Geometry editions remain a saved-data compatibility detail, not an editor picker.
 - Three columns, centered final row. One-finger drag rotates all visible objects; pinch is anchored under the fingers; two-finger drag pans. Zoom cannot go below the fitted 1× view; pan bounds follow the content and viewport. Preserve the collection camera when focusing and returning.
+- Mesh inspection is transient renderer state, limited to the focused object. Collection load, focus changes, Reset, Save and Share restore filled materials. Never persist the inspection toggle or inherit a legacy wireframe flag into cached catalogue materials. Change only triangle fill mode when leaving inspection so other objects retain their own finishes.
 - Reset edits must remain available, and must not delete saved looks. Keep Save and Share accessible from the editor.
 - Keep the initial preview visible until warmup GPU frames have completed. Do not reintroduce a Preparing element surface for selection.
 - Metal continuous turns require enableSetNeedsDisplay=false while unpaused; switch back to event-driven rendering when motion settles. Drag rotation must not snap on release.
