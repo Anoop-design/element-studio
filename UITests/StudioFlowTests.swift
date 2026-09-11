@@ -40,7 +40,7 @@ import XCTest
         XCTAssertEqual(app.sliders.count, 2)
         XCTAssertFalse(app.staticTexts["Design edition"].exists)
         XCTAssertFalse(app.staticTexts["Preparing element"].exists)
-        XCTAssertFalse(app.buttons["panel-Light"].exists, "The tool bar should become the control surface")
+        XCTAssertTrue(app.staticTexts["Surface"].exists, "Expanded controls must identify the selected tool")
         capture("Surface dock")
         app.sliders["Texture"].adjust(toNormalizedSliderPosition: 0.25)
         app.buttons["all-tools"].tap()

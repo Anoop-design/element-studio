@@ -16,7 +16,7 @@ A standalone, native iOS studio for developing 3D elements, materials and Metal 
 - **Appearance:** follows System, with Light and Dark overrides in the top menu. Light uses a pale gray canvas; Dark uses pure black.
 - **Tilt with iPhone:** bounded, smoothed gyro movement is on by default. The top menu can disable it. Motion stops in the background and with Reduce Motion.
 - **Open an element:** tap it to move the camera directly toward that same live object. The scene stays alive; there is no intermediate screen, automatic spin, or per-object preparation message. Back restores the collection's zoom and position. Reduce Motion skips the camera flight.
-- **Bottom tools:** Surface, Light and Form use the official bottom toolbar, placed near the home indicator. Selecting one opens native controls with a zoom transition from the toolbar. The downward chevron collapses them; the live viewport remains usable above the controls.
+- **Bottom tools:** Surface, Light and Form each have their own native glass button, with Reset separate beside them. The centered controls fit their contents near the home indicator. Selecting a tool opens native controls with a zoom transition from that specific button. The downward chevron collapses them; the live viewport remains usable above the controls.
 - **Reset edits:** the counterclockwise arrow restores the selected object’s original material, lighting, form and camera. Saved looks remain intact. Save (+) still stores a named version.
 - **Surface:** Finish, Texture and Color. Design editions, material types and shape-study selectors have been removed from the editing surface. Existing saved looks retain their original geometry and material settings.
 - **Light:** direction and brightness.

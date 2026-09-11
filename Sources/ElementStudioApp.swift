@@ -53,13 +53,26 @@ struct StudioRoot: View {
     private func openLook(_ look: StudioLook) { selection = StudioSelection(settings: look.settings) }
 }
 
+private enum StudioTool: String, Identifiable {
+    case surface = "Surface", light = "Light", form = "Form"
+    var id: String { rawValue }
+    var symbol: String {
+        switch self {
+        case .surface: "paintpalette"
+        case .light: "light.max"
+        case .form: "cube"
+        }
+    }
+    var height: CGFloat { self == .light ? 240 : 300 }
+}
+
 struct StudioEditor: View {
     @Bindable var library: StudioLibrary
     let initial: ElementStudioSettings
     var startsInCollection = false
     @State private var settings = ElementStudioSettings()
     @State private var renderer = ElementStudioRenderer()
-    @State private var panel: String?
+    @State private var panel: StudioTool?
     @State private var saveSheet = false
     @State private var sharing = false
     @State private var shareImage: UIImage?
@@ -71,7 +84,6 @@ struct StudioEditor: View {
     @State private var pendingLook: StudioLook?
     @State private var pendingAction: String?
     @State private var ready = false
-    @State private var viewportSize = CGSize(width: 402, height: 760)
     @Namespace private var glass
     @Environment(\.colorScheme) private var colorScheme
     @AppStorage("studio.tilt") private var tiltEnabled = true
@@ -98,16 +110,27 @@ struct StudioEditor: View {
                 .background(Color(uiColor: ElementStudioRenderer.background))
             }
             .ignoresSafeArea(.container, edges: .bottom)
-            .onGeometryChange(for: CGSize.self) { $0.size } action: { viewportSize = $0 }
             .toolbar(editing ? .visible : .hidden, for: .bottomBar)
             .navigationTitle(editing ? settings.selectionName : "Collections").navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if editing {
+                    ToolbarSpacer(.flexible, placement: .bottomBar)
                     ToolbarItem(placement: .bottomBar) {
-                        toolDock(maxHeight: viewportSize.height * 0.43)
-                            .frame(width: min(540, max(280, viewportSize.width - 32)))
-                            .matchedTransitionSource(id: "studio-tools", in: glass)
+                        toolButton(.surface)
                     }
+                    ToolbarSpacer(.fixed, placement: .bottomBar)
+                    ToolbarItem(placement: .bottomBar) {
+                        toolButton(.light)
+                    }
+                    ToolbarSpacer(.fixed, placement: .bottomBar)
+                    ToolbarItem(placement: .bottomBar) {
+                        toolButton(.form)
+                    }
+                    ToolbarSpacer(.fixed, placement: .bottomBar)
+                    ToolbarItem(placement: .bottomBar) {
+                        resetButton.accessibilityHidden(panel != nil)
+                    }
+                    ToolbarSpacer(.flexible, placement: .bottomBar)
                     ToolbarItem(placement: .topBarLeading) {
                         Button("Close studio", systemImage: "arrow.left") {
                             panel = nil
@@ -160,9 +183,10 @@ struct StudioEditor: View {
         .onChange(of: collection) { _, value in renderer.showObjects(value?.objects) }
         .onChange(of: scenePhase, initial: true) { _, value in renderer.setActive(value == .active) }
         .onDisappear { renderer.setActive(false); library.persist() }
-        .sheet(isPresented: toolPresentation, onDismiss: {
+        .sheet(item: $panel, onDismiss: {
+            renderer.setControlInset(64)
             if let action = pendingAction { pendingAction = nil; performAfterTools(action) }
-        }) { toolControls }
+        }) { tool in toolControls(for: tool) }
         .sheet(isPresented: $newCollection) { CollectionEditor(library: library, collection: nil) }
         .sheet(isPresented: $editCollection) { CollectionEditor(library: library, collection: collection) }
         .confirmationDialog("Delete this collection? Saved looks will remain.", isPresented: $deleteCollection, titleVisibility: .visible) {
@@ -201,15 +225,12 @@ struct StudioEditor: View {
         var collection = value; collection.arrangement = .collection
         await renderer.load(collection)
     }
-    private func toolDock(maxHeight: CGFloat) -> some View {
-        HStack(spacing: 0) {
-            ForEach([("Surface", "paintpalette"), ("Light", "light.max"), ("Form", "cube")], id: \.0) { title, symbol in
-                Button { changeTool(title) } label: {
-                    Label(title, systemImage: symbol).frame(maxWidth: .infinity, minHeight: 44)
-                }.accessibilityIdentifier("panel-" + title)
-            }
-            resetButton
-        }.padding(4).accessibilityHidden(panel != nil)
+    private func toolButton(_ tool: StudioTool) -> some View {
+        Button(tool.rawValue, systemImage: tool.symbol) { changeTool(tool) }
+            .labelStyle(.iconOnly)
+            .frame(width: 44, height: 44)
+            .matchedTransitionSource(id: tool, in: glass)
+            .accessibilityIdentifier("panel-" + tool.rawValue)
     }
     private func performAfterTools(_ action: String) {
         if panel != nil { pendingAction = action; changeTool(nil); return }
@@ -220,25 +241,22 @@ struct StudioEditor: View {
             catch { library.message = error.localizedDescription; sharing = false }
         }
     }
-    private var toolPresentation: Binding<Bool> {
-        Binding(get: { panel != nil }, set: { if !$0 { changeTool(nil) } })
-    }
-    private var toolControls: some View {
+    private func toolControls(for tool: StudioTool) -> some View {
         VStack(spacing: 12) {
             HStack {
                 Button("Tools", systemImage: "chevron.down") { changeTool(nil) }
                     .labelStyle(.iconOnly).frame(width: 44, height: 44).accessibilityIdentifier("all-tools")
                 Spacer()
-                Text(panel ?? "Surface").font(.headline)
+                Text(tool.rawValue).font(.headline)
                 Spacer()
                 resetButton
             }
-            ScrollView { StudioInspector(settings: $settings, renderer: renderer, panel: panel ?? "Surface").padding(.bottom, 8) }
+            ScrollView { StudioInspector(settings: $settings, renderer: renderer, panel: tool.rawValue).padding(.bottom, 8) }
         }.padding(.horizontal, 20).padding(.top, 12)
-        .presentationDetents([.height(panel == "Light" ? 240 : 300)])
+        .presentationDetents([.height(tool.height)])
         .presentationDragIndicator(.hidden)
         .presentationBackgroundInteraction(.enabled)
-        .navigationTransition(.zoom(sourceID: "studio-tools", in: glass))
+        .navigationTransition(.zoom(sourceID: tool, in: glass))
     }
     private var resetButton: some View {
         Button("Reset edits", systemImage: "arrow.counterclockwise") {
@@ -251,8 +269,8 @@ struct StudioEditor: View {
             renderer.resetObject()
         }.labelStyle(.iconOnly).frame(width: 44, height: 44).accessibilityIdentifier("reset-object")
     }
-    private func changeTool(_ value: String?) {
-        renderer.setControlInset(value == nil ? 64 : value == "Light" ? 272 : 332)
+    private func changeTool(_ value: StudioTool?) {
+        renderer.setControlInset(value.map { $0.height + 32 } ?? 64)
         panel = value
     }
 }
