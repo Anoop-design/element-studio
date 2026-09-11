@@ -1,0 +1,4 @@
+*.bin binary
+*.png binary
+*.metal text eol=lf
+*.swift text eol=lf
