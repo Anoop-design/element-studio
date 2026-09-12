@@ -78,11 +78,13 @@ private struct StudioParameterSlider: View {
     @State private var detent = 0
     @State private var enteringValue = false
     @State private var text = ""
+    @Environment(\.dynamicTypeSize) private var typeSize
     var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .center) {
+            let valueLayout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 0)) : AnyLayout(HStackLayout(alignment: .center))
+            valueLayout {
                 Text(parameter.title).font(.subheadline.weight(.medium))
-                Spacer(minLength: 8)
+                if !typeSize.isAccessibilitySize { Spacer(minLength: 8) }
                 Button { text = parameter.entryText(value); enteringValue = true } label: {
                     Text(parameter.display(value)).font(.subheadline.monospacedDigit())
                         .contentTransition(.numericText()).frame(minWidth: 58, minHeight: 44, alignment: .trailing)
@@ -112,7 +114,12 @@ private struct StudioParameterSlider: View {
                     atOriginal = reached
                 }
                 .sensoryFeedback(.selection, trigger: detent)
-            HStack { Text(parameter.ends.0); Spacer(); Text(parameter.ends.1) }
+            let endpointLayout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 3)) : AnyLayout(HStackLayout())
+            endpointLayout {
+                Text(parameter.ends.0)
+                if !typeSize.isAccessibilitySize { Spacer() }
+                Text(parameter.ends.1)
+            }
                 .font(.caption2).foregroundStyle(.secondary).padding(.top, 3).accessibilityHidden(true)
         }
         .alert("Set " + parameter.title.lowercased(), isPresented: $enteringValue) {
@@ -168,7 +175,10 @@ struct StudioCompareButton: UIViewRepresentable {
         var config = UIButton.Configuration.plain()
         config.image = UIImage(systemName: "circle.lefthalf.filled"); config.imagePadding = 7
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var result = incoming; result.font = .preferredFont(forTextStyle: .subheadline); return result
+            var result = incoming
+            // This compact toolbar action follows the same text ceiling as native chrome.
+            result.font = UIFontMetrics(forTextStyle: .subheadline).scaledFont(for: .systemFont(ofSize: 15), maximumPointSize: 23)
+            return result
         }
         button.configuration = config
         button.addTarget(button, action: #selector(CompareControl.down), for: .touchDown)

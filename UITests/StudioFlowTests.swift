@@ -248,6 +248,53 @@ import XCTest
         XCTAssertEqual(app.buttons["edit-color"].value as? String, "Original colors")
     }
 
+    func testFormFitsAndSurvivesRepeatedAdjustments() {
+        let app = XCUIApplication()
+        app.launchEnvironment = ["STUDIO_REVIEW":"1"]
+        app.launchArguments = ["-studio.appearance", "Light"]
+        app.launch()
+        XCTAssertTrue(app.buttons["element-pennant"].waitForExistence(timeout: 60))
+        for id in ["pennant", "memory", "returning", "collection"] {
+            app.buttons["element-" + id].tap()
+            app.buttons["panel-Form"].tap()
+            let mesh = app.switches["Show mesh"]
+            XCTAssertTrue(mesh.waitForExistence(timeout: 5))
+            let controls = app.scrollViews["tool-controls"]
+            XCTAssertGreaterThanOrEqual(mesh.frame.minY, controls.frame.minY)
+            XCTAssertLessThanOrEqual(mesh.frame.maxY, controls.frame.maxY - 3, "The full mesh toggle must fit without scrolling")
+            XCTAssertLessThan(mesh.frame.maxY, app.buttons["compare-original"].frame.minY)
+            XCTAssertTrue(mesh.isHittable)
+            if id == "pennant" { capture("Form complete without scrolling") }
+            for position in [CGFloat(1), 0, 0.8, 0.2] {
+                app.sliders["Depth"].adjust(toNormalizedSliderPosition: position)
+                app.sliders["Separate components"].adjust(toNormalizedSliderPosition: 1 - position)
+                mesh.tap()
+                XCTAssertEqual(app.state, .runningForeground)
+                XCTAssertTrue(app.buttons["compare-original"].isHittable)
+            }
+            app.buttons["close-studio"].tap()
+            XCTAssertTrue(app.buttons["element-" + id].waitForExistence(timeout: 5))
+        }
+    }
+
+    func testFormAdaptsToLargeText() {
+        let app = XCUIApplication()
+        app.launchEnvironment = ["STUDIO_REVIEW":"1"]
+        app.launchArguments = ["-studio.appearance", "Dark", "-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]
+        app.launch()
+        XCTAssertTrue(app.buttons["element-pennant"].waitForExistence(timeout: 60))
+        app.buttons["element-pennant"].tap(); app.buttons["panel-Form"].tap()
+        let mesh = app.switches["Show mesh"]
+        XCTAssertTrue(mesh.waitForExistence(timeout: 5))
+        let controls = app.scrollViews["tool-controls"]
+        if !mesh.isHittable || mesh.frame.maxY > controls.frame.maxY { controls.swipeUp() }
+        XCTAssertTrue(mesh.isHittable)
+        XCTAssertGreaterThanOrEqual(mesh.frame.minX, controls.frame.minX)
+        XCTAssertLessThanOrEqual(mesh.frame.maxX, controls.frame.maxX)
+        XCTAssertTrue(app.buttons["compare-original"].isHittable)
+        capture("Form with accessibility text")
+    }
+
     func testFocusReturnsToExactCollectionFraming() {
         let app = XCUIApplication()
         app.launchEnvironment = ["STUDIO_REVIEW":"1"]

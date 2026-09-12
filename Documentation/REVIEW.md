@@ -1,5 +1,19 @@
 # Element Studio interaction review
 
+## Form layout and rendering follow-up — 12 September 2026
+
+Form sheets now measure their controls instead of using a fixed height. The native mesh switch has horizontal breathing room, the last row fits above Compare at ordinary text sizes, and the scroll view is disabled when its content fits. Accessibility text uses stacked parameter/value and endpoint labels with scrolling only when needed. Header and Compare remain compact tool actions.
+
+The focused editor disables surrounding roots once their fade completes. Unchanged orientation and part-separation transforms are cached, lighting is only updated when its inputs change, and gyro values feed the renderer directly instead of invalidating the active SwiftUI editor twice per sample. Live rendering allows two GPU frames in flight and coalesces additional requests. Snapshot capture waits for live submissions before changing the shared renderer projection.
+
+The reported crash occurred while adjusting Form. No matching Element Studio crash report was available in the device diagnostics, and the first 720-adjustment replay completed without a crash. These are rendering safeguards and regression checks, not a confirmed diagnosis of that reported termination. Instruments listed the connected phone as offline and could not attach; no Instruments profile or measured frame-rate claim is made.
+
+Both optimized-device replay runs completed all 720 updates across First distance, Memory locket, Comeback and Collection crest. The sequence changes depth and separation, toggles mesh, and closes directly from Form. Baseline versus updated p95 intervals were 17.50 ms and 17.45 ms; these include an intentional 16 ms delay and do not establish a significant speedup or measure frame rate. Both runs completed in approximately 20.9 seconds without a crash. The renderer changes remove identified redundant work and bound submissions; further Instruments analysis still needs a working device connection.
+
+Validation: 20 unit tests passed (11.098 seconds) and five UI flows passed together with zero failures (425.260 seconds) in `StudioFormFinalVerification.xcresult`. The UI run covers the complete 16-object catalogue, Save/relaunch, Share, rotation, exact collection framing, normal and accessibility Form layout, repeated depth/separation/mesh adjustments across four shapes, and precise editing/undo/compare/export. The full native mesh switch fits both horizontally and vertically. Actual captures were reviewed after the tests; [Form controls](form-complete.png) and [accessibility text](form-accessibility.png) show the completed layout. A final foreground-resume synchronization keeps the renderer aligned with the current gyro state after backgrounding.
+
+The final signed Debug build also completed the full 720-adjustment replay on the iPhone 16 Pro Max (20.90 seconds, p95 interval 17.67 ms including the 16 ms delay), with no crash or render error in its monitored console. A device screenshot after the replay confirmed that the complete shaded collection returned. The app was then relaunched normally with the owner’s original library. Device captures, console logs, timing data and library backups remain in the ignored Review directory.
+
 ## Open and close refinement — 12 September 2026
 
 Opening now follows a native, critically damped spring in projected position and apparent size. The selected object grows directly from its collection position with a quicker response and a soft landing. Surrounding objects fade early enough to avoid enlarged shapes lingering behind it. The rendered rotation stays continuous, and a reversed or retargeted camera carries its current position and velocity.

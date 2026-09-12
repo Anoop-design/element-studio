@@ -2,7 +2,8 @@ import SwiftUI
 
 @main
 struct ElementStudioApp: App {
-    @State private var library = StudioLibrary()
+    @State private var library = StudioLibrary(url: ProcessInfo.processInfo.environment["STUDIO_REVIEW"] == "1"
+        ? URL.cachesDirectory.appending(path: "ElementStudio-review-library.json") : nil)
     @AppStorage("studio.appearance") private var appearance = "System"
     var body: some Scene {
         WindowGroup { StudioRoot(library: library).preferredColorScheme(appearance == "Light" ? .light : appearance == "Dark" ? .dark : nil).tint(Color("AccentColor")) }
@@ -73,6 +74,7 @@ struct StudioEditor: View {
     @State private var settings = ElementStudioSettings()
     @State private var renderer = ElementStudioRenderer()
     @State private var panel: StudioTool?
+    @State private var toolHeights: [StudioTool: CGFloat] = [:]
     @State private var closingTools = false
     @State private var saveSheet = false
     @State private var sharing = false
@@ -188,10 +190,9 @@ struct StudioEditor: View {
             ready = true
             if !startsInCollection { openObject(initial.selected) }
         }
+        .task(id: ready) { if ready { await replayFormAdjustments() } }
         .onChange(of: reduceMotion) { _, value in settings.reduceMotion = value }
         .onChange(of: colorScheme, initial: true) { _, value in renderer.setAppearance(dark: value == .dark) }
-        .onChange(of: StudioMotion.shared.x) { _, value in renderer.setTilt(x: value, y: StudioMotion.shared.y) }
-        .onChange(of: StudioMotion.shared.y) { _, value in renderer.setTilt(x: StudioMotion.shared.x, y: value) }
         .onChange(of: settings) { _, value in
             if ready { history.observe(value); renderer.apply(value); library.updateWorkspace(value) }
         }
@@ -232,6 +233,41 @@ struct StudioEditor: View {
         .sheet(isPresented: $sharing) {
             StudioShareView(renderer: renderer, name: settings.selectionName)
         }
+    }
+
+    // Explicit local QA replay uses the isolated review library, never the user's looks.
+    private func replayFormAdjustments() async {
+        guard ProcessInfo.processInfo.environment["STUDIO_REVIEW"] == "1",
+              ProcessInfo.processInfo.environment["STUDIO_FORM_REPLAY"] == "1" else { return }
+        do {
+            try await Task.sleep(for: .seconds(8))
+            var gaps: [Double] = []
+            let start = ProcessInfo.processInfo.systemUptime
+            let firstFrame = renderer.frameCount
+            for id in ["pennant", "memory", "returning", "collection"] {
+                openObject(id); changeTool(.form)
+                try await Task.sleep(for: .seconds(1))
+                var previous = ProcessInfo.processInfo.systemUptime
+                for step in 0..<180 {
+                    try Task.checkCancellation()
+                    let amount = (sin(Double(step) * .pi / 45) + 1) / 2
+                    settings.thickness = 0.5 + amount * 1.3
+                    settings.explode = amount
+                    if step % 60 == 0 { renderer.setMeshInspection(!renderer.showsMesh) }
+                    try await Task.sleep(for: .milliseconds(16))
+                    let now = ProcessInfo.processInfo.systemUptime
+                    gaps.append((now - previous) * 1000); previous = now
+                }
+                closeObject()
+                try await Task.sleep(for: .seconds(1))
+            }
+            gaps.sort()
+            let result: [String: Any] = ["updates": gaps.count, "elapsed": ProcessInfo.processInfo.systemUptime - start,
+                "frames": renderer.frameCount - firstFrame, "p50UpdateMS": gaps[gaps.count / 2],
+                "p95UpdateMS": gaps[Int(Double(gaps.count - 1) * 0.95)], "maxUpdateMS": gaps.last ?? 0]
+            let data = try JSONSerialization.data(withJSONObject: result, options: [.prettyPrinted, .sortedKeys])
+            try data.write(to: URL.cachesDirectory.appending(path: "ElementStudio-form-replay.json"), options: .atomic)
+        } catch { }
     }
 
     private func closeObject() {
@@ -283,16 +319,32 @@ struct StudioEditor: View {
                 Text(tool.rawValue).font(.headline)
                 Spacer()
                 resetButton
-            }
-            ScrollView {
-                StudioInspector(settings: $settings, renderer: renderer, panel: tool.rawValue,
-                                beginEdit: { history.begin(settings, name: $0) }, endEdit: { history.end(settings) })
-                    .padding(.bottom, 4)
+            }.dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+            GeometryReader { viewport in
+                ScrollView {
+                    StudioInspector(settings: $settings, renderer: renderer, panel: tool.rawValue,
+                                    beginEdit: { history.begin(settings, name: $0) }, endEdit: { history.end(settings) })
+                        .padding(.horizontal, 8)
+                        .frame(width: viewport.size.width)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.bottom, 4)
+                        .onGeometryChange(for: CGFloat.self, of: { ceil($0.size.height) }) { height in
+                            // Fit the actual controls, including Dynamic Type and native switch metrics.
+                            let fitted = height + 140
+                            guard toolHeights[tool] != fitted else { return }
+                            toolHeights[tool] = fitted
+                            if panel == tool { renderer.setControlInset(fitted + 32) }
+                        }
+                }
+                .scrollIndicators(.hidden)
+                .scrollBounceBehavior(.basedOnSize)
+                .scrollDisabled((toolHeights[tool] ?? tool.height) - 140 <= viewport.size.height + 1)
+                .accessibilityIdentifier("tool-controls")
             }
             StudioCompareButton(comparing: renderer.comparingOriginal, changed: renderer.compareOriginal)
-                .frame(height: 44).padding(.bottom, 4)
-        }.padding(.horizontal, 20).padding(.top, 12)
-        .presentationDetents([.height(tool.height)])
+                .frame(height: 44)
+        }.padding(.horizontal, 20).padding(.top, 12).padding(.bottom, 16)
+        .presentationDetents([.height(toolHeights[tool] ?? tool.height)])
         .presentationDragIndicator(.hidden)
         .presentationBackgroundInteraction(.enabled)
         .navigationTransition(.zoom(sourceID: tool, in: glass))
@@ -326,7 +378,7 @@ struct StudioEditor: View {
     }
     private func changeTool(_ value: StudioTool?) {
         renderer.compareOriginal(false)
-        renderer.setControlInset(value.map { $0.height + 32 } ?? 64)
+        renderer.setControlInset(value.map { (toolHeights[$0] ?? $0.height) + 32 } ?? 64)
         panel = value
     }
 }

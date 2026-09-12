@@ -88,6 +88,9 @@ final class ElementStudioRenderer {
     @ObservationIgnored private var outputSize: CGSize?
     @ObservationIgnored private var loadIdentity = UUID()
     @ObservationIgnored private var lastFrame: CFTimeInterval = 0
+    @ObservationIgnored private var framesInFlight = 0
+    @ObservationIgnored private var redrawPending = false
+    @ObservationIgnored private var snapshotting = false
     @ObservationIgnored private var animation: Turn?
     @ObservationIgnored private var yaw: Float = -0.16
     @ObservationIgnored private var pitch: Float = 0.055
@@ -98,10 +101,15 @@ final class ElementStudioRenderer {
     @ObservationIgnored private var reportedFrame = false
     @ObservationIgnored private(set) var loadStage = "starting"
 
-    struct Assembly {
+    final class Assembly {
         let root: Entity
         let asset: ElementStudioAsset
         let models: [(ModelEntity, ElementStudioAsset.Batch)]
+        var lastSeparation: Float?
+        var lastOrientation: simd_quatf?
+        init(root: Entity, asset: ElementStudioAsset, models: [(ModelEntity, ElementStudioAsset.Batch)]) {
+            self.root = root; self.asset = asset; self.models = models
+        }
         var objectID: String { ElementStudioSettings.choices.first { asset.id == $0.id || asset.id.hasPrefix($0.id + "-") }?.id ?? asset.id }
     }
     private struct Turn {
@@ -257,14 +265,16 @@ final class ElementStudioRenderer {
         if settings.reduceMotion, let turn = animation {
             yaw = turn.to.x; pitch = turn.to.y; animation = nil
         }
-        var ibl = light.components[ImageBasedLightComponent.self]
-        ibl?.intensityExponent = Float(log2(settings.brightness)) + 0.35
-        if let ibl { light.components.set(ibl) }
-        light.orientation = simd_quatf(angle: Float(settings.light + 35) * .pi / 180, axis: [0, 1, 0])
-        let angle = Float(settings.light) * .pi / 180
-        key.look(at: .zero, from: [sin(angle) * 4, 4, cos(angle) * 4], relativeTo: nil)
-        key.light.intensity = 4200 * Float(settings.brightness)
-        fill.light.intensity = 1300 * Float(settings.brightness)
+        if forceMaterials || previous.brightness != settings.brightness || previous.light != settings.light {
+            var ibl = light.components[ImageBasedLightComponent.self]
+            ibl?.intensityExponent = Float(log2(settings.brightness)) + 0.35
+            if let ibl { light.components.set(ibl) }
+            light.orientation = simd_quatf(angle: Float(settings.light + 35) * .pi / 180, axis: [0, 1, 0])
+            let angle = Float(settings.light) * .pi / 180
+            key.look(at: .zero, from: [sin(angle) * 4, 4, cos(angle) * 4], relativeTo: nil)
+            key.light.intensity = 4200 * Float(settings.brightness)
+            fill.light.intensity = 1300 * Float(settings.brightness)
+        }
         let background = darkAppearance ? UIColor.black : UIColor(white: 0.97, alpha: 1)
         renderer?.cameraSettings.colorBackground = .color(background.cgColor)
         updateTransforms()
@@ -292,10 +302,15 @@ final class ElementStudioRenderer {
     /// A single shared thumbnail renderer uses this offscreen path serially. The
     /// resulting image is cached in memory; neither history nor photos are written out.
     func snapshot(size: CGSize = CGSize(width: 360, height: 300), transparent: Bool = false) async throws -> UIImage {
-        guard !loading, let renderer, let device = MTLCreateSystemDefaultDevice() else { throw CocoaError(.coderInvalidValue) }
+        guard !loading, !snapshotting, let renderer, let device = MTLCreateSystemDefaultDevice() else { throw CocoaError(.coderInvalidValue) }
+        snapshotting = true
+        defer { snapshotting = false; outputSize = nil; apply(settings) }
+        // A snapshot shares RealityRenderer with the live view. Let submitted frames
+        // finish before changing its projection and keep live draws out of this pass.
+        while framesInFlight > 0 { try await Task.sleep(for: .milliseconds(2)) }
+        try Task.checkCancellation()
         outputSize = size; updateTransforms()
         if transparent { renderer.cameraSettings.colorBackground = .color(UIColor.clear.cgColor) }
-        defer { outputSize = nil; apply(settings) }
         let descriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .bgra8Unorm_srgb,
             width: Int(size.width), height: Int(size.height), mipmapped: false)
         descriptor.storageMode = .shared
@@ -322,7 +337,10 @@ final class ElementStudioRenderer {
 
     func setAppearance(dark: Bool) { darkAppearance = dark; apply(settings); view?.backgroundColor = dark ? .black : UIColor(white: 0.97, alpha: 1) }
     func setTilt(x: Double, y: Double) {
-        tilt = settings.reduceMotion ? .zero : SIMD2(Float(x), Float(y))
+        guard isActive else { return }
+        let next = settings.reduceMotion ? SIMD2<Float>.zero : SIMD2(Float(x), Float(y))
+        guard next != tilt else { return }
+        tilt = next
         updateTransforms(); invalidate()
     }
 
@@ -375,13 +393,21 @@ final class ElementStudioRenderer {
             if assembly.root.components[OpacityComponent.self]?.opacity != presentation.opacity {
                 assembly.root.components.set(OpacityComponent(opacity: presentation.opacity))
             }
+            let enabled = presentation.opacity > 0
+            if assembly.root.isEnabled != enabled { assembly.root.isEnabled = enabled }
+            guard enabled else { continue }
             let scale: Float = active.count == 1 ? 1 : 0.40
             let dimensions = SIMD3<Float>(scale, scale, scale * presentation.thickness)
             if assembly.root.scale != dimensions { assembly.root.scale = dimensions }
-            assembly.root.orientation = simd_quatf(angle: yaw + tilt.x, axis: [0, 1, 0]) * simd_quatf(angle: pitch + tilt.y, axis: [1, 0, 0])
-            for (model, batch) in assembly.models {
-                let offset = SIMD3(batch.explode[0], batch.explode[1], batch.explode[2]) * presentation.separation
-                if model.position != offset { model.position = offset }
+            let orientation = simd_quatf(angle: yaw + tilt.x, axis: [0, 1, 0]) * simd_quatf(angle: pitch + tilt.y, axis: [1, 0, 0])
+            if assembly.lastOrientation?.vector != orientation.vector {
+                assembly.root.orientation = orientation; assembly.lastOrientation = orientation
+            }
+            if assembly.lastSeparation != presentation.separation {
+                for (model, batch) in assembly.models {
+                    model.position = SIMD3(batch.explode[0], batch.explode[1], batch.explode[2]) * presentation.separation
+                }
+                assembly.lastSeparation = presentation.separation
             }
         }
         view?.updateObjectAccessibility()
@@ -547,12 +573,15 @@ final class ElementStudioRenderer {
         if !active { compareOriginal(false) }
         isActive = active
         if !active { animation = nil; view?.isPaused = true }
-        else { invalidate() }
+        else {
+            setTilt(x: StudioMotion.shared.x, y: StudioMotion.shared.y)
+            updateTransforms(); invalidate()
+        }
     }
 
     func resize() { updateTransforms(); invalidate() }
     func invalidate() {
-        guard isActive, !loading else { return }
+        guard isActive, !loading, !snapshotting else { return }
         let settled = animation == nil && flight == nil && warmupFrames == 0
         view?.enableSetNeedsDisplay = settled
         view?.isPaused = settled
@@ -560,7 +589,11 @@ final class ElementStudioRenderer {
     }
 
     func draw(in view: MTKView) {
-        guard isActive, !loading, let renderer, let drawable = view.currentDrawable else { return }
+        guard isActive, !loading, !snapshotting, let renderer else { return }
+        // Never block the UI waiting for a third drawable during dense Form edits.
+        // Coalesce further requests and draw the latest state once the GPU catches up.
+        guard framesInFlight < 2 else { redrawPending = true; return }
+        guard let drawable = view.currentDrawable else { return }
         view.accessibilityValue = "Rotation \(Int(cameraState[0] * 180 / .pi)) degrees, zoom \(String(format: "%.2f", zoom))" + (comparingOriginal ? ", Original" : ", Edited")
         let now = CACurrentMediaTime()
         var finishedTurn = false
@@ -576,25 +609,32 @@ final class ElementStudioRenderer {
             if t >= 1 { animation = nil; yaw = turn.to.x; pitch = turn.to.y; finishedTurn = true }
             updateTransforms()
         }
+        var submitted = false
         do {
             let output = try RealityRenderer.CameraOutput(.singleProjection(colorTexture: drawable.texture))
             warmupFrames = max(0, warmupFrames - 1)
             let shouldReport = (!reportedFrame && warmupFrames == 0) || finishedTurn
             let identity = loadIdentity
             if shouldReport { reportedFrame = true }
+            framesInFlight += 1; submitted = true
             try renderer.updateAndRender(deltaTime: min(1.0 / 20.0, max(1.0 / 120, now - lastFrame)), cameraOutput: output,
                 whenScheduled: { _ in drawable.present() },
                 onComplete: { [weak self] _ in
-                    if shouldReport { Task { @MainActor in
-                        guard let self, self.loadIdentity == identity else { return }
-                        self.hasPresentedFrame = true
-                        self.view?.updateObjectAccessibility()
-                        self.report("rendered")
-                    } }
+                    Task { @MainActor in
+                        guard let self else { return }
+                        self.framesInFlight = max(0, self.framesInFlight - 1)
+                        if self.redrawPending { self.redrawPending = false; self.invalidate() }
+                        if shouldReport, self.loadIdentity == identity {
+                            self.hasPresentedFrame = true
+                            self.view?.updateObjectAccessibility()
+                            self.report("rendered")
+                        }
+                    }
                 })
             lastFrame = now; frameCount += 1
             if animation == nil && flight == nil && warmupFrames == 0 { view.isPaused = true; view.enableSetNeedsDisplay = true }
         } catch {
+            if submitted { framesInFlight = max(0, framesInFlight - 1) }
             self.error = "The native render was interrupted. \(error.localizedDescription)"
             report("error")
             view.isPaused = true
@@ -621,12 +661,14 @@ final class ElementStudioRenderer {
 
     func attach(_ newView: ElementStudioMetalView) {
         view = newView
+        StudioMotion.shared.add(self)
         resize()
     }
 
     func detach(_ oldView: ElementStudioMetalView) {
         guard view === oldView else { return }
         oldView.isPaused = true
+        StudioMotion.shared.remove(self)
         // Replacing a drawing surface must not invalidate the screen's in-flight load.
         animation = nil
         view = nil
@@ -732,13 +774,17 @@ final class ElementStudioMetalView: MTKView, MTKViewDelegate, UIGestureRecognize
 @MainActor @Observable
 final class StudioMotion {
     static let shared = StudioMotion()
-    var x = 0.0
-    var y = 0.0
+    private(set) var x = 0.0
+    private(set) var y = 0.0
     @ObservationIgnored private let manager = CMMotionManager()
     @ObservationIgnored private var reference: (Double, Double)?
+    @ObservationIgnored private let receivers = NSHashTable<ElementStudioRenderer>.weakObjects()
+    func add(_ renderer: ElementStudioRenderer) { receivers.add(renderer); renderer.setTilt(x: x, y: y) }
+    func remove(_ renderer: ElementStudioRenderer) { receivers.remove(renderer) }
+    private func publish() { for renderer in receivers.allObjects { renderer.setTilt(x: x, y: y) } }
     func setEnabled(_ enabled: Bool) {
         guard enabled else {
-            manager.stopDeviceMotionUpdates(); reference = nil; x = 0; y = 0; return
+            manager.stopDeviceMotionUpdates(); reference = nil; x = 0; y = 0; publish(); return
         }
         guard manager.isDeviceMotionAvailable, !manager.isDeviceMotionActive else { return }
         manager.deviceMotionUpdateInterval = 1.0 / 30
@@ -752,7 +798,7 @@ final class StudioMotion {
                 let targetX = min(0.22, max(-0.22, atan2(sin(roll-reference.0), cos(roll-reference.0)) * 0.5))
                 let targetY = min(0.18, max(-0.18, (pitch-reference.1) * 0.5))
                 let nextX = self.x + (targetX-self.x)*0.16, nextY = self.y + (targetY-self.y)*0.16
-                if abs(nextX-self.x) + abs(nextY-self.y) > 0.0006 { self.x = nextX; self.y = nextY }
+                if abs(nextX-self.x) + abs(nextY-self.y) > 0.0006 { self.x = nextX; self.y = nextY; self.publish() }
             }
         }
     }
