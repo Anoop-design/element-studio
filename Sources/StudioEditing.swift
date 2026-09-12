@@ -87,7 +87,7 @@ extension ElementStudioSettings {
         return result
     }
     var editingState: Self {
-        var value = self; value.camera = nil; value.wireframe = false; value.arrangement = .object
+        var value = self; value.camera = nil; value.wireframe = false; value.reduceMotion = false; value.arrangement = .object
         return value
     }
 }

@@ -48,7 +48,21 @@ final class ElementStudioRenderer {
     @ObservationIgnored private var pinchPoint = CGPoint.zero
     @ObservationIgnored private var controlInset: CGFloat = 64
     @ObservationIgnored private var visibleIDs: Set<String>?
-    private struct Flight { let start: Double; let from: SIMD3<Float>; let fromBlend: Float; let toBlend: Float; let object: String? }
+    private struct ObjectPresentation {
+        var opacity: Float = 1
+        var thickness: Float = 1
+        var separation: Float = 0
+    }
+    private struct Flight {
+        var path: StudioCameraTransition
+        let start: Double
+        let duration: TimeInterval
+        let fromBlend: Float
+        let toBlend: Float
+        let object: String?
+        let appearances: [String: ObjectPresentation]
+    }
+    @ObservationIgnored private var presentations: [String: ObjectPresentation] = [:]
     var isOverview: Bool { active.count > 1 && focusedID == nil }
     private var darkAppearance = false
     private var tilt = SIMD2<Float>.zero
@@ -105,7 +119,7 @@ final class ElementStudioRenderer {
         loadIdentity = token
         loading = true; error = nil; settings = newSettings; reportedFrame = false
         hasPresentedFrame = false; warmupFrames = 8
-        focusedID = nil; flight = nil; focusBlend = 0; cameraPan = .zero
+        focusedID = nil; flight = nil; focusBlend = 0; cameraPan = .zero; presentations = [:]
         let assetIDs = newSettings.assetIDs
         report("loading", stage: "starting")
         do {
@@ -238,7 +252,8 @@ final class ElementStudioRenderer {
                 objectAppearances[assembly.objectID] = appearance
             }
         }
-        if !preservePose, previous.explode == 0, settings.explode > 0 { animation = nil; yaw = -0.62; pitch = 0.12 }
+        if !preservePose, previous.selected == settings.selected, previous.explode == 0, settings.explode > 0 { animation = nil; yaw = -0.62; pitch = 0.12 }
+        if settings.reduceMotion { flight = nil; focusBlend = focusedID == nil ? 0 : 1 }
         if settings.reduceMotion, let turn = animation {
             yaw = turn.to.x; pitch = turn.to.y; animation = nil
         }
@@ -316,54 +331,98 @@ final class ElementStudioRenderer {
         for assembly in active {
             let index = visible.firstIndex { $0.objectID == assembly.objectID } ?? 0
             let position = active.count == 1 ? SIMD3<Float>.zero : StudioCameraGeometry.position(index: index, count: visible.count)
-            let scale: Float = active.count == 1 ? 1 : 0.40
             if assembly.root.position != position { assembly.root.position = position }
-            let highlighted = focusedID ?? flight?.object
-            let included = visibleIDs == nil || visibleIDs!.contains(assembly.objectID) || assembly.objectID == highlighted
-            let visibility: Float = included ? (highlighted == nil || assembly.objectID == highlighted ? 1 : 1 - (outputSize == nil ? focusBlend : 1)) : 0
-            if assembly.root.components[OpacityComponent.self]?.opacity != visibility { assembly.root.components.set(OpacityComponent(opacity: visibility)) }
-            let dimensions = SIMD3<Float>(scale, scale, scale * (assembly.objectID == focusedID || active.count == 1 ? Float(settings.thickness) : 1))
-            if assembly.root.scale != dimensions { assembly.root.scale = dimensions }
-            assembly.root.orientation = simd_quatf(angle: yaw + tilt.x, axis: [0, 1, 0]) * simd_quatf(angle: pitch + tilt.y, axis: [1, 0, 0])
-            for (model, batch) in assembly.models {
-                let offset = SIMD3(batch.explode[0], batch.explode[1], batch.explode[2]) * (assembly.objectID == focusedID || active.count == 1 ? Float(settings.explode) : 0)
-                if model.position != offset { model.position = offset }
-            }
         }
         let size = outputSize ?? view?.bounds.size ?? CGSize(width: 400, height: 320)
         guard size.width > 0, size.height > 0 else { return }
+        let target = cameraTarget(size: size, visibleCount: visible.count, clampPan: outputSize == nil)
+        let now = CACurrentMediaTime()
+        var progress: Float = 1
+        var transition = flight
+        if var moving = transition, outputSize == nil {
+            if simd_distance(moving.path.to, target) > 0.00001 {
+                moving.path = moving.path.retarget(to: target, at: now)
+                flight = moving; transition = moving
+            }
+            camera.position = moving.path.sample(at: now).position
+            progress = min(1, max(0, Float(Spring(settlingDuration: moving.duration, dampingRatio: 1).value(target: 1.0, time: now - moving.start))))
+            focusBlend = moving.fromBlend + (moving.toBlend - moving.fromBlend) * progress
+            if now - moving.path.start >= moving.path.duration {
+                camera.position = target; focusBlend = moving.toBlend
+                flight = nil; transition = nil; progress = 1
+            }
+        } else { camera.position = target }
+
+        for assembly in active {
+            let id = assembly.objectID
+            let included = visibleIDs == nil || visibleIDs!.contains(id) || id == focusedID
+            let focused = id == focusedID || active.count == 1
+            let final = ObjectPresentation(opacity: included ? (focusedID == nil || focused ? 1 : 0) : 0,
+                                           thickness: focused ? Float(settings.thickness) : 1,
+                                           separation: focused ? Float(settings.explode) : 0)
+            var presentation = final
+            if outputSize == nil, let initial = transition?.appearances[id] {
+                // Clear the surrounding collection early, before its magnified shapes
+                // can distract from the selected object's continuous path.
+                let fadingOut = final.opacity < initial.opacity
+                let fade = fadingOut ? min(1, progress * 1.6) : progress
+                let opacityProgress = fadingOut ? fade * fade * (3 - 2 * fade) : fade
+                presentation.opacity = initial.opacity + (final.opacity - initial.opacity) * opacityProgress
+                presentation.thickness = initial.thickness + (final.thickness - initial.thickness) * progress
+                presentation.separation = initial.separation + (final.separation - initial.separation) * progress
+            }
+            if outputSize == nil { presentations[id] = presentation }
+            if assembly.root.components[OpacityComponent.self]?.opacity != presentation.opacity {
+                assembly.root.components.set(OpacityComponent(opacity: presentation.opacity))
+            }
+            let scale: Float = active.count == 1 ? 1 : 0.40
+            let dimensions = SIMD3<Float>(scale, scale, scale * presentation.thickness)
+            if assembly.root.scale != dimensions { assembly.root.scale = dimensions }
+            assembly.root.orientation = simd_quatf(angle: yaw + tilt.x, axis: [0, 1, 0]) * simd_quatf(angle: pitch + tilt.y, axis: [1, 0, 0])
+            for (model, batch) in assembly.models {
+                let offset = SIMD3(batch.explode[0], batch.explode[1], batch.explode[2]) * presentation.separation
+                if model.position != offset { model.position = offset }
+            }
+        }
+        view?.updateObjectAccessibility()
+    }
+
+    private func cameraTarget(size: CGSize, visibleCount: Int, clampPan: Bool) -> SIMD3<Float> {
         let focus = active.first { $0.objectID == focusedID }
         let inset = focus != nil && outputSize == nil ? min(controlInset, size.height * 0.55) : 0
         let visibleHeight = max(1, size.height - inset)
         let aspect = Float(size.width / visibleHeight)
-        let bounds = focus != nil ? SIMD2<Float>(1.10, 1.22) : active.count == 1 ? SIMD2<Float>(2.75, 2.95) : StudioCameraGeometry.bounds(count: visible.count)
-        let span = bounds.y
-        let horizontal = bounds.x
-        let fit = max(span, horizontal / max(0.3, aspect)) * Float(size.height / visibleHeight) * (1 + Float(settings.explode) * 0.15)
+        let bounds = focus != nil ? SIMD2<Float>(1.10, 1.22) : active.count == 1 ? SIMD2<Float>(2.75, 2.95) : StudioCameraGeometry.bounds(count: visibleCount)
+        let separation = focus != nil || active.count == 1 ? Float(settings.explode) : 0
+        let fit = max(bounds.y, bounds.x / max(0.3, aspect)) * Float(size.height / visibleHeight) * (1 + separation * 0.15)
         let center = focus?.root.position ?? .zero
         let distance = fit / (2 * tan(17 * .pi / 180)) / zoom
         let lift = Float(inset / size.height) * distance * tan(17 * .pi / 180)
-        if outputSize == nil {
+        if clampPan {
             let visibleSpan = SIMD2<Float>(distance * 2 * tan(17 * .pi / 180) * Float(size.width / size.height), distance * 2 * tan(17 * .pi / 180) * Float(visibleHeight / size.height))
             cameraPan = StudioCameraGeometry.clamp(pan: cameraPan, content: bounds, visible: visibleSpan)
         }
-        let target = SIMD3<Float>(center.x + cameraPan.x, center.y + cameraPan.y - lift, distance)
-        if let flight, outputSize == nil {
-            let t = Float(min(1, (CACurrentMediaTime() - flight.start) / 0.42))
-            let eased = t * t * t * (t * (t * 6 - 15) + 10)
-            let anchor = active.first { $0.objectID == flight.object }?.root.position ?? .zero
-            camera.position = StudioCameraGeometry.flight(from: flight.from, to: target, anchor: anchor, progress: eased)
-            focusBlend = flight.fromBlend + (flight.toBlend - flight.fromBlend) * eased
-        } else { camera.position = target }
-        view?.updateObjectAccessibility()
+        return [center.x + cameraPan.x, center.y + cameraPan.y - lift, distance]
+    }
+
+    private func beginFlight(object: String?, toBlend: Float, duration: TimeInterval) {
+        guard !settings.reduceMotion else { flight = nil; focusBlend = toBlend; return }
+        let now = CACurrentMediaTime()
+        let current = flight?.path.sample(at: now) ?? .init(position: camera.position, velocity: .zero)
+        let size = view?.bounds.size ?? CGSize(width: 400, height: 320)
+        guard size.width > 0, size.height > 0 else { return }
+        let count = active.filter { visibleIDs == nil || visibleIDs!.contains($0.objectID) }.count
+        let target = cameraTarget(size: size, visibleCount: count, clampPan: true)
+        let anchor = active.first { $0.objectID == object }?.root.position ?? .zero
+        let path = StudioCameraTransition(from: current.position, to: target, anchor: anchor,
+                                          initialVelocity: current.velocity, start: now, duration: duration)
+        flight = Flight(path: path, start: now, duration: duration, fromBlend: focusBlend, toBlend: toBlend, object: object, appearances: presentations)
     }
 
     func setControlInset(_ height: CGFloat) {
         guard abs(controlInset - height) > 1 else { return }
         controlInset = height
-        if focusedID != nil, !settings.reduceMotion {
-            flight = Flight(start: CACurrentMediaTime(), from: camera.position, fromBlend: focusBlend, toBlend: 1, object: focusedID)
-        }
+        if focusedID != nil { beginFlight(object: focusedID, toBlend: 1, duration: 0.36) }
         updateTransforms(); invalidate()
     }
 
@@ -399,24 +458,21 @@ final class ElementStudioRenderer {
         guard !loading else { return }
         setMeshInspection(false)
         let previous = focusedID
-        if previous == nil { savedOverview = (zoom, cameraPan) }
-        let from = camera.position
+        if previous == nil, flight == nil { savedOverview = (zoom, cameraPan) }
         focusedID = id
         if id == nil { zoom = savedOverview.0; cameraPan = savedOverview.1 }
         else { if !preservePose { zoom = 1 }; cameraPan = .zero }
         animation = nil
-        if settings.reduceMotion { focusBlend = id == nil ? 0 : 1; flight = nil }
-        else { flight = Flight(start: CACurrentMediaTime(), from: from, fromBlend: focusBlend, toBlend: id == nil ? 0 : 1, object: id ?? previous) }
+        beginFlight(object: id ?? previous, toBlend: id == nil ? 0 : 1, duration: id == nil ? 0.46 : 0.54)
         updateTransforms(); invalidate()
     }
 
     func resetOverview() { zoom = 1; cameraPan = .zero; pose(-0.28) }
     func resetObject() {
         setMeshInspection(false)
-        let from = camera.position
         zoom = 1; cameraPan = .zero
+        beginFlight(object: focusedID, toBlend: 1, duration: 0.40)
         pose(-0.28)
-        if !settings.reduceMotion { flight = Flight(start: CACurrentMediaTime(), from: from, fromBlend: focusBlend, toBlend: 1, object: focusedID) }
         updateTransforms(); invalidate()
     }
     func showObjects(_ ids: [String]?) { visibleIDs = ids.map(Set.init); updateTransforms(); invalidate() }
@@ -508,11 +564,9 @@ final class ElementStudioRenderer {
         view.accessibilityValue = "Rotation \(Int(cameraState[0] * 180 / .pi)) degrees, zoom \(String(format: "%.2f", zoom))" + (comparingOriginal ? ", Original" : ", Edited")
         let now = CACurrentMediaTime()
         var finishedTurn = false
-        if let flight {
+        if flight != nil {
             updateTransforms()
-            if CACurrentMediaTime() - flight.start >= 0.42 {
-                focusBlend = flight.toBlend; self.flight = nil; updateTransforms(); finishedTurn = true
-            }
+            finishedTurn = flight == nil
         }
         if let turn = animation {
             let t = min(1, max(0, (now - turn.start) / turn.duration))

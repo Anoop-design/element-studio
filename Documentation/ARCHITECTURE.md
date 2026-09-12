@@ -11,7 +11,7 @@ The iOS app is self-contained. It has no Swift Package Manager or CocoaPods depe
 - `Sources/StudioEditing.swift` owns parameter metadata, scoped appearance resets and UndoManager gesture transactions. History belongs to the focused editing session; camera changes and mesh inspection are excluded.
 - `Sources/StudioShareView.swift` captures once, previews Transparent/White/Black variants and shares a real PNG file with alpha preserved.
 - `Sources/ElementStudioRenderer.swift` owns the RealityKit scene and persistent Metal view. Warm assets once, update only changed state, and stop rendering when motion settles.
-- `Sources/StudioCameraGeometry.swift` contains tested layout, camera bounds and screen-space transition math.
+- `Sources/StudioCameraGeometry.swift` contains tested layout, camera bounds and `StudioCameraTransition`. The transition uses SwiftUI's native critically damped Spring in projected position and reciprocal depth, so apparent size follows the spring. Retargeting converts world velocity into the new projection, preserving continuity across a reversed or resized transition. The renderer interpolates each object's current opacity and form, while stored appearance remains untouched.
 
 New work uses `surfaceRevision: 1`. Missing revisions decode as nil so previously saved material response remains unchanged. Refined unit normals are prepared and cached once; slider updates select textures. Do not change the geometry edition to revise material response.
 

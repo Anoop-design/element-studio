@@ -73,6 +73,7 @@ struct StudioEditor: View {
     @State private var settings = ElementStudioSettings()
     @State private var renderer = ElementStudioRenderer()
     @State private var panel: StudioTool?
+    @State private var closingTools = false
     @State private var saveSheet = false
     @State private var sharing = false
     @State private var history = StudioEditHistory()
@@ -93,7 +94,7 @@ struct StudioEditor: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    private var editing: Bool { renderer.focusedID != nil }
+    private var editing: Bool { renderer.focusedID != nil || closingTools }
     private var collection: StudioCollection? { library.archive.collections.first { $0.id == selectedCollection } }
     var body: some View {
         NavigationStack {
@@ -134,11 +135,8 @@ struct StudioEditor: View {
                     }
                     ToolbarSpacer(.flexible, placement: .bottomBar)
                     ToolbarItem(placement: .topBarLeading) {
-                        Button("Close studio", systemImage: "arrow.left") {
-                            renderer.compareOriginal(false)
-                            panel = nil
-                            if startsInCollection { renderer.focus(on: nil) } else { dismiss() }
-                        }.accessibilityIdentifier("close-studio")
+                        Button("Close studio", systemImage: "arrow.left", action: closeObject)
+                            .disabled(closingTools).accessibilityIdentifier("close-studio")
                     }
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         Button("Share look", systemImage: "square.and.arrow.up") {
@@ -190,6 +188,7 @@ struct StudioEditor: View {
             ready = true
             if !startsInCollection { openObject(initial.selected) }
         }
+        .onChange(of: reduceMotion) { _, value in settings.reduceMotion = value }
         .onChange(of: colorScheme, initial: true) { _, value in renderer.setAppearance(dark: value == .dark) }
         .onChange(of: StudioMotion.shared.x) { _, value in renderer.setTilt(x: value, y: StudioMotion.shared.y) }
         .onChange(of: StudioMotion.shared.y) { _, value in renderer.setTilt(x: StudioMotion.shared.x, y: value) }
@@ -207,6 +206,9 @@ struct StudioEditor: View {
         .sheet(item: $panel, onDismiss: {
             renderer.compareOriginal(false)
             renderer.setControlInset(64)
+            if closingTools {
+                withAnimation(reduceMotion ? nil : .smooth(duration: 0.20)) { closingTools = false }
+            }
             if let action = pendingAction { pendingAction = nil; performAfterTools(action) }
         }) { tool in toolControls(for: tool) }
         .sheet(isPresented: $newCollection) { CollectionEditor(library: library, collection: nil) }
@@ -232,11 +234,27 @@ struct StudioEditor: View {
         }
     }
 
+    private func closeObject() {
+        renderer.compareOriginal(false)
+        // Keep the toolbar's native zoom source mounted until its sheet has returned.
+        closingTools = panel != nil && startsInCollection
+        panel = nil
+        if startsInCollection {
+            withAnimation(reduceMotion ? nil : .smooth(duration: 0.32)) { renderer.focus(on: nil) }
+        } else { dismiss() }
+    }
     private func openObject(_ id: String) {
-        settings = renderer.appearance(for: id)
-        history.start(settings); savedFeedback = false
+        let appearance = renderer.appearance(for: id)
+        history.start(appearance); savedFeedback = false
         renderer.setControlInset(64)
-        renderer.focus(on: id)
+        withAnimation(reduceMotion ? nil : .smooth(duration: 0.36)) {
+            // Establish the destination before publishing its controls. A native
+            // animation can flush SwiftUI updates immediately; applying while still
+            // in overview would overwrite every object's individual appearance.
+            renderer.focus(on: id)
+            renderer.apply(appearance, preservePose: true)
+            settings = appearance
+        }
     }
     private func loadCollection(_ value: ElementStudioSettings) async {
         var collection = value; collection.arrangement = .collection

@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 
 nonisolated enum StudioCameraGeometry {
     static func position(index: Int, count: Int) -> SIMD3<Float> {
@@ -15,14 +15,46 @@ nonisolated enum StudioCameraGeometry {
         let limit = SIMD2(max(0, (content.x - visible.x) / 2), max(0, (content.y - visible.y) / 2))
         return [min(limit.x, max(-limit.x, pan.x)), min(limit.y, max(-limit.y, pan.y))]
     }
-    // Interpolate screen position and magnification, so an off-centre object follows a
-    // direct visual path instead of sweeping sideways during a linear world-space move.
-    static func flight(from: SIMD3<Float>, to: SIMD3<Float>, anchor: SIMD3<Float>, progress: Float) -> SIMD3<Float> {
-        let t = min(1, max(0, progress))
-        let depth = exp(log(max(0.01, from.z)) * (1 - t) + log(max(0.01, to.z)) * t)
-        let start = SIMD2(from.x - anchor.x, from.y - anchor.y) / max(0.01, from.z)
-        let end = SIMD2(to.x - anchor.x, to.y - anchor.y) / max(0.01, to.z)
-        let point = (start + (end - start) * t) * depth
-        return [anchor.x + point.x, anchor.y + point.y, depth]
+
+}
+
+/// A native, non-bouncing spring in projected position and apparent size. Retargeting
+/// carries world-space velocity across anchors, including a mid-flight return.
+nonisolated struct StudioCameraTransition {
+    struct Sample { var position: SIMD3<Float>; var velocity: SIMD3<Float> }
+    let from: SIMD3<Float>
+    let to: SIMD3<Float>
+    let anchor: SIMD3<Float>
+    let initialVelocity: SIMD3<Float>
+    let start: TimeInterval
+    let duration: TimeInterval
+    var spring: Spring { Spring(settlingDuration: duration, dampingRatio: 1) }
+
+    func sample(at time: TimeInterval) -> Sample {
+        let elapsed = max(0, time - start)
+        if elapsed >= duration { return Sample(position: to, velocity: .zero) }
+        let a = project(from), b = project(to)
+        let z = max(0.01, from.z)
+        let v = SIMD3(initialVelocity.x / z - a.x * initialVelocity.z / z,
+                      initialVelocity.y / z - a.y * initialVelocity.z / z,
+                      -initialVelocity.z / (z * z))
+        var value = a, velocity = SIMD3<Float>.zero
+        for axis in 0..<3 {
+            value[axis] += Float(spring.value(target: Double(b[axis] - a[axis]), initialVelocity: Double(v[axis]), time: elapsed))
+            velocity[axis] = Float(spring.velocity(target: Double(b[axis] - a[axis]), initialVelocity: Double(v[axis]), time: elapsed))
+        }
+        let distance = 1 / max(0.001, value.z)
+        let speed = -velocity.z * distance * distance
+        return Sample(position: [anchor.x + value.x * distance, anchor.y + value.y * distance, distance],
+                      velocity: [velocity.x * distance + value.x * speed, velocity.y * distance + value.y * speed, speed])
+    }
+    func retarget(to destination: SIMD3<Float>, at time: TimeInterval) -> Self {
+        let current = sample(at: time)
+        return Self(from: current.position, to: destination, anchor: anchor,
+                    initialVelocity: current.velocity, start: time, duration: max(0.18, duration - max(0, time - start)))
+    }
+    private func project(_ point: SIMD3<Float>) -> SIMD3<Float> {
+        let depth = max(0.01, point.z)
+        return [(point.x - anchor.x) / depth, (point.y - anchor.y) / depth, 1 / depth]
     }
 }

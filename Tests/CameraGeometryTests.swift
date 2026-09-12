@@ -19,17 +19,49 @@ final class CameraGeometryTests: XCTestCase {
         XCTAssertEqual(StudioCameraGeometry.clamp(pan: [10,-10], content: bounds, visible: bounds / 2), [0.75,-1.5])
         XCTAssertEqual(StudioCameraGeometry.clamp(pan: [0.2,0.3], content: bounds, visible: bounds / 2), [0.2,0.3])
     }
-    func testCameraFlightPreservesEndpointsAndUsesSmoothMagnification() {
+    func testSpringFollowsTheProjectedSourceAndSettlesWithoutOvershooting() {
         let start = SIMD3<Float>(0,0,10), end = SIMD3<Float>(1,2,2), anchor = SIMD3<Float>(1,2,0)
-        for (t, expected) in [(Float(0), start), (Float(1), end)] {
-            let value = StudioCameraGeometry.flight(from: start, to: end, anchor: anchor, progress: t)
-            XCTAssertEqual(value.x, expected.x, accuracy: 0.0001)
-            XCTAssertEqual(value.y, expected.y, accuracy: 0.0001)
-            XCTAssertEqual(value.z, expected.z, accuracy: 0.0001)
+        let flight = StudioCameraTransition(from: start, to: end, anchor: anchor, initialVelocity: .zero, start: 0, duration: 0.54)
+        XCTAssertEqual(flight.sample(at: 0).position, start)
+        XCTAssertEqual(flight.sample(at: 0.54).position, end)
+        var lastScale: Float = 0.1
+        for frame in 1...64 {
+            let position = flight.sample(at: Double(frame) / 120).position
+            let scale = 1 / position.z
+            XCTAssertGreaterThanOrEqual(scale + 0.00001, lastScale)
+            XCTAssertLessThanOrEqual(scale, 0.50001)
+            let progress = (scale - 0.1) / 0.4
+            XCTAssertEqual((position.x-anchor.x)/position.z, -0.1 * (1-progress), accuracy: 0.00001)
+            XCTAssertEqual((position.y-anchor.y)/position.z, -0.2 * (1-progress), accuracy: 0.00001)
+            lastScale = scale
         }
-        let middle = StudioCameraGeometry.flight(from: start, to: end, anchor: anchor, progress: 0.5)
-        XCTAssertEqual(middle.z, sqrt(20), accuracy: 0.0001)
-        XCTAssertEqual((middle.x-anchor.x)/middle.z, -0.05, accuracy: 0.0001)
+        XCTAssertGreaterThan(1 / flight.sample(at: 0.1).position.z, 0.2, "The object should respond promptly, without the old slow lead-in")
+    }
+    func testReversalKeepsPositionAndVelocityAcrossDifferentAnchors() {
+        let original = StudioCameraTransition(from: [0,0,10], to: [1,2,2], anchor: [1,2,0], initialVelocity: .zero, start: 0, duration: 0.54)
+        let before = original.sample(at: 0.13)
+        let returning = StudioCameraTransition(from: before.position, to: [0,0,10], anchor: [-1,-2,0], initialVelocity: before.velocity, start: 0.13, duration: 0.46)
+        let after = returning.sample(at: 0.13)
+        for axis in 0..<3 {
+            XCTAssertEqual(before.position[axis], after.position[axis], accuracy: 0.00001)
+            XCTAssertEqual(before.velocity[axis], after.velocity[axis], accuracy: 0.0001)
+        }
+        for frame in 0...60 {
+            let sample = returning.sample(at: 0.13 + Double(frame)/120)
+            XCTAssertTrue(sample.position.x.isFinite && sample.position.y.isFinite && sample.position.z.isFinite)
+            XCTAssertGreaterThan(sample.position.z, 0)
+        }
+        XCTAssertEqual(returning.sample(at: 0.60).position, [0,0,10])
+    }
+    func testLayoutRetargetPreservesContinuityAndOriginalDeadline() {
+        let flight = StudioCameraTransition(from: [0,0,10], to: [1,2,2], anchor: [1,2,0], initialVelocity: .zero, start: 0, duration: 0.54)
+        let moved = flight.retarget(to: [1,1.8,2.3], at: 0.2)
+        for axis in 0..<3 {
+            XCTAssertEqual(flight.sample(at: 0.2).position[axis], moved.sample(at: 0.2).position[axis], accuracy: 0.00001)
+            XCTAssertEqual(flight.sample(at: 0.2).velocity[axis], moved.sample(at: 0.2).velocity[axis], accuracy: 0.0001)
+        }
+        XCTAssertEqual(moved.start + moved.duration, 0.54, accuracy: 0.00001)
+        XCTAssertEqual(moved.sample(at: 0.54).position, [1,1.8,2.3])
     }
     func testSavedZoomRespectsTheNewMinimum() {
         var settings = ElementStudioSettings(); settings.camera = [0,0,0.3]; settings.clamp()

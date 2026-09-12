@@ -22,7 +22,7 @@ import XCTest
     func testNoOpAndViewChangesDoNotCreateHistory() {
         let history = StudioEditHistory(); var settings = ElementStudioSettings()
         history.start(settings); history.begin(settings, name: "Finish"); history.end(settings)
-        settings.camera = [1,0.2,2]; settings.wireframe = true; history.observe(settings)
+        settings.camera = [1,0.2,2]; settings.wireframe = true; settings.reduceMotion = true; history.observe(settings)
         XCTAssertFalse(history.canUndo)
         settings.grain = 0.9; history.observe(settings); XCTAssertTrue(history.canUndo)
         settings.selected = "ribbon"; history.observe(settings); XCTAssertFalse(history.canUndo)

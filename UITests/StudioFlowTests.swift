@@ -248,6 +248,41 @@ import XCTest
         XCTAssertEqual(app.buttons["edit-color"].value as? String, "Original colors")
     }
 
+    func testFocusReturnsToExactCollectionFraming() {
+        let app = XCUIApplication()
+        app.launchEnvironment = ["STUDIO_REVIEW":"1"]
+        app.launchArguments = ["-studio.appearance", "Light"]
+        app.launch()
+        XCTAssertTrue(app.buttons["element-stopwatch"].waitForExistence(timeout: 60))
+        for id in ["stopwatch", "memory", "collection"] {
+            let tile = app.buttons["element-" + id]
+            let before = tile.frame
+            tile.tap()
+            XCTAssertTrue(app.buttons["close-studio"].waitForExistence(timeout: 5))
+            capture("Spring focus " + id)
+            app.buttons["close-studio"].tap()
+            XCTAssertTrue(tile.waitForExistence(timeout: 5))
+            XCTAssertEqual(tile.frame.midX, before.midX, accuracy: 1)
+            XCTAssertEqual(tile.frame.midY, before.midY, accuracy: 1)
+            XCTAssertEqual(tile.frame.width, before.width, accuracy: 1)
+        }
+        app.pinch(withScale: 1.4, velocity: 1)
+        let tile = app.buttons["element-returning"]
+        let zoomedFrame = tile.frame
+        tile.tap(); app.buttons["panel-Form"].tap()
+        app.sliders["Separate components"].adjust(toNormalizedSliderPosition: 0.7)
+        capture("Close from expanded form")
+        app.buttons["close-studio"].tap()
+        XCTAssertTrue(tile.waitForExistence(timeout: 5))
+        XCTAssertEqual(tile.frame.midX, zoomedFrame.midX, accuracy: 1)
+        XCTAssertEqual(tile.frame.midY, zoomedFrame.midY, accuracy: 1)
+        XCTAssertEqual(tile.frame.width, zoomedFrame.width, accuracy: 1, "Exploding the object must not change the collection's saved zoom")
+        capture("Restored zoomed collection")
+        tile.tap(); app.buttons["panel-Form"].tap()
+        XCTAssertNotEqual(app.sliders["Separate components"].value as? String, "0%", "Closing must preserve the object's edits")
+        app.buttons["reset-object"].tap(); app.buttons["reset-all-edits"].tap()
+    }
+
     private func capture(_ name: String) {
         let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         attachment.name = name; attachment.lifetime = .keepAlways; add(attachment)
