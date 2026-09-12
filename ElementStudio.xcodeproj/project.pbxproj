@@ -23,6 +23,7 @@
 		103B45FE52A63A2DC8DF7311 /* ElementStudio-energy-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = A0F31C550FC1CB9DEFC7A1F4 /* ElementStudio-energy-forms20260910.json */; };
 		11D959A9CDDC3A368889742D /* ElementStudio-ribbon-ceramic-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 89587C19C8D3892B207FD456 /* ElementStudio-ribbon-ceramic-forms20260910.bin */; };
 		1307719E3C186ACF19C5DA73 /* ElementStudio-surface-glaze-7.png in Resources */ = {isa = PBXBuildFile; fileRef = B441E7526809FFB98A39E8E3 /* ElementStudio-surface-glaze-7.png */; };
+		1369EDFDDF17795E4C6A383F /* StudioEditingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BDFF7892DA11DEE3217EB69 /* StudioEditingTests.swift */; };
 		1430D1C53D6A0BCB405902DC /* ElementStudio-pennant-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = BE4C70CD93C0BC60EFCCF19C /* ElementStudio-pennant-studio20260911.json */; };
 		150065BD0055EB4D24905CE3 /* ElementStudio-returning-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 79C5B10EE011CE91DE0D0F8B /* ElementStudio-returning-forms20260910.bin */; };
 		15FEE997CBC93CFEDAFDE4D4 /* ElementStudio-month-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = 08976E5B5D89AC24137F2DD6 /* ElementStudio-month-earlier.json */; };
@@ -162,6 +163,7 @@
 		A9095409EB8794081EE4308D /* ElementStudio-ribbon-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = DB417F7D5738602B7D7B91FA /* ElementStudio-ribbon-earlier.json */; };
 		AB997BA168B97E71ADB5CE7F /* ElementStudio-environment.bin in Resources */ = {isa = PBXBuildFile; fileRef = A9E4DAFEA01DC727A5AC950C /* ElementStudio-environment.bin */; };
 		AC6C72ADCD7AA0730CFC78E4 /* ElementStudio-energy-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = C48843D8772525140B1D70A0 /* ElementStudio-energy-earlier.json */; };
+		AD4F3CDD3F99283AE6BA7A41 /* StudioEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B0B247D3D226D1501B650D5 /* StudioEditing.swift */; };
 		ADB685C04605AD91009DAD7C /* ElementStudio-surface-glaze-2.png in Resources */ = {isa = PBXBuildFile; fileRef = F8BDD848F3218914FFC08BF0 /* ElementStudio-surface-glaze-2.png */; };
 		B062CD857DA41E7BD459981C /* ElementStudio-distance-earlier.json in Resources */ = {isa = PBXBuildFile; fileRef = F573725C493CD0401EBC6E1E /* ElementStudio-distance-earlier.json */; };
 		B1D77E230BF1F9DED6C6BAE8 /* ElementStudio-ribbon-ceramic.bin in Resources */ = {isa = PBXBuildFile; fileRef = B3F8E80B9953408FF01AFD97 /* ElementStudio-ribbon-ceramic.bin */; };
@@ -220,6 +222,7 @@
 		F4C583FDEAAB4B6E216C37B5 /* ElementStudio-sunrise-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = E40678D86A0D01F193753388 /* ElementStudio-sunrise-sculpted.bin */; };
 		F4F84E71412CFDFEB0CE900D /* ElementStudio-halfYear-sculpted.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9243AD192298AA64404DB221 /* ElementStudio-halfYear-sculpted.bin */; };
 		F523FC9CC71CCFD0C839CE9F /* ElementStudio-stopwatch-forms20260910.bin in Resources */ = {isa = PBXBuildFile; fileRef = 8FF530D2BDDC58E68650022D /* ElementStudio-stopwatch-forms20260910.bin */; };
+		F581A7CCB299D5676DF119A7 /* StudioShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA9E22D71F527E7759C33D9 /* StudioShareView.swift */; };
 		F5C8F044664FB4856FC6408A /* ElementStudio-week-forms20260910.json in Resources */ = {isa = PBXBuildFile; fileRef = 903E4FFC5E56D7CE83B7138B /* ElementStudio-week-forms20260910.json */; };
 		F9A39C40ADAA835E1E2CDBFD /* ElementStudio-returning-studio20260911.json in Resources */ = {isa = PBXBuildFile; fileRef = DEFEA8A43B0761C90E4314E5 /* ElementStudio-returning-studio20260911.json */; };
 		FB608D646F4603ADFC205C42 /* ElementStudio-ribbon-earlier.bin in Resources */ = {isa = PBXBuildFile; fileRef = 6B00168752C36ED1CE2AFDDF /* ElementStudio-ribbon-earlier.bin */; };
@@ -279,6 +282,7 @@
 		2915B49A5173B341A837FEC9 /* ElementStudio-sunrise-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-sunrise-sculpted.json"; sourceTree = "<group>"; };
 		296B5939B30A72B36D732084 /* ElementStudio-stopwatch-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-stopwatch-earlier.json"; sourceTree = "<group>"; };
 		2A6B1A9AACCBD7078E9ED368 /* CameraGeometryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGeometryTests.swift; sourceTree = "<group>"; };
+		2B0B247D3D226D1501B650D5 /* StudioEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioEditing.swift; sourceTree = "<group>"; };
 		2B35AE8FE00B30E28E2393F9 /* ElementStudio-month.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-month.bin"; sourceTree = "<group>"; };
 		2B787A596EDF33CD394BAA54 /* ElementStudio-photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ElementStudio-photo.png"; sourceTree = "<group>"; };
 		2BA94058B495D4A5FE249129 /* ElementStudio-Glass.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = "ElementStudio-Glass.metal"; sourceTree = "<group>"; };
@@ -316,6 +320,7 @@
 		54A7241ED37C31711981A319 /* ElementStudio-ribbon-curved-forms20260910.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-ribbon-curved-forms20260910.json"; sourceTree = "<group>"; };
 		577DFA8181F2BA3343FAF997 /* ElementStudio-activity-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-activity-studio20260911.bin"; sourceTree = "<group>"; };
 		5B1F1BD91FFDF65588BC58D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5BDFF7892DA11DEE3217EB69 /* StudioEditingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioEditingTests.swift; sourceTree = "<group>"; };
 		5C77874CB9BEDAF616BBF0F3 /* ElementStudio-energy-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-energy-studio20260911.bin"; sourceTree = "<group>"; };
 		602E4FB975B33C7B246CDD9D /* ElementStudio-ribbon-studio20260911.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-ribbon-studio20260911.bin"; sourceTree = "<group>"; };
 		606D295345F9BD8FF949251D /* ElementStudioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementStudioApp.swift; sourceTree = "<group>"; };
@@ -384,6 +389,7 @@
 		A9E4DAFEA01DC727A5AC950C /* ElementStudio-environment.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-environment.bin"; sourceTree = "<group>"; };
 		AA865315BFF89861B4D64669 /* ElementStudio-activity.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ElementStudio-activity.bin"; sourceTree = "<group>"; };
 		AB357B19D1A3D73089E95DEE /* ElementStudioAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementStudioAssets.swift; sourceTree = "<group>"; };
+		ABA9E22D71F527E7759C33D9 /* StudioShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudioShareView.swift; sourceTree = "<group>"; };
 		AC07D8EDB201CE72F6F543CA /* ElementStudio-year-earlier.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-year-earlier.json"; sourceTree = "<group>"; };
 		AC23C0E5F383AF4A742C4880 /* ElementStudio-collection.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-collection.json"; sourceTree = "<group>"; };
 		AEECB446C45A6CAE27B620D2 /* ElementStudio-halfYear-sculpted.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "ElementStudio-halfYear-sculpted.json"; sourceTree = "<group>"; };
@@ -709,6 +715,7 @@
 			children = (
 				2A6B1A9AACCBD7078E9ED368 /* CameraGeometryTests.swift */,
 				E517FB57D66AAC226135687E /* LibraryTests.swift */,
+				5BDFF7892DA11DEE3217EB69 /* StudioEditingTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -723,8 +730,10 @@
 				87CDC69E8591237BC07A5125 /* ElementStudioSettings.swift */,
 				30A2B16C70E80850919E5CED /* LibraryViews.swift */,
 				301B02D744A42425D413ED71 /* StudioCameraGeometry.swift */,
+				2B0B247D3D226D1501B650D5 /* StudioEditing.swift */,
 				96436440CDC2542A8B25500B /* StudioInspector.swift */,
 				7E96535B59D3C5BFFD1C1F16 /* StudioLibrary.swift */,
+				ABA9E22D71F527E7759C33D9 /* StudioShareView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1073,6 +1082,7 @@
 			files = (
 				B37F29307B279BFE83425CE1 /* CameraGeometryTests.swift in Sources */,
 				069D278A7FACA8BEDE045E46 /* LibraryTests.swift in Sources */,
+				1369EDFDDF17795E4C6A383F /* StudioEditingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1087,8 +1097,10 @@
 				39EBE5B7B61DBB6991375614 /* ElementStudioSettings.swift in Sources */,
 				DF6D23F54702BDD6D2712E89 /* LibraryViews.swift in Sources */,
 				582CF852FA0F525C3105EF98 /* StudioCameraGeometry.swift in Sources */,
+				AD4F3CDD3F99283AE6BA7A41 /* StudioEditing.swift in Sources */,
 				5793429461790300500A1A50 /* StudioInspector.swift in Sources */,
 				3B4C872613A2030EDC50E87D /* StudioLibrary.swift in Sources */,
+				F581A7CCB299D5676DF119A7 /* StudioShareView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

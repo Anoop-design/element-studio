@@ -1,6 +1,7 @@
 import SwiftUI
 import RealityKit
 import MetalKit
+@preconcurrency import QuartzCore
 import Observation
 import CoreMotion
 
@@ -10,6 +11,33 @@ import CoreMotion
 final class ElementStudioRenderer {
     private(set) var focusedID: String?
     private(set) var showsMesh = false
+    private(set) var comparingOriginal = false
+    @ObservationIgnored var editingUndoManager: UndoManager?
+    @ObservationIgnored private var comparisonSettings: ElementStudioSettings?
+    var originalColors: [UIColor] {
+        guard let assembly = active.first(where: { $0.objectID == focusedID }) ?? active.first else { return [.white] }
+        let colored = assembly.asset.batches.filter { ["enamel", "dial", "ceramic", "porcelain"].contains($0.role) }
+        var colors: [[Float]] = []
+        for batch in colored where !colors.contains(batch.color) { colors.append(batch.color) }
+        return colors.prefix(4).map { UIColor(red: CGFloat($0[0]), green: CGFloat($0[1]), blue: CGFloat($0[2]), alpha: 1) }
+    }
+
+    func compareOriginal(_ enabled: Bool) {
+        guard enabled != comparingOriginal else { return }
+        if enabled {
+            guard focusedID != nil else { return }
+            setMeshInspection(false)
+            comparisonSettings = settings
+            comparingOriginal = true
+            apply(settings.originalAppearance(), forceMaterials: true, preservePose: true)
+        } else {
+            comparingOriginal = false
+            if let saved = comparisonSettings {
+                comparisonSettings = nil
+                apply(saved, forceMaterials: true, preservePose: true)
+            }
+        }
+    }
     @ObservationIgnored var onSelect: ((String) -> Void)?
     @ObservationIgnored private var flight: Flight?
     @ObservationIgnored private var focusBlend: Float = 0
@@ -41,6 +69,7 @@ final class ElementStudioRenderer {
     @ObservationIgnored private let materials = ElementStudioMaterials()
     @ObservationIgnored private var cache: [String: Assembly] = [:]
     @ObservationIgnored private var active: [Assembly] = []
+    @ObservationIgnored private var objectAppearances: [String: ElementStudioSettings] = [:]
     @ObservationIgnored private var settings = ElementStudioSettings()
     @ObservationIgnored private var outputSize: CGSize?
     @ObservationIgnored private var loadIdentity = UUID()
@@ -70,6 +99,7 @@ final class ElementStudioRenderer {
     }
 
     func load(_ newSettings: ElementStudioSettings) async {
+        compareOriginal(false)
         setMeshInspection(false)
         let token = UUID()
         loadIdentity = token
@@ -183,14 +213,14 @@ final class ElementStudioRenderer {
         return Assembly(root: root, asset: loaded.asset, models: models)
     }
 
-    func apply(_ newSettings: ElementStudioSettings, forceMaterials: Bool = false) {
+    func apply(_ newSettings: ElementStudioSettings, forceMaterials: Bool = false, preservePose: Bool = false) {
         let previous = settings
         settings = newSettings
-        if previous.camera != settings.camera {
+        if !preservePose, previous.camera != settings.camera {
             let pose = settings.camera ?? [-0.28,0.10,1]
             animation = nil; yaw = Float(pose[0]); pitch = Float(pose[1]); zoom = Float(pose[2])
         }
-        let changedMaterial = forceMaterials || previous.chosenEdition != settings.chosenEdition || previous.finish != settings.finish || previous.roughness != settings.roughness ||
+        let changedMaterial = forceMaterials || previous.surfaceRevision != settings.surfaceRevision || previous.chosenEdition != settings.chosenEdition || previous.finish != settings.finish || previous.roughness != settings.roughness ||
             previous.grain != settings.grain || previous.clearcoat != settings.clearcoat || previous.glass != settings.glass || previous.tintRGB != settings.tintRGB
         if changedMaterial {
             for assembly in active where focusedID == nil || assembly.objectID == focusedID {
@@ -201,7 +231,14 @@ final class ElementStudioRenderer {
                 }
             }
         }
-        if previous.explode == 0, settings.explode > 0 { animation = nil; yaw = -0.62; pitch = 0.12 }
+        if !comparingOriginal {
+            for assembly in active where assembly.objectID == focusedID || (focusedID == nil && changedMaterial) {
+                var appearance = settings
+                appearance.selected = assembly.objectID; appearance.arrangement = .object; appearance.camera = nil; appearance.wireframe = false
+                objectAppearances[assembly.objectID] = appearance
+            }
+        }
+        if !preservePose, previous.explode == 0, settings.explode > 0 { animation = nil; yaw = -0.62; pitch = 0.12 }
         if settings.reduceMotion, let turn = animation {
             yaw = turn.to.x; pitch = turn.to.y; animation = nil
         }
@@ -219,12 +256,18 @@ final class ElementStudioRenderer {
         invalidate()
     }
 
+    func appearance(for object: String) -> ElementStudioSettings {
+        var value = objectAppearances[object] ?? settings
+        value.selected = object; value.arrangement = .object; value.camera = nil; value.wireframe = false
+        return value
+    }
+
     private func makeMaterial(_ batch: ElementStudioAsset.Batch, inspectingMesh: Bool = false) -> any RealityKit.Material {
         // Inspection is a transient view mode, never inherited from a saved workspace.
         var materialSettings = settings
         materialSettings.wireframe = inspectingMesh
         var result = materials.make(batch, settings: materialSettings)
-        if settings.finish == .crafted, let rgb = settings.tintRGB, ["enamel", "dial", "ceramic"].contains(batch.role), var pbr = result as? PhysicallyBasedMaterial {
+        if settings.finish == .crafted, let rgb = settings.tintRGB, ["enamel", "dial", "ceramic", "porcelain"].contains(batch.role), var pbr = result as? PhysicallyBasedMaterial {
             pbr.baseColor = .init(tint: UIColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: 1))
             result = pbr
         }
@@ -277,7 +320,7 @@ final class ElementStudioRenderer {
             if assembly.root.position != position { assembly.root.position = position }
             let highlighted = focusedID ?? flight?.object
             let included = visibleIDs == nil || visibleIDs!.contains(assembly.objectID) || assembly.objectID == highlighted
-            let visibility: Float = included ? (highlighted == nil || assembly.objectID == highlighted ? 1 : 1 - focusBlend) : 0
+            let visibility: Float = included ? (highlighted == nil || assembly.objectID == highlighted ? 1 : 1 - (outputSize == nil ? focusBlend : 1)) : 0
             if assembly.root.components[OpacityComponent.self]?.opacity != visibility { assembly.root.components.set(OpacityComponent(opacity: visibility)) }
             let dimensions = SIMD3<Float>(scale, scale, scale * (assembly.objectID == focusedID || active.count == 1 ? Float(settings.thickness) : 1))
             if assembly.root.scale != dimensions { assembly.root.scale = dimensions }
@@ -288,6 +331,7 @@ final class ElementStudioRenderer {
             }
         }
         let size = outputSize ?? view?.bounds.size ?? CGSize(width: 400, height: 320)
+        guard size.width > 0, size.height > 0 else { return }
         let focus = active.first { $0.objectID == focusedID }
         let inset = focus != nil && outputSize == nil ? min(controlInset, size.height * 0.55) : 0
         let visibleHeight = max(1, size.height - inset)
@@ -304,7 +348,7 @@ final class ElementStudioRenderer {
             cameraPan = StudioCameraGeometry.clamp(pan: cameraPan, content: bounds, visible: visibleSpan)
         }
         let target = SIMD3<Float>(center.x + cameraPan.x, center.y + cameraPan.y - lift, distance)
-        if let flight {
+        if let flight, outputSize == nil {
             let t = Float(min(1, (CACurrentMediaTime() - flight.start) / 0.42))
             let eased = t * t * t * (t * (t * 6 - 15) + 10)
             let anchor = active.first { $0.objectID == flight.object }?.root.position ?? .zero
@@ -350,6 +394,8 @@ final class ElementStudioRenderer {
     }
 
     func focus(on id: String?, preservePose: Bool = false) {
+        compareOriginal(false)
+        if id != nil { view?.becomeFirstResponder() }
         guard !loading else { return }
         setMeshInspection(false)
         let previous = focusedID
@@ -374,8 +420,8 @@ final class ElementStudioRenderer {
         updateTransforms(); invalidate()
     }
     func showObjects(_ ids: [String]?) { visibleIDs = ids.map(Set.init); updateTransforms(); invalidate() }
-    func objectTargets() -> [(String, CGRect)] {
-        guard isOverview, !loading, hasPresentedFrame, let view else { return [] }
+    func objectTargets(duringTransition: Bool = false) -> [(String, CGRect)] {
+        guard isOverview, duringTransition || flight == nil, !loading, hasPresentedFrame, let view else { return [] }
         let focal = Float(view.bounds.height) / (2 * tan(17 * .pi / 180))
         return active.filter { visibleIDs == nil || visibleIDs!.contains($0.objectID) }.map { assembly in
             let point = assembly.root.position, distance = max(0.1, camera.position.z - point.z)
@@ -386,7 +432,7 @@ final class ElementStudioRenderer {
         }
     }
     func select(at point: CGPoint) {
-        guard flight == nil, let target = objectTargets().filter({ $0.1.contains(point) }).min(by: {
+        guard let target = objectTargets(duringTransition: true).filter({ $0.1.contains(point) }).min(by: {
             hypot($0.1.midX-point.x,$0.1.midY-point.y) < hypot($1.1.midX-point.x,$1.1.midY-point.y)
         }) else { return }
         onSelect?(target.0)
@@ -442,6 +488,7 @@ final class ElementStudioRenderer {
     }
 
     func setActive(_ active: Bool) {
+        if !active { compareOriginal(false) }
         isActive = active
         if !active { animation = nil; view?.isPaused = true }
         else { invalidate() }
@@ -458,7 +505,7 @@ final class ElementStudioRenderer {
 
     func draw(in view: MTKView) {
         guard isActive, !loading, let renderer, let drawable = view.currentDrawable else { return }
-        view.accessibilityValue = "Rotation \(Int(cameraState[0] * 180 / .pi)) degrees, zoom \(String(format: "%.2f", zoom))"
+        view.accessibilityValue = "Rotation \(Int(cameraState[0] * 180 / .pi)) degrees, zoom \(String(format: "%.2f", zoom))" + (comparingOriginal ? ", Original" : ", Edited")
         let now = CACurrentMediaTime()
         var finishedTurn = false
         if let flight {
@@ -575,6 +622,8 @@ struct ElementStudioViewport: UIViewRepresentable {
 
 final class ElementStudioMetalView: MTKView, MTKViewDelegate, UIGestureRecognizerDelegate {
     weak var studio: ElementStudioRenderer?
+    override var canBecomeFirstResponder: Bool { true }
+    override var undoManager: UndoManager? { studio?.editingUndoManager ?? super.undoManager }
     private var pinchHandled = false
     private var objectElements: [String: StudioObjectAccessibility] = [:]
     private lazy var cameraActions = [

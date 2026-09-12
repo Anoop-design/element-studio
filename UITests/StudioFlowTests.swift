@@ -51,6 +51,7 @@ import XCTest
         light.adjust(toNormalizedSliderPosition: 0.6)
         capture("Light dock")
         app.buttons["reset-object"].tap()
+        app.buttons["reset-all-edits"].tap()
         XCTAssertEqual(light.value as? String, "-35°")
         capture("Reset object")
         app.buttons["all-tools"].tap()
@@ -111,6 +112,9 @@ import XCTest
         XCTAssertNotEqual(before, viewport.value as? String)
         XCTAssertTrue(app.sliders["Texture"].exists)
         capture("Dark surface dock")
+        app.buttons["all-tools"].tap(); app.buttons["panel-Light"].tap()
+        XCTAssertTrue(app.sliders["Brightness"].waitForExistence(timeout: 5))
+        capture("Light panel complete labels")
     }
     func testMeshInspectionDoesNotLeakAcrossObjectsOrRelaunch() {
         let app = XCUIApplication()
@@ -155,6 +159,93 @@ import XCTest
         app.buttons["panel-Form"].tap()
         XCTAssertTrue(mesh.waitForExistence(timeout: 5))
         XCTAssertEqual(mesh.value as? String, "0")
+    }
+
+    func testPrecisionUndoComparisonAndExport() {
+        let app = XCUIApplication()
+        app.launchEnvironment = ["STUDIO_REVIEW":"1"]
+        app.launchArguments = ["-studio.appearance", "Light"]
+        app.launch()
+        XCTAssertTrue(app.buttons["element-energy"].waitForExistence(timeout: 60))
+        app.buttons["element-energy"].tap()
+        app.buttons["panel-Surface"].tap()
+        app.buttons["reset-object"].tap(); app.buttons["reset-all-edits"].tap()
+        XCTAssertTrue(app.buttons["edit-color"].waitForExistence(timeout: 5))
+        XCTAssertEqual(app.buttons["edit-color"].value as? String, "Original colors")
+        capture("Polished surface controls")
+        app.buttons["value-finish"].tap()
+        let input = app.alerts.textFields.firstMatch
+        XCTAssertTrue(input.waitForExistence(timeout: 5))
+        input.tap()
+        // Native alert fields do not retain SwiftUI accessibility identifiers.
+        let existing = input.value as? String ?? ""
+        input.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: existing.count) + "0.62")
+        capture("Precise finish entry")
+        app.alerts.buttons["Apply"].tap()
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Matte")
+        app.buttons["reset-object"].tap()
+        capture("Undo and reset menu")
+        app.buttons["undo-edit"].tap()
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Satin")
+        app.buttons["reset-object"].tap(); app.buttons["redo-edit"].tap()
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Matte")
+        let viewport = app.otherElements["element-studio-viewport"]
+        let pose = viewport.value as? String
+        app.buttons["compare-original"].press(forDuration: 1)
+        XCTAssertEqual(app.buttons["compare-original"].value as? String, "Edited")
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Matte")
+        XCTAssertEqual(viewport.value as? String, pose)
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.30)).press(forDuration: 0.1,
+            thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.30)))
+        app.buttons["reset-object"].tap(); app.buttons["reset-view"].tap()
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Matte")
+        capture("Reset view keeps finish")
+        app.buttons["all-tools"].tap()
+        app.buttons["close-studio"].tap()
+        XCTAssertTrue(app.buttons["element-stopwatch"].waitForExistence(timeout: 5))
+        app.buttons["element-stopwatch"].tap()
+        app.buttons["panel-Surface"].tap()
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Satin", "Another object must keep its own finish")
+        app.buttons["all-tools"].tap(); app.buttons["close-studio"].tap()
+        XCTAssertTrue(app.buttons["element-energy"].waitForExistence(timeout: 5))
+        app.buttons["element-energy"].tap(); app.buttons["panel-Surface"].tap()
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Matte", "Returning to an element must restore its controls")
+        app.buttons["all-tools"].tap()
+        app.buttons["share-look"].tap()
+        XCTAssertTrue(app.buttons["share-image"].waitForExistence(timeout: 30))
+        capture("Transparent PNG preview")
+        app.segmentedControls.buttons["White"].tap()
+        XCTAssertEqual(app.images["export-preview"].value as? String, "White")
+        capture("White PNG preview")
+        app.segmentedControls.buttons["Black"].tap()
+        XCTAssertEqual(app.images["export-preview"].value as? String, "Black")
+        capture("Black PNG preview")
+        app.buttons["close-share"].tap()
+        app.buttons["panel-Surface"].tap()
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Matte")
+        app.buttons["reset-object"].tap(); app.buttons["reset-all-edits"].tap()
+    }
+
+    func testNativeColorPicker() {
+        let app = XCUIApplication()
+        app.launchEnvironment = ["STUDIO_REVIEW":"1"]
+        app.launchArguments = ["-studio.appearance", "Light"]
+        app.launch()
+        XCTAssertTrue(app.buttons["element-energy"].waitForExistence(timeout: 60))
+        app.buttons["element-energy"].tap(); app.buttons["panel-Surface"].tap()
+        app.buttons["reset-object"].tap(); app.buttons["reset-all-edits"].tap()
+        app.buttons["edit-color"].tap()
+        XCTAssertTrue(app.otherElements["native-color-picker"].waitForExistence(timeout: 5))
+        capture("Native color picker")
+        app.collectionViews["Favorites"].cells.element(boundBy: 1).tap()
+        let close = app.buttons["close"].firstMatch
+        XCTAssertTrue(close.waitForExistence(timeout: 5))
+        close.tap()
+        XCTAssertTrue(app.buttons["edit-color"].waitForExistence(timeout: 5))
+        XCTAssertEqual(app.buttons["edit-color"].value as? String, "Custom color")
+        capture("Custom color applied")
+        app.buttons["reset-object"].tap(); app.buttons["undo-edit"].tap()
+        XCTAssertEqual(app.buttons["edit-color"].value as? String, "Original colors")
     }
 
     private func capture(_ name: String) {

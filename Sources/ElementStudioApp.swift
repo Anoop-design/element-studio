@@ -63,7 +63,7 @@ private enum StudioTool: String, Identifiable {
         case .form: "cube"
         }
     }
-    var height: CGFloat { self == .light ? 240 : 300 }
+    var height: CGFloat { self == .light ? 338 : 372 }
 }
 
 struct StudioEditor: View {
@@ -75,7 +75,9 @@ struct StudioEditor: View {
     @State private var panel: StudioTool?
     @State private var saveSheet = false
     @State private var sharing = false
-    @State private var shareImage: UIImage?
+    @State private var history = StudioEditHistory()
+    @State private var savedFeedback = false
+    @State private var saveFeedbackID = 0
     @State private var showLooks = false
     @State private var newCollection = false
     @State private var selectedCollection: UUID?
@@ -111,7 +113,7 @@ struct StudioEditor: View {
             }
             .ignoresSafeArea(.container, edges: .bottom)
             .toolbar(editing ? .visible : .hidden, for: .bottomBar)
-            .navigationTitle(editing ? settings.selectionName : "Collections").navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(editing ? (savedFeedback ? "Saved" : settings.selectionName) : "Collections").navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if editing {
                     ToolbarSpacer(.flexible, placement: .bottomBar)
@@ -133,6 +135,7 @@ struct StudioEditor: View {
                     ToolbarSpacer(.flexible, placement: .bottomBar)
                     ToolbarItem(placement: .topBarLeading) {
                         Button("Close studio", systemImage: "arrow.left") {
+                            renderer.compareOriginal(false)
                             panel = nil
                             if startsInCollection { renderer.focus(on: nil) } else { dismiss() }
                         }.accessibilityIdentifier("close-studio")
@@ -141,7 +144,10 @@ struct StudioEditor: View {
                         Button("Share look", systemImage: "square.and.arrow.up") {
                             performAfterTools("share")
                         }.disabled(renderer.loading).accessibilityIdentifier("share-look")
-                        Button("Save look", systemImage: "plus") { performAfterTools("save") }.disabled(renderer.loading).accessibilityIdentifier("save-look")
+                        Button(savedFeedback ? "Saved" : "Save look", systemImage: savedFeedback ? "checkmark" : "plus") { performAfterTools("save") }
+                            .contentTransition(.symbolEffect(.replace))
+                            .disabled(renderer.loading).accessibilityIdentifier("save-look")
+                            .accessibilityValue(savedFeedback ? "Saved" : "")
                     }
                 } else {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -167,7 +173,17 @@ struct StudioEditor: View {
         .task {
             guard !ready else { return }
             settings = initial; settings.wireframe = false; settings.reduceMotion = settings.reduceMotion || reduceMotion
-            settings.chosenEdition = .latest; settings.camera = nil; settings.clamp()
+            settings.chosenEdition = .latest; settings.surfaceRevision = 1; settings.camera = nil; settings.clamp()
+            history.start(settings)
+            let editingSettings = $settings
+            history.restore = { [weak renderer] restored in
+                renderer?.compareOriginal(false)
+                var value = restored; value.camera = editingSettings.wrappedValue.camera
+                value.reduceMotion = editingSettings.wrappedValue.reduceMotion
+                editingSettings.wrappedValue = value
+                renderer?.apply(value, preservePose: true)
+            }
+            renderer.editingUndoManager = history.manager
             renderer.onSelect = { id in openObject(id) }
             renderer.setAppearance(dark: colorScheme == .dark)
             await loadCollection(settings)
@@ -178,12 +194,18 @@ struct StudioEditor: View {
         .onChange(of: StudioMotion.shared.x) { _, value in renderer.setTilt(x: value, y: StudioMotion.shared.y) }
         .onChange(of: StudioMotion.shared.y) { _, value in renderer.setTilt(x: StudioMotion.shared.x, y: value) }
         .onChange(of: settings) { _, value in
-            if ready { renderer.apply(value); library.updateWorkspace(value) }
+            if ready { history.observe(value); renderer.apply(value); library.updateWorkspace(value) }
         }
         .onChange(of: collection) { _, value in renderer.showObjects(value?.objects) }
         .onChange(of: scenePhase, initial: true) { _, value in renderer.setActive(value == .active) }
-        .onDisappear { renderer.setActive(false); library.persist() }
+        .onDisappear { renderer.compareOriginal(false); renderer.setActive(false); library.persist() }
+        .sensoryFeedback(.success, trigger: saveFeedbackID)
+        .task(id: saveFeedbackID) {
+            guard savedFeedback else { return }
+            do { try await Task.sleep(for: .seconds(2.5)); savedFeedback = false } catch { }
+        }
         .sheet(item: $panel, onDismiss: {
+            renderer.compareOriginal(false)
             renderer.setControlInset(64)
             if let action = pendingAction { pendingAction = nil; performAfterTools(action) }
         }) { tool in toolControls(for: tool) }
@@ -197,27 +219,22 @@ struct StudioEditor: View {
         .sheet(isPresented: $showLooks, onDismiss: {
             if let pendingLook {
                 self.pendingLook = nil
-                Task { settings = pendingLook.settings; settings.wireframe = false; await loadCollection(settings); renderer.focus(on: settings.selected, preservePose: true) }
+                Task { settings = pendingLook.settings; settings.wireframe = false; history.start(settings); await loadCollection(settings); renderer.focus(on: settings.selected, preservePose: true) }
             }
         }) { LooksLibraryView(library: library) { pendingLook = $0; showLooks = false } }
-        .sheet(isPresented: $saveSheet) { SaveLookView(library: library, settings: settings, renderer: renderer) }
-        .sheet(isPresented: $sharing, onDismiss: { shareImage = nil }) {
-            NavigationStack {
-                VStack(spacing: 20) {
-                    if let shareImage {
-                        Image(uiImage: shareImage).resizable().scaledToFit().clipShape(.rect(cornerRadius: 24))
-                        Text(settings.selectionName).font(.title2.weight(.semibold))
-                        ShareLink(item: Image(uiImage: shareImage), preview: SharePreview(settings.selectionName, image: Image(uiImage: shareImage))) {
-                            Label("Share image", systemImage: "square.and.arrow.up").frame(maxWidth: .infinity)
-                        }.buttonStyle(.glass).controlSize(.large).accessibilityIdentifier("share-image")
-                    } else { ProgressView("Rendering your look…") }
-                }.padding(24).navigationTitle("Share look").navigationBarTitleDisplayMode(.inline)
-                    .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done") { sharing = false }.accessibilityIdentifier("close-share") } }
+        .sheet(isPresented: $saveSheet) {
+            SaveLookView(library: library, settings: settings, renderer: renderer) {
+                savedFeedback = true; saveFeedbackID += 1
             }
         }
+        .sheet(isPresented: $sharing) {
+            StudioShareView(renderer: renderer, name: settings.selectionName)
+        }
     }
+
     private func openObject(_ id: String) {
-        settings.selected = id; settings.arrangement = .object
+        settings = renderer.appearance(for: id)
+        history.start(settings); savedFeedback = false
         renderer.setControlInset(64)
         renderer.focus(on: id)
     }
@@ -233,14 +250,11 @@ struct StudioEditor: View {
             .accessibilityIdentifier("panel-" + tool.rawValue)
     }
     private func performAfterTools(_ action: String) {
+        renderer.compareOriginal(false)
         renderer.setMeshInspection(false)
         if panel != nil { pendingAction = action; changeTool(nil); return }
         if action == "save" { saveSheet = true; return }
         sharing = true
-        Task {
-            do { shareImage = try await renderer.snapshot(size: CGSize(width: 1440, height: 1440)) }
-            catch { library.message = error.localizedDescription; sharing = false }
-        }
     }
     private func toolControls(for tool: StudioTool) -> some View {
         VStack(spacing: 12) {
@@ -252,7 +266,13 @@ struct StudioEditor: View {
                 Spacer()
                 resetButton
             }
-            ScrollView { StudioInspector(settings: $settings, renderer: renderer, panel: tool.rawValue).padding(.bottom, 8) }
+            ScrollView {
+                StudioInspector(settings: $settings, renderer: renderer, panel: tool.rawValue,
+                                beginEdit: { history.begin(settings, name: $0) }, endEdit: { history.end(settings) })
+                    .padding(.bottom, 4)
+            }
+            StudioCompareButton(comparing: renderer.comparingOriginal, changed: renderer.compareOriginal)
+                .frame(height: 44).padding(.bottom, 4)
         }.padding(.horizontal, 20).padding(.top, 12)
         .presentationDetents([.height(tool.height)])
         .presentationDragIndicator(.hidden)
@@ -260,17 +280,34 @@ struct StudioEditor: View {
         .navigationTransition(.zoom(sourceID: tool, in: glass))
     }
     private var resetButton: some View {
-        Button("Reset edits", systemImage: "arrow.counterclockwise") {
-            var original = ElementStudioSettings()
-            original.selected = settings.selected
-            original.edition = settings.edition; original.studies = settings.studies
-            original.reduceMotion = settings.reduceMotion
-            settings = original
-            renderer.apply(original, forceMaterials: true)
-            renderer.resetObject()
-        }.labelStyle(.iconOnly).frame(width: 44, height: 44).accessibilityIdentifier("reset-object")
+        Menu {
+            Button(history.undoTitle, systemImage: "arrow.uturn.backward") { renderer.compareOriginal(false); history.undo() }
+                .disabled(!history.canUndo).accessibilityIdentifier("undo-edit")
+            Button(history.redoTitle, systemImage: "arrow.uturn.forward") { renderer.compareOriginal(false); history.redo() }
+                .disabled(!history.canRedo).accessibilityIdentifier("redo-edit")
+            Divider()
+            Button("Reset view", systemImage: "viewfinder") { renderer.compareOriginal(false); renderer.resetObject() }
+                .accessibilityIdentifier("reset-view")
+            if let panel {
+                Button("Reset " + panel.rawValue.lowercased()) { resetEdits(panel: panel.rawValue) }
+            }
+            Button("Reset all edits", systemImage: "arrow.counterclockwise") { resetEdits() }
+                .accessibilityIdentifier("reset-all-edits")
+        } label: {
+            Label("Undo and reset", systemImage: "arrow.counterclockwise")
+                .labelStyle(.iconOnly).frame(width: 44, height: 44)
+        }.accessibilityIdentifier("reset-object")
+    }
+    private func resetEdits(panel: String? = nil) {
+        renderer.compareOriginal(false)
+        renderer.setMeshInspection(false)
+        history.begin(settings, name: panel.map { "Reset " + $0 } ?? "Reset edits")
+        settings = settings.originalAppearance(panel: panel)
+        renderer.apply(settings, forceMaterials: true, preservePose: true)
+        history.end(settings)
     }
     private func changeTool(_ value: StudioTool?) {
+        renderer.compareOriginal(false)
         renderer.setControlInset(value.map { $0.height + 32 } ?? 64)
         panel = value
     }
@@ -292,6 +329,7 @@ struct SaveLookView: View {
     @Bindable var library: StudioLibrary
     let settings: ElementStudioSettings
     let renderer: ElementStudioRenderer
+    var onSaved: () -> Void = {}
     @Environment(\.dismiss) private var dismiss
     @State private var name = ""
     @State private var collection: UUID?
@@ -317,8 +355,9 @@ struct SaveLookView: View {
                         Task {
                             var captured = settings; captured.camera = renderer.cameraState
                             let look = library.saveLook(name: name, settings: captured, collection: collection)
+                            guard library.lastSaveSucceeded else { saving = false; return }
                             if let image = try? await renderer.snapshot(size: CGSize(width: 600, height: 500)) { StudioThumbnail.save(image, id: look.id) }
-                            dismiss()
+                            onSaved(); dismiss()
                         }
                     }.disabled(saving).accessibilityIdentifier("confirm-save")
                 }

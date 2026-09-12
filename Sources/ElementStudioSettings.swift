@@ -33,6 +33,8 @@ nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
     var reduceMotion = false
     // Optional so looks saved before editions were introduced continue decoding intact.
     var edition: Edition? = .latest
+    // Missing in older saved looks: retain their original material response.
+    var surfaceRevision: Int? = 1
     var tintRGB: [Double]?
     var camera: [Double]?
     var studies: [String: ShapeStudy]?

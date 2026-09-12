@@ -83,6 +83,7 @@ final class StudioLibrary {
     var message: String?
     private let url: URL
     private var canSave = true
+    private(set) var lastSaveSucceeded = true
     @ObservationIgnored private var pendingSave: Task<Void, Never>?
 
     init(url: URL? = nil) {
@@ -99,10 +100,12 @@ final class StudioLibrary {
         }
     }
     func persist() {
+        lastSaveSucceeded = false
         guard canSave else { message = "The preserved library is read-only until recovery. Import an exported library before saving new work."; return }
         do {
             try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
             try JSONEncoder().encode(archive).write(to: url, options: .atomic)
+            lastSaveSucceeded = true
         } catch { message = "Your changes could not be saved: \(error.localizedDescription)" }
     }
     func updateWorkspace(_ settings: ElementStudioSettings) {

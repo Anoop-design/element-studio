@@ -1,4 +1,20 @@
-# Standalone interaction review — 11 September 2026
+# Element Studio interaction review
+
+## Editing polish — 12 September 2026
+
+The compact native toolbar still contains four separate buttons. The controls now show accurate original color palettes, use the native color picker, and describe Finish as Gloss/Satin/Matte. Tapping a displayed value opens validated exact entry. Original-value marks and user-drag haptic detents help return to a reference value. The Undo/Redo menu groups a slider drag or color-picking session into one edit and separates view reset from scoped/full appearance resets.
+
+Hold to compare temporarily restores the original appearance while retaining the camera and the current edit. It clears on release, tool dismissal, Save and Share; VoiceOver can toggle it. Switching objects restores each object's current-session controls. Fast touch selection can interrupt the return flight, while accessibility targets appear once their moving frames settle.
+
+New material defaults use quieter dial and glaze normals, gentler brushed anisotropy, and softer enamel reflections. Refined normals are prepared once and cached. Missing surface revisions continue to use the previous material response, preserving old saved looks. The PNG export preview offers Transparent, White and Black; exports use actual 1440px PNG files. Save acknowledges successful persistence with a brief Saved title/checkmark and success haptic.
+
+Validation: all 18 unit tests passed (10.5 seconds, `StudioPolishUnitVerification.xcresult`), including edit transaction grouping, no-op/view exclusions, scoped reset, locale/range validation, legacy material decoding, and transparent/background PNG pixels. All five UI flows passed together with zero failures (270.9 seconds, `StudioPolishFinalUI.xcresult`): all 16 objects open and rotate, bounded gestures, Save/relaunch, Light/Dark, mesh isolation, native color selection/undo, precise edit/undo/redo, compare, view reset, per-object controls, and three export backgrounds. The Light panel was then given 24pt more height after screenshot review found clipped endpoint labels; its targeted dark-mode flow passed again (`StudioLightSpacingVerification.xcresult`), and the complete labels were visually confirmed. All 16 native transparent launch previews were regenerated and checked as 600 × 600 RGBA PNGs.
+
+Selected native captures: [Surface in light mode](surface-light.png), [Surface in dark mode](surface-dark.png), [Light controls](light-dark.png), [custom color](custom-color.png), [Undo and reset](undo-reset.png), [precise entry](precise-entry.png), [transparent export](share-transparent.png).
+
+The final signed Debug build succeeded and was installed over the existing app on the connected iPhone 16 Pro Max. A monitored launch and actual device screenshot confirmed the full shaded collection with the updated material response. Local before/after library comparison confirmed that collections and saved looks were unchanged. Device captures and library backups remain in the ignored Review directory.
+
+## Previous verification — 11 September 2026
 
 Verified from this independent checkout using the ElementStudio scheme on the dedicated iPhone 17 Pro / iOS 27 simulator.
 

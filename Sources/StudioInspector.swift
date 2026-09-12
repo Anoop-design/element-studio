@@ -4,84 +4,194 @@ struct StudioInspector: View {
     @Binding var settings: ElementStudioSettings
     @Bindable var renderer: ElementStudioRenderer
     let panel: String
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @Environment(\.dynamicTypeSize) private var typeSize
+    let beginEdit: (String) -> Void
+    let endEdit: () -> Void
+    @State private var pickingColor = false
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(spacing: 12) {
+            ForEach(parameters) { parameter in
+                StudioParameterSlider(parameter: parameter, value: $settings[dynamicMember: parameter.keyPath],
+                                      beginEdit: beginEdit, endEdit: endEdit)
+            }
             if panel == "Surface" {
-                surfaceControls
-                ColorPicker("Color", selection: tint, supportsOpacity: false)
-                if settings.tintRGB != nil { Button("Use original colors") { settings.tintRGB = nil } }
-            } else if panel == "Light" { lightControls }
-            else { formControls }
+                if renderer.originalColors.isEmpty || settings.finish != .crafted {
+                    LabeledContent("Color", value: "Original materials").font(.subheadline).frame(minHeight: 44)
+                } else { colorControl }
+            }
+            if panel == "Form" {
+                Toggle("Show mesh", isOn: Binding(get: { renderer.showsMesh }, set: { renderer.setMeshInspection($0) }))
+                    .font(.subheadline).frame(minHeight: 44)
+            }
         }
-
+        .disabled(renderer.comparingOriginal)
+        .background {
+            StudioColorPicker(isPresented: $pickingColor, color: tint).frame(width: 0, height: 0)
+        }
+        .onChange(of: pickingColor) { _, shown in if !shown { endEdit() } }
     }
-    private var tint: Binding<Color> {
+    private var parameters: [StudioParameter] {
+        switch panel {
+        case "Surface": [.finish, .texture]
+        case "Light": [.light, .brightness]
+        default: [.depth, .separation]
+        }
+    }
+    private var colors: [Color] {
+        if let rgb = settings.tintRGB { return [Color(red: rgb[0], green: rgb[1], blue: rgb[2])] }
+        return renderer.originalColors.map { Color(uiColor: $0) }
+    }
+    private var tint: Binding<UIColor> {
         Binding(get: {
-            let rgb = settings.tintRGB ?? [0.65,0.72,0.40]
-            return Color(red: rgb[0], green: rgb[1], blue: rgb[2])
+            if let rgb = settings.tintRGB { return UIColor(red: rgb[0], green: rgb[1], blue: rgb[2], alpha: 1) }
+            return renderer.originalColors.first ?? .white
         }, set: { color in
             var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
-            UIColor(color).getRed(&r, green: &g, blue: &b, alpha: &a)
+            guard color.getRed(&r, green: &g, blue: &b, alpha: &a) else { return }
             settings.tintRGB = [Double(r), Double(g), Double(b)]
         })
     }
-    private var surfaceControls: some View {
-        Group {
-            slider("Finish", value: $settings.roughness, range: 0.12...0.65,
-                   display: settings.roughness < 0.25 ? "Gloss" : "Satin", low: "Gloss", high: "Matte")
-            slider("Texture", value: $settings.grain, range: 0...1,
-                   display: percent(settings.grain), low: "Smooth", high: "Textured")
-        }
-    }
-
-    private var lightControls: some View {
-        Group {
-            slider("Light direction", value: $settings.light, range: -140...140,
-                   display: "\(Int(settings.light))°", low: "Left", high: "Right")
-            slider("Brightness", value: $settings.brightness, range: 0.45...1.8,
-                   display: settings.brightness.formatted(.number.precision(.fractionLength(2))), low: "Quiet", high: "Bright")
-        }
-    }
-
-    private var formControls: some View {
-        Group {
-            slider("Depth", value: $settings.thickness, range: 0.5...1.8,
-                   display: settings.thickness.formatted(.number.precision(.fractionLength(2))) + "×", low: "Slim", high: "Substantial")
-            slider("Separate components", value: $settings.explode, range: 0...1,
-                   display: percent(settings.explode), low: "Assembled", high: "Exploded")
-            Toggle("Show mesh", isOn: Binding(get: { renderer.showsMesh }, set: { renderer.setMeshInspection($0) }))
-
-        }
-    }
-
-    private func lightPreset(_ name: String, angle: Double, brightness: Double) -> some View {
-        Button(name) { settings.light = angle; settings.brightness = brightness }
-            .font(.subheadline).frame(maxWidth: .infinity, minHeight: 44).buttonStyle(.glass)
-    }
-
-    private func percent(_ number: Double) -> String { "\(Int(number * 100))%" }
-
-    private func slider(_ title: String, value: Binding<Double>, range: ClosedRange<Double>, display: String, low: String, high: String) -> some View {
-        VStack(spacing: 3) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(title).font(.subheadline.weight(.medium))
-                Spacer(minLength: 8)
-                Text(display).font(.caption.monospacedDigit()).foregroundStyle(.secondary)
-            }
-            Slider(value: value, in: range) { Text(title) }
-                .accessibilityValue(display)
-                .tint(.accentColor)
-            HStack { Text(low); Spacer(); Text(high) }
-                .font(.caption2).foregroundStyle(.tertiary).accessibilityHidden(true)
+    private var colorControl: some View {
+        Button { beginEdit("Color"); pickingColor = true } label: {
+            HStack {
+                Text("Color").font(.subheadline.weight(.medium)).foregroundStyle(.primary)
+                Spacer()
+                Text(settings.tintRGB == nil ? "Original colors" : "Custom").font(.caption).foregroundStyle(.secondary)
+                Circle().fill(AngularGradient(colors: colors.count > 1 ? colors : colors + colors, center: .center))
+                    .frame(width: 26, height: 26)
+                    .overlay { Circle().strokeBorder(.primary.opacity(0.12), lineWidth: 0.5) }
+            }.frame(minHeight: 44).contentShape(.rect)
+        }.buttonStyle(.plain).accessibilityIdentifier("edit-color")
+        .accessibilityValue(settings.tintRGB == nil ? "Original colors" : "Custom color")
+        .contextMenu {
+            Button("Use original colors") { beginEdit("Color"); settings.tintRGB = nil; endEdit() }
         }
     }
 }
 
-private extension View {
-    @ViewBuilder func studioSelectionStyle(accessible: Bool) -> some View {
-        if accessible { self.pickerStyle(.menu) }
-        else { self.pickerStyle(.segmented) }
+private struct StudioParameterSlider: View {
+    let parameter: StudioParameter
+    @Binding var value: Double
+    let beginEdit: (String) -> Void
+    let endEdit: () -> Void
+    @State private var editing = false
+    @State private var atOriginal = false
+    @State private var detent = 0
+    @State private var enteringValue = false
+    @State private var text = ""
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(alignment: .center) {
+                Text(parameter.title).font(.subheadline.weight(.medium))
+                Spacer(minLength: 8)
+                Button { text = parameter.entryText(value); enteringValue = true } label: {
+                    Text(parameter.display(value)).font(.subheadline.monospacedDigit())
+                        .contentTransition(.numericText()).frame(minWidth: 58, minHeight: 44, alignment: .trailing)
+                }.buttonStyle(.plain).foregroundStyle(.tint)
+                    .accessibilityLabel("Set " + parameter.title.lowercased())
+                    .accessibilityValue(parameter.display(value))
+                    .accessibilityIdentifier("value-" + parameter.rawValue)
+            }
+            Slider(value: $value, in: parameter.range, onEditingChanged: { active in
+                editing = active
+                if active { atOriginal = isOriginal(value); beginEdit(parameter.title) }
+                else { endEdit() }
+            }) { Text(parameter.title) }
+                .accessibilityValue(parameter.display(value))
+                .overlay(alignment: .bottom) {
+                    GeometryReader { proxy in
+                        let fraction = (parameter.original - parameter.range.lowerBound) / (parameter.range.upperBound - parameter.range.lowerBound)
+                        Capsule().fill(.secondary.opacity(0.6)).frame(width: 2, height: 4)
+                            .position(x: 14 + (proxy.size.width - 28) * fraction, y: proxy.size.height + 1)
+                    }.allowsHitTesting(false).accessibilityHidden(true)
+                }
+                .onChange(of: value) { old, new in
+                    guard editing else { return }
+                    let reached = isOriginal(new)
+                    let crossed = (old - parameter.original) * (new - parameter.original) < 0
+                    if !atOriginal && (reached || crossed) { detent += 1 }
+                    atOriginal = reached
+                }
+                .sensoryFeedback(.selection, trigger: detent)
+            HStack { Text(parameter.ends.0); Spacer(); Text(parameter.ends.1) }
+                .font(.caption2).foregroundStyle(.secondary).padding(.top, 3).accessibilityHidden(true)
+        }
+        .alert("Set " + parameter.title.lowercased(), isPresented: $enteringValue) {
+            TextField("Value", text: $text).keyboardType(.numbersAndPunctuation).accessibilityIdentifier("precise-value")
+            Button("Cancel", role: .cancel) { }
+            Button("Apply") {
+                if let parsed = parameter.parse(text) { beginEdit(parameter.title); value = parsed; endEdit() }
+            }.disabled(parameter.parse(text) == nil)
+        } message: {
+            Text("\(parameter.entryText(parameter.range.lowerBound))–\(parameter.entryText(parameter.range.upperBound)) \(parameter.entryUnit)")
+        }
+    }
+    private func isOriginal(_ value: Double) -> Bool { abs(value - parameter.original) < (parameter.range.upperBound - parameter.range.lowerBound) * 0.008 }
+}
+
+private struct StudioColorPicker: UIViewControllerRepresentable {
+    @Binding var isPresented: Bool
+    @Binding var color: UIColor
+    func makeCoordinator() -> Coordinator { Coordinator(self) }
+    func makeUIViewController(context: Context) -> UIViewController { UIViewController() }
+    func updateUIViewController(_ presenter: UIViewController, context: Context) {
+        context.coordinator.parent = self
+        if isPresented, context.coordinator.picker == nil {
+            let picker = UIColorPickerViewController()
+            picker.selectedColor = color; picker.supportsAlpha = false
+            picker.delegate = context.coordinator
+            picker.view.accessibilityIdentifier = "native-color-picker"
+            context.coordinator.picker = picker
+            presenter.present(picker, animated: true)
+            picker.presentationController?.delegate = context.coordinator
+        } else if !isPresented, let picker = context.coordinator.picker {
+            // The presenter can inherit an ancestor's presented controller. Only
+            // dismiss the picker we own; alerts and the tool sheet belong to SwiftUI.
+            if !picker.isBeingDismissed { picker.dismiss(animated: true) }
+            context.coordinator.picker = nil
+        }
+    }
+    final class Coordinator: NSObject, UIColorPickerViewControllerDelegate, UIAdaptivePresentationControllerDelegate {
+        var parent: StudioColorPicker
+        weak var picker: UIColorPickerViewController?
+        init(_ parent: StudioColorPicker) { self.parent = parent }
+        func colorPickerViewControllerDidSelectColor(_ picker: UIColorPickerViewController) { parent.color = picker.selectedColor }
+        func colorPickerViewControllerDidFinish(_ picker: UIColorPickerViewController) { parent.isPresented = false }
+        func presentationControllerDidDismiss(_ presentationController: UIPresentationController) { picker = nil; parent.isPresented = false }
+    }
+}
+
+struct StudioCompareButton: UIViewRepresentable {
+    let comparing: Bool
+    let changed: (Bool) -> Void
+    func makeUIView(context: Context) -> CompareControl {
+        let button = CompareControl(type: .system)
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "circle.lefthalf.filled"); config.imagePadding = 7
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var result = incoming; result.font = .preferredFont(forTextStyle: .subheadline); return result
+        }
+        button.configuration = config
+        button.addTarget(button, action: #selector(CompareControl.down), for: .touchDown)
+        button.addTarget(button, action: #selector(CompareControl.up), for: [.touchUpInside, .touchUpOutside, .touchCancel])
+        button.addTarget(button, action: #selector(CompareControl.activateFromKeyboard(_:event:)), for: .primaryActionTriggered)
+        button.accessibilityIdentifier = "compare-original"
+        button.accessibilityHint = "Hold to view the original. With VoiceOver, double tap to switch between original and edited."
+        return button
+    }
+    func updateUIView(_ button: CompareControl, context: Context) {
+        button.changed = changed; button.comparing = comparing
+        button.configuration?.title = comparing ? "Original" : "Hold to compare"
+        button.accessibilityLabel = "Compare with original"
+        button.accessibilityValue = comparing ? "Original" : "Edited"
+    }
+    final class CompareControl: UIButton {
+        var comparing = false
+        var changed: ((Bool) -> Void)?
+        @objc func activateFromKeyboard(_ sender: UIButton, event: UIEvent?) {
+            if event?.type != .touches { changed?(!comparing) }
+        }
+        @objc func down() { changed?(true) }
+        @objc func up() { changed?(false) }
+        override func accessibilityActivate() -> Bool { changed?(!comparing); return true }
     }
 }

@@ -74,6 +74,7 @@ final class ElementStudioMaterials {
     private var glassMaterial: CustomMaterial?
     private var surfaces: [String: TextureResource] = [:]
     private var prepared = false
+    private var refinedSurfaces: [String: TextureResource] = [:]
 
     func prepare() async throws {
         if prepared { return }
@@ -85,6 +86,15 @@ final class ElementStudioMaterials {
                   let image = UIImage(contentsOfFile: url.path)?.cgImage else { throw CocoaError(.fileReadCorruptFile) }
             surfaces[name] = try await TextureResource(image: image,
                 options: .init(semantic: name == "roughness" ? .scalar : .normal))
+            if name == "dial" {
+                for detail in 1...8 {
+                    let softened = try Self.softenedNormal(image, strength: 0.06 + Double(detail) * 0.065)
+                    refinedSurfaces["dial-\(detail)"] = try await TextureResource(image: softened, options: .init(semantic: .normal))
+                }
+            } else if name != "roughness" {
+                let softened = try Self.softenedNormal(image, strength: name.hasPrefix("brush") ? 0.48 : 0.52)
+                refinedSurfaces[name] = try await TextureResource(image: softened, options: .init(semantic: .normal))
+            }
         }
         guard let library = MTLCreateSystemDefaultDevice()?.makeDefaultLibrary() else { throw CocoaError(.fileReadCorruptFile) }
         var glass = try CustomMaterial(surfaceShader: .init(named: "elementStudioGlass", in: library), lightingModel: .clearcoat)
@@ -173,43 +183,73 @@ final class ElementStudioMaterials {
                                      settings: ElementStudioSettings) -> Bool {
         let detail = min(8, max(1, Int((settings.grain * 8).rounded())))
         let coat = Float(settings.clearcoat)
+        let refined = settings.surfaceRevision == 1
+        let maps = refined ? refinedSurfaces : surfaces
         switch role {
         case "satin":
             material.baseColor = .init(tint: UIColor(red: 0.65, green: 0.68, blue: 0.70, alpha: 1))
             material.metallic = 1.0
             let roughness = Float(settings.roughness) + 0.025
             material.roughness = .init(scale: roughness, texture: surfaces["roughness"].map { .init($0) })
-            material.anisotropyLevel = .init(floatLiteral: Float(settings.grain) * 0.55)
-            if settings.grain > 0.01, let texture = surfaces["brush-\(detail)"] {
+            material.anisotropyLevel = .init(floatLiteral: Float(settings.grain) * (refined ? 0.32 : 0.55))
+            if settings.grain > 0.01, let texture = maps["brush-\(detail)"] {
                 material.normal = .init(texture: .init(texture))
             }
             material.textureCoordinateTransform = .init(scale: [2, 2])
         case "polished":
             material.roughness = .init(floatLiteral: max(0.095, Float(settings.roughness) * 0.55))
             material.clearcoat = 0.25
-            material.clearcoatRoughness = 0.09
+            material.clearcoatRoughness = refined ? 0.14 : 0.09
         case "ceramic":
             material.metallic = 0.0
-            material.roughness = 0.34
+            material.roughness = .init(floatLiteral: refined ? Float(settings.roughness) * 0.75 + 0.04 : 0.34)
             material.clearcoat = .init(floatLiteral: 0.18 + coat * 0.35)
             material.clearcoatRoughness = 0.19
-            if settings.grain > 0.01, let texture = surfaces["glaze-\(detail)"] {
+            if settings.grain > 0.01, let texture = maps["glaze-\(detail)"] {
                 material.normal = .init(texture: .init(texture))
             }
         case "enamel", "dial", "porcelain":
             material.metallic = .init(floatLiteral: role == "dial" ? 0.20 : 0.0)
             material.clearcoat = .init(floatLiteral: role == "porcelain" ? 0.35 : coat)
-            material.clearcoatRoughness = .init(floatLiteral: 0.05 + (1 - coat) * 0.14)
-            material.roughness = .init(floatLiteral: role == "porcelain" ? 0.28 : 0.20 + (1 - coat) * 0.11)
-            if role == "dial", let texture = surfaces["dial"] {
+            material.clearcoatRoughness = .init(floatLiteral: (refined ? 0.12 : 0.05) + (1 - coat) * 0.14)
+            material.roughness = .init(floatLiteral: refined
+                ? max(0.12, Float(settings.roughness) * 0.72 + 0.03)
+                : role == "porcelain" ? 0.28 : 0.20 + (1 - coat) * 0.11)
+            if role == "dial", (!refined || settings.grain > 0.01), let texture = refined ? maps["dial-\(detail)"] : surfaces["dial"] {
                 material.normal = .init(texture: .init(texture))
-            } else if settings.grain > 0.01, let texture = surfaces["glaze-\(detail)"] {
+            } else if settings.grain > 0.01, let texture = maps["glaze-\(detail)"] {
                 material.normal = .init(texture: .init(texture))
                 material.textureCoordinateTransform = .init(scale: [2, 2])
             }
         default: return false
         }
         return true
+    }
+
+    /// Precompute quieter unit normals once; slider updates only select cached textures.
+    private static func softenedNormal(_ image: CGImage, strength: Double) throws -> CGImage {
+        let width = image.width, height = image.height
+        var pixels = [UInt8](repeating: 0, count: width * height * 4)
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmap = CGImageAlphaInfo.premultipliedLast.rawValue
+        let drawn = pixels.withUnsafeMutableBytes { bytes -> Bool in
+            guard let context = CGContext(data: bytes.baseAddress, width: width, height: height,
+                bitsPerComponent: 8, bytesPerRow: width * 4, space: colorSpace, bitmapInfo: bitmap) else { return false }
+            context.draw(image, in: CGRect(x: 0, y: 0, width: width, height: height)); return true
+        }
+        guard drawn else { throw CocoaError(.coderInvalidValue) }
+        for i in stride(from: 0, to: pixels.count, by: 4) {
+            let x = (Double(pixels[i]) / 127.5 - 1) * strength
+            let y = (Double(pixels[i + 1]) / 127.5 - 1) * strength
+            pixels[i] = UInt8(clamping: Int((x + 1) * 127.5))
+            pixels[i + 1] = UInt8(clamping: Int((y + 1) * 127.5))
+            pixels[i + 2] = UInt8(clamping: Int((sqrt(max(0, 1 - x*x - y*y)) + 1) * 127.5))
+        }
+        guard let provider = CGDataProvider(data: Data(pixels) as CFData),
+              let result = CGImage(width: width, height: height, bitsPerComponent: 8, bitsPerPixel: 32,
+                bytesPerRow: width * 4, space: colorSpace, bitmapInfo: .init(rawValue: bitmap),
+                provider: provider, decode: nil, shouldInterpolate: true, intent: .defaultIntent) else { throw CocoaError(.coderInvalidValue) }
+        return result
     }
 
     /// Deterministic microscopic normal variation; the surface never gets a moving noise overlay.
