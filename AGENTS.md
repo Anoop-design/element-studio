@@ -37,3 +37,11 @@ Keep numbers tabular with `.monospacedDigit()` or `font-variant-numeric: tabular
 Run `python3 scripts/check_repository.py` after skill/package changes. Build and test the actual SwiftUI/RealityKit app with `python3 scripts/test-native.py` in a dedicated simulator, or pass `--device DEVICE_UDID --team YOUR_TEAM_ID` for a connected iPhone. Read `Documentation/NATIVE-VALIDATION.md`. Do not run browser-based tests for Element Studio. Only optional mesh export uses `npm ci` and Playwright's managed Chromium, or explicit `STUDIO_CHROME`. Asset generators live in `scripts/`; candidate exports belong under `build/`. Preserve the authored and third-party license notices.
 
 The repository is private during release preparation. Do not change visibility, publish a release, or deploy a site without the owner's explicit request. Historical `DAYWAKE_ELEMENT_*` environment names are diagnostic compatibility aliases; they do not require the Daybeat app.
+
+## Research model preference
+
+Delegate external lookup, repository exploration, and API research to lightweight isolated subagents. Prefer the available Luna model in Codex subscription environments, Haiku for narrow research or Sonnet for harder synthesis in Claude Code. Discover actual model support and avoid silently inheriting an expensive parent model. Keep the main context for implementation, integration, and native validation; workers return concise evidence and conclusions, not raw search logs. Follow `skills/element-studio/references/research-delegation.md` for scope and unavailable-model handling. This is a workflow preference, not a claim about subscription entitlements or permission to use separately billed APIs.
+
+## Native example shapes
+
+The catalogue now has 19 objects: the retained 16 Daybeat examples plus Orbit, Twisted loop, and Stacked pebbles. `StudioExampleShapes.swift` is the independent native generator; its `-v1` IDs preserve saved geometry. `StudioExampleAsset.swift` adapts it to the existing renderer. Review `Documentation/NATIVE-SHAPES.md` before changing these examples. Keep their real native catalogue snapshots current, preserve closed seams and valid normals, and run `ExampleShapeTests` plus the native example UI flow.

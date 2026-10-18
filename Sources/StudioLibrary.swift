@@ -21,7 +21,8 @@ struct StudioArchive: Codable {
     var version = 2
     var looks: [StudioLook] = []
     var collections: [StudioCollection] = [
-        .init(name: "Highlights", objects: ElementStudioSettings.choices.map(\.id)),
+        .init(name: "Highlights", objects: ElementStudioSettings.choices.map(\.id).filter { !StudioExampleShapes.ids.contains($0) }),
+        .init(name: "Native forms", objects: StudioExampleShapes.ids),
         .init(name: "Form studies", objects: ["returning", "ribbon"]),
         .init(name: "Material studies", objects: ["stopwatch", "hourglass", "memory"])
     ]

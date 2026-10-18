@@ -4,6 +4,7 @@ The reference repository is `Anoop-design/element-studio` on GitHub. A private c
 
 | Task | Entry point |
 | --- | --- |
+| Reuse neutral native Swift shapes | `Sources/StudioExampleShapes.swift`, `Sources/StudioExampleAsset.swift`, `Tests/ExampleShapeTests.swift` |
 | Build a procedural object | `Authoring/objects.js`: `buildBadge`, `part`, `lathe`, `castMedal` |
 | Swept forms | `Authoring/forms.js`: `shell`, `patch`, `buildFormStudy` |
 | Browser light/interaction | `Authoring/studio.js`: `studioEnvironment`, `initializeLights` |

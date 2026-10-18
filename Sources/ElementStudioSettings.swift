@@ -57,7 +57,9 @@ nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
         ("week", "Perfect week", "calendar"), ("month", "Active month", "calendar"),
         ("halfYear", "6 months", "calendar"), ("year", "Full year", "rosette"),
         ("ribbon", "12 active weeks", "bookmark"), ("activity", "Activity", "figure.run"),
-        ("frequency", "Frequency", "triangle"), ("collection", "Collection crest", "square.stack")
+        ("frequency", "Frequency", "triangle"), ("collection", "Collection crest", "square.stack"),
+        ("orbit-v1", "Orbit", "circle"), ("twist-v1", "Twisted loop", "infinity"),
+        ("pebbles-v1", "Stacked pebbles", "square.stack.3d.up")
     ]
     var selectionName: String { Self.choices.first { $0.id == selected }?.name ?? "Stopwatch" }
     var objectIDs: [String] {
@@ -69,6 +71,7 @@ nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
     }
     var assetIDs: [String] {
         objectIDs.map { id in
+            if StudioExampleShapes.ids.contains(id) { return id }
             if chosenEdition == .earlier { return id + "-earlier" }
             if chosenEdition == .sculpted { return id + "-sculpted" }
             let suffix = chosenEdition == .studioOriginal ? "-studio20260911" : chosenEdition == .newForms ? "-forms20260910" : ""

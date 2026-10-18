@@ -93,6 +93,49 @@ import XCTest
         app.staticTexts[name].tap()
         XCTAssertTrue(save.waitForExistence(timeout: 60))
     }
+    func testNativeExampleShapesAndSavedLook() {
+        let app = XCUIApplication()
+        app.launchEnvironment = ["STUDIO_REVIEW":"1"]
+        app.launchArguments = ["-studio.appearance", "Light"]
+        app.launch()
+        XCTAssertTrue(app.buttons["element-orbit-v1"].waitForExistence(timeout: 90))
+        capture("Nineteen element collection")
+        for id in ["orbit-v1", "twist-v1", "pebbles-v1"] {
+            app.buttons["element-" + id].tap()
+            XCTAssertTrue(app.buttons["panel-Surface"].waitForExistence(timeout: 5))
+            let viewport = app.otherElements["element-studio-viewport"]
+            capture("Native example " + id + " front")
+            viewport.swipeRight()
+            capture("Native example " + id + " side")
+            viewport.swipeRight(); viewport.swipeRight()
+            capture("Native example " + id + " reverse")
+            app.buttons["panel-Surface"].tap()
+            app.sliders["Finish"].adjust(toNormalizedSliderPosition: 0.65)
+            app.buttons["all-tools"].tap(); app.buttons["panel-Light"].tap()
+            app.sliders["Light direction"].adjust(toNormalizedSliderPosition: 0.7)
+            capture("Native example " + id + " light")
+            app.buttons["all-tools"].tap(); app.buttons["panel-Form"].tap()
+            app.sliders["Depth"].adjust(toNormalizedSliderPosition: 0.65)
+            if id != "twist-v1" { app.sliders["Separate components"].adjust(toNormalizedSliderPosition: 0.7) }
+            capture("Native example " + id + " form")
+            app.buttons["all-tools"].tap()
+            if id != "pebbles-v1" { app.buttons["close-studio"].tap() }
+        }
+        let name = "Pebble study " + String(UUID().uuidString.prefix(6))
+        app.buttons["save-look"].tap()
+        XCTAssertTrue(app.textFields["look-name"].waitForExistence(timeout: 5))
+        app.textFields["look-name"].tap(); app.textFields["look-name"].typeText(name)
+        app.buttons["confirm-save"].tap()
+        XCTAssertTrue(app.buttons["close-studio"].waitForExistence(timeout: 15))
+        app.terminate(); app.launch()
+        XCTAssertTrue(app.buttons["studio-options"].waitForExistence(timeout: 90))
+        app.buttons["studio-options"].tap(); app.buttons["Saved looks"].tap()
+        XCTAssertTrue(app.staticTexts[name].waitForExistence(timeout: 10))
+        app.staticTexts[name].tap()
+        XCTAssertTrue(app.buttons["save-look"].waitForExistence(timeout: 60))
+        capture("Native pebble look reopened")
+    }
+
     func testDarkCollectionAndSurface() {
         let app = XCUIApplication()
         app.launchEnvironment = ["STUDIO_REVIEW":"1"]
@@ -167,7 +210,14 @@ import XCTest
         app.launchEnvironment = ["STUDIO_REVIEW":"1"]
         app.launchArguments = ["-studio.appearance", "Light"]
         app.launch()
-        XCTAssertTrue(app.buttons["element-energy"].waitForExistence(timeout: 60))
+        XCTAssertTrue(app.buttons["element-stopwatch"].waitForExistence(timeout: 60))
+        // Review storage persists between tests. Establish the other object's
+        // baseline explicitly instead of assuming the saved workspace is satin.
+        app.buttons["element-stopwatch"].tap(); app.buttons["panel-Surface"].tap()
+        app.buttons["reset-object"].tap(); app.buttons["reset-all-edits"].tap()
+        XCTAssertEqual(app.buttons["value-finish"].value as? String, "Satin")
+        app.buttons["all-tools"].tap(); app.buttons["close-studio"].tap()
+        XCTAssertTrue(app.buttons["element-energy"].waitForExistence(timeout: 5))
         app.buttons["element-energy"].tap()
         app.buttons["panel-Surface"].tap()
         app.buttons["reset-object"].tap(); app.buttons["reset-all-edits"].tap()

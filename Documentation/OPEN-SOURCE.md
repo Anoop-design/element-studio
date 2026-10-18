@@ -11,7 +11,7 @@ The repository remains **private**. The owner selected MIT for original code, do
 - Contributor instructions, source/lesson map, asset provenance, MIT license, and retained third-party/font notices.
 - Native simulator and connected-iPhone testing, without a committed signing team or a personal Xcode path. The portable workflow includes signing, review storage, native captures, and visual acceptance.
 
-## Verification
+## Initial native verification
 
 Owner clarification: app acceptance uses native SwiftUI/RealityKit execution in the simulator or on a connected iPhone. The browser test runner was removed, the skills now require native testing, and CI is configured for Xcode. The optional JavaScript tools remain only for mesh authoring/export.
 
@@ -38,6 +38,26 @@ The complete run is saved locally as `build/NativeTests-20261018T094756Z-242199.
 The native compiler reported an existing weak-capture warning in ElementStudioApp.swift; no compilation or test failure resulted. This preparation does not include a new physical-device performance or gyro review. Historical visual reviews remain in [REVIEW.md](REVIEW.md) and retain their original dates.
 
 Reproduce checks with `python3 scripts/check_repository.py` and `python3 scripts/test-native.py`. Follow [native validation](NATIVE-VALIDATION.md) for simulator/iPhone destinations, signing, captures, and targeted review. GitHub Actions now selects the macOS `xcode-27` runner and runs the same native unit/UI suites, preserving `.xcresult` bundles and logs. Browser tests and their npm command are removed. Local native outputs are ignored under `build/`.
+
+## Native shapes and research delegation follow-up
+
+Later on 18 October 2026, the owner confirmed that all 16 Daybeat examples and their history should remain. Three original native Swift examples were added: Orbit, Twisted loop, and Stacked pebbles. The catalogue has 19 objects. Their independent generator, construction lessons, and actual iPhone-rendered previews are documented in [native shapes](NATIVE-SHAPES.md); original source and assets remain MIT licensed.
+
+All three portable skills now delegate broad research to isolated lightweight workers: an available Luna model for Codex, Haiku for narrow Claude Code research, or Sonnet for harder synthesis. The instructions require discovering actual host support and returning compact findings. They do not promise subscription entitlements or authorize separately billed API work. Two Luna research workers were used for this change.
+
+| Follow-up check | Result |
+| --- | --- |
+| Physical-device unit suite | 24 tests passed, zero failures, on iPhone 16 Pro Max with iOS 27.2 (24B5099f), built with Xcode 27.1 (27A9275) |
+| New shape geometry | Closed welded seams, finite meshes, index bounds, nondegenerate triangles, outward normal/winding agreement, deterministic buffers, stable edition IDs, and saved-look import/relaunch passed |
+| Physical-device native rendering | Three transparent 600 × 600 RealityKit snapshots passed opaque/transparent pixel checks and were visually reviewed, then promoted as catalogue previews |
+| Independent reuse | The geometry generator type-checked independently of the app with the installed Swift toolchain |
+| Simulator UI coverage | The nine-test run passed eight tests, including the new shape/save/reopen flow. The final test exposed an inherited-workspace assumption in its baseline. After making the test establish its own comparison finish, the final sequential run passed both the shape flow and precision/undo/export flow, zero failures |
+| Native UI screenshots | 17 new-shape attachments exported; collection layout, rotated forms, lighting, separated components, and the reopened look visually inspected |
+| Physical-device UI attempt | The runner could not initialize because on-device authentication was cancelled. No UI test executed and no physical-device UI pass is claimed |
+| Portable skills | All three packages passed Skill Creator validation; the installed Element Studio skill was synchronized |
+| Repository validation | Three skills, 31 Markdown documents, and 92 fixture manifests / 620 batches passed; the new Swift geometry is covered by native tests |
+
+The physical-device results are `build/NativeTests-20261018T101345Z-e4f35f.xcresult`; the cancelled UI attempt is `build/NativeTests-20261018T101521Z-bf0991.xcresult`. The full simulator UI run is `build/NativeTests-20261018T101736Z-e703d2.xcresult`; the final two-test pass is `build/NativeShapesFinal-20261018T103230Z.xcresult`. An intermediate rerun (`build/NativeTests-20261018T102917Z-4c1866.xcresult`) had a runner restart while the prior run was finalizing diagnostics; it is not counted as a passing run. The final run waited for prior Xcode processes to exit. QA used isolated review storage and preserved the normal saved-look library. This is geometry, rendering, and interaction verification, not a device performance or gyro certification.
 
 ## Before changing visibility
 

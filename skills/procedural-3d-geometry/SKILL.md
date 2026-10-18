@@ -6,9 +6,13 @@ license: MIT
 
 # Procedural 3D geometry
 
-Construct an inspectable solid with useful editable parameters. This guidance comes from Element Studio's hand-tuned objects and can be applied to unrelated forms or renderers. The reference code uses Three.js for authoring and typed mesh buffers for RealityKit; the geometric principles do not require those tools.
+Construct an inspectable solid with useful editable parameters. This guidance comes from Element Studio's hand-tuned objects and can be applied to unrelated forms or renderers. The reference includes independent native Swift generators as well as the original Three.js builders and typed mesh buffers for RealityKit. The geometric principles do not require a particular authoring tool.
 
-Read [construction and corrections](references/construction.md) for the actual algorithms and failure modes. Read [native transfer](references/native-transfer.md) when exporting geometry or preserving editions.
+Read [construction and corrections](references/construction.md) for the actual algorithms and failure modes. Read [native transfer](references/native-transfer.md) when exporting geometry or preserving editions. Read [native Swift examples](references/native-examples.md) to reuse or extend the orbit, twisted loop, and stacked pebble generators.
+
+## Research delegation
+
+Delegate research to lightweight subagents: **Luna in Codex**, **Haiku or Sonnet in Claude Code**, using models actually available in the current environment. Keep broad research out of the main agent's context; return concise findings and evidence. Read [research delegation](references/research-delegation.md) before starting research, including the unavailable-model fallback. Implementation and native validation stay with the working agent.
 
 ## Choose the construction by shape
 

@@ -8,6 +8,10 @@ license: MIT
 
 Deliver a real rendered object and controls that change it. Work in the user's chosen project; the Element Studio repository is a reference implementation, not a requirement to use its badge theme or UI. The knowledge here works with any coding agent that can read Markdown. Native execution and validation require macOS, Xcode, and an iOS simulator or connected iPhone. The browser mesh source is an optional asset-generation tool.
 
+## Research delegation
+
+Delegate research to lightweight subagents: **Luna in Codex**, **Haiku or Sonnet in Claude Code**, using models actually available in the current environment. Keep broad research out of the main agent's context; return concise findings and evidence. Read [research delegation](references/research-delegation.md) before starting research, including the unavailable-model fallback. Implementation and native validation stay with the working agent.
+
 ## Start with the intended object
 
 Identify its silhouette, construction, useful viewing distance, materials, and interactions. Choose a lathe, extrusion, sweep, or assembled mesh according to the form. Use RealityKit for native lit 3D and SwiftUI for native controls. Existing JavaScript mesh builders can generate candidate assets, which must be reviewed in the native renderer. SwiftUI shader effects are appropriate for 2D view effects, not a substitute for a mesh.

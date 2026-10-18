@@ -31,3 +31,7 @@ The complete current native fixtures are included. Historical editions preserve 
 ## Limits to carry forward
 
 The hourglass is not a physical sand simulation. The native glass shader is not volumetric refraction. The browser's color pipeline is not proof of native color parity. Some original helper choices assume a single dominant outline. Historical measurements in REVIEW are dated observations, not guarantees. Skills teach these limits as well as the successful refinements.
+
+## Native neutral examples
+
+[Native shape examples](NATIVE-SHAPES.md) connects the independent Swift loop/ellipsoid generators to their material roles, stable IDs, native mesh adapter, closed-seam checks, and iPhone-rendered previews.

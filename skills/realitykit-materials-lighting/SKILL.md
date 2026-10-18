@@ -10,6 +10,10 @@ Build a material/light system that explains the object's geometry and remains ed
 
 Read [materials and light](references/materials-and-light.md) for the reference rig, tuning values, texture preparation, and diagnostic order. Read [Metal shader integration](references/metal-shaders.md) when writing or binding a shader. The source map in those references names files in the Element Studio checkout; the technical guidance can be used independently.
 
+## Research delegation
+
+Delegate research to lightweight subagents: **Luna in Codex**, **Haiku or Sonnet in Claude Code**, using models actually available in the current environment. Keep broad research out of the main agent's context; return concise findings and evidence. Read [research delegation](references/research-delegation.md) before starting research, including the unavailable-model fallback. Implementation and native validation stay with the working agent.
+
 ## Choose the shader path correctly
 
 | Intent | API family |

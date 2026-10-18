@@ -20,7 +20,7 @@ This repository is currently private. Preparing these materials does not publish
 
 ## Using the app
 
-- **Home:** all sixteen elements share a three-column live 3D canvas. The last row is centered. Drag with one finger to rotate them together, pinch to zoom under your fingers, and drag with two fingers to move around. Zoom out stops at the fitted 1× view; pan limits tighten as you zoom out, so the canvas cannot drift away. Show all resets the view. There is no search or bottom home toolbar.
+- **Home:** all nineteen elements share a three-column live 3D canvas. The last row is centered. Drag with one finger to rotate them together, pinch to zoom under your fingers, and drag with two fingers to move around. Zoom out stops at the fitted 1× view; pan limits tighten as you zoom out, so the canvas cannot drift away. Show all resets the view. There is no search or bottom home toolbar.
 - **Appearance:** follows System, with Light and Dark overrides in the top menu. Light uses a pale gray canvas; Dark uses pure black.
 - **Tilt with iPhone:** bounded, smoothed gyro movement is on by default. The top menu can disable it. Motion stops in the background and with Reduce Motion.
 - **Open an element:** tap it to move the camera directly toward that same live object. The scene stays alive; there is no intermediate screen, automatic spin, or per-object preparation message. A non-bouncing native spring carries the same object from its grid position into focus. Closing returns to the exact collection zoom and position, with edited depth and separated parts easing back into the grid. Reversing a transition carries its current motion forward smoothly. Closing with a tool expanded keeps its native toolbar transition intact. Reduce Motion skips the camera flight.
@@ -34,14 +34,14 @@ This repository is currently private. Preparing these materials does not publish
 - **Save look (+):** name the current version and choose a collection. Each version keeps geometry edition, study, color, material, lighting, form, and camera angle. Its thumbnail is rendered from that saved state. A brief Saved confirmation and success haptic acknowledge the completed save.
 - **Looks:** reopen, rename, favorite, duplicate, and delete saved versions. Export a JSON library through Files or import one. Imports add copies without replacing existing looks.
 
-The catalogue contains 16 authored objects, four preserved prior editions, and six Comeback/ribbon studies. The latest Daywake update brings a continuous enamel flame, a clearer Comeback arrow with its workout symbol, a full six-month medallion, and a numbered activity medal. The alternate Comeback studies also include their workout marks. Earlier standalone geometry remains under -studio20260911, and New forms under -forms20260910. Existing saved looks keep their original geometry through the library migration; new looks use the updated shapes. This is a visual authoring library with bounded controls, not a general polygon modelling application. New mesh families are added in source. There is no account or cloud synchronization; use Export library to keep a portable backup.
+The catalogue contains the 16 Daybeat objects plus three original [native Swift shape examples](Documentation/NATIVE-SHAPES.md): Orbit, Twisted loop, and Stacked pebbles. The Daybeat examples retain four preserved prior editions and six Comeback/ribbon studies. The latest Daywake update brings a continuous enamel flame, a clearer Comeback arrow with its workout symbol, a full six-month medallion, and a numbered activity medal. The alternate Comeback studies also include their workout marks. Earlier standalone geometry remains under -studio20260911, and New forms under -forms20260910. Existing saved looks keep their original geometry through the library migration; new looks use the updated shapes. This is a visual authoring library with bounded controls, not a general polygon modelling application. New mesh families are added in source. There is no account or cloud synchronization; use Export library to keep a portable backup.
 
 ## Source of truth
 
 This repository is the canonical home for future app and shader work. The earlier copy inside Daywake is an extraction snapshot. Start with [the architecture guide](Documentation/ARCHITECTURE.md) for shader and renderer entry points.
 
 
-- `Sources/`: native SwiftUI library, editor, RealityKit/Metal renderer and settings model.
+- `Sources/`: native SwiftUI library, editor, RealityKit/Metal renderer, settings model, and independently reusable Swift shape generators.
 - `Resources/`: authored native geometry fixtures, preserved editions and textures; the app runs fully offline.
 - `Authoring/`: editable browser mesh builders and reference studio, including its vendored dependencies and licenses.
 - `export-meshes.cjs`: developer conversion of authored browser geometry to native vertex/index buffers. It requires Node and Playwright's managed Chromium. Serve `Authoring` locally and pass that URL explicitly. The default export writes candidates under `build/mesh-export`; preserve previous versions under a new edition before promoting changed geometry.

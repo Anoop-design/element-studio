@@ -386,9 +386,17 @@ struct StudioEditor: View {
 private struct InitialCollectionPreview: View {
     var body: some View {
         GeometryReader { geometry in
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 12) {
-                ForEach(ElementStudioSettings.choices, id: \.id) { choice in
-                    Image("Object-" + choice.id).resizable().scaledToFit().frame(height: max(1, min(geometry.size.width / 3, (geometry.size.height - 72) / 6)))
+            let choices = ElementStudioSettings.choices
+            let rows = (choices.count + 2) / 3
+            let width = max(1, (geometry.size.width - 56) / 3)
+            let height = max(1, min(width, (geometry.size.height - 32 - CGFloat(rows - 1) * 12) / CGFloat(rows)))
+            VStack(spacing: 12) {
+                ForEach(0..<rows, id: \.self) { row in
+                    HStack(spacing: 12) {
+                        ForEach(Array(choices.dropFirst(row * 3).prefix(3)), id: \.id) { choice in
+                            Image("Object-" + choice.id).resizable().scaledToFit().frame(width: width, height: height)
+                        }
+                    }.frame(maxWidth: .infinity)
                 }
             }.padding(16).frame(maxHeight: .infinity)
         }.background(Color(uiColor: ElementStudioRenderer.background))

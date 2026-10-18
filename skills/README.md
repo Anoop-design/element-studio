@@ -28,6 +28,10 @@ The installer copies all three directories and the MIT license, refuses existing
 
 Build and test the native implementation on macOS with full Xcode and an iOS 26+ simulator or connected iPhone. Follow the self-contained [native validation guide](element-studio/references/native-validation.md); browser testing is not part of this workflow. Only optional mesh export needs the pinned Node/Playwright dependencies. Apple signing credentials are needed for physical-device builds. The library of techniques does not require Daybeat, HealthKit, an account, or a specific AI subscription.
 
+## Research model preference
+
+Each skill includes self-contained [research delegation guidance](element-studio/references/research-delegation.md). Research goes to Luna subagents in Codex, or Haiku/Sonnet subagents in Claude Code, when the current environment exposes those models. Workers receive only the bounded question and relevant context, then return concise findings. The main agent handles implementation and native verification. The instructions do not change global settings or assume subscription entitlements.
+
 ## What was captured
 
 The references preserve the reasons behind the tweaks: polygon offsets instead of shrinking outlines; conforming subdivision before bending; continuous flame and arrow faces; ordered ribbon-notch rows; curved inscription seating; spatially cached projection; softer normal maps; coordinated reflection/key lighting; native thin-glass limitations; stable camera identity; transient mesh inspection; reversible edits; geometry/material versioning; and actual-alpha export. The original builders, shaders, fixtures, and regeneration scripts remain runnable examples in this repository.

@@ -40,6 +40,7 @@ nonisolated struct ElementStudioAsset: Decodable, Sendable {
 
     struct Loaded: Sendable { let asset: ElementStudioAsset; let data: Data }
     static func read(id: String, bundle: Bundle = .main) throws -> Loaded {
+        if let parts = StudioExampleShapes.make(id: id) { return example(id: id, parts: parts) }
         guard let manifest = bundle.url(forResource: "ElementStudio-\(id)", withExtension: "json"),
               let binary = bundle.url(forResource: "ElementStudio-\(id)", withExtension: "bin") else {
             throw CocoaError(.fileNoSuchFile)

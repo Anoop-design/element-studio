@@ -32,7 +32,7 @@ xcodebuild -project ElementStudio.xcodeproj -scheme ElementStudio \
   -parallel-testing-enabled NO test
 ```
 
-Choose a fresh result-bundle path per run. Open it in Xcode to inspect failed assertions, native screenshots, and test recordings. Keep logs and captures under ignored `build/` or `Review/`. Avoid parallel simulator clones for this graphics-heavy suite.
+Choose a fresh result-bundle path per run. Open it in Xcode to inspect failed assertions, native screenshots, and test recordings. Keep logs and captures under ignored `build/` or `Review/`. Avoid parallel simulator clones for this graphics-heavy suite. Wait for the entire `xcodebuild` process to exit and finalize its result bundle before starting another run on the same simulator; a completed test-case line can still be followed by diagnostic cleanup that interferes with a new runner.
 
 ## Connected iPhone: real hardware review
 
@@ -45,6 +45,8 @@ python3 scripts/test-native.py --device DEVICE_UDID --team YOUR_TEAM_ID
 ```
 
 Only add `--allow-provisioning-updates` when Xcode needs permission to update signing profiles. The team is a command-line override, never a committed credential or project setting. The helper builds and runs the same XCTest/XCUITest suites on the selected physical device. If it is disconnected or unavailable, report that limitation and use a simulator for the supported checks.
+
+UI automation can request authentication on the iPhone even when unit tests and native rendering already work. If the runner reports authentication cancelled, keep the device unlocked and ask the owner to approve the on-device prompt before retrying. Record this as an uncompleted UI run, not a failed app assertion; do not bypass authentication or change device security settings. Simulator checks can continue independently.
 
 For manual visual/gyro review, build with the same destination and signing override, replacing `test` with `build`. Install the resulting app over the existing bundle, then launch review mode:
 
