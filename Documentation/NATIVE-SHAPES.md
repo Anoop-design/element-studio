@@ -1,6 +1,6 @@
 # Reusable native shape examples
 
-Element Studio now includes three original neutral forms alongside the sixteen Daybeat examples. Their geometry is generated in Swift and rendered by RealityKit. There is no JavaScript or browser step for building or testing these forms. Original code and shapes use the repository's [MIT license](../LICENSE); the repository remains private until the owner requests publication.
+Element Studio now includes three original neutral forms alongside the sixteen Daybeat examples. Their geometry is generated in Swift and rendered by RealityKit. There is no JavaScript or browser step for building or testing these forms. Original code and shapes are open source under the repository's [MIT license](../LICENSE).
 
 <p>
   <img src="../Assets.xcassets/Object-orbit-v1.imageset/object.png" width="190" alt="Turquoise ceramic orbit surrounding a polished gold core">

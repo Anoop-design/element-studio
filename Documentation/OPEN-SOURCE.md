@@ -1,6 +1,6 @@
-# Open-source preparation
+# Open-source release and validation
 
-The repository remains **private**. The owner selected MIT for original code, documentation, procedural assets, and the portable agent skills. No public release, visibility change, website deployment, or package publication is part of this preparation.
+The owner authorized public GitHub visibility on **18 October 2026**, following the private preparation recorded below. Element Studio is open source under **MIT** for original code, documentation, procedural assets, and portable agent skills, subject to the bundled third-party notices. The release retains the Daybeat examples and existing history as requested. Website deployment and package publication are outside this release.
 
 ## Included
 
@@ -59,13 +59,13 @@ All three portable skills now delegate broad research to isolated lightweight wo
 
 The physical-device results are `build/NativeTests-20261018T101345Z-e4f35f.xcresult`; the cancelled UI attempt is `build/NativeTests-20261018T101521Z-bf0991.xcresult`. The full simulator UI run is `build/NativeTests-20261018T101736Z-e703d2.xcresult`; the final two-test pass is `build/NativeShapesFinal-20261018T103230Z.xcresult`. An intermediate rerun (`build/NativeTests-20261018T102917Z-4c1866.xcresult`) had a runner restart while the prior run was finalizing diagnostics; it is not counted as a passing run. The final run waited for prior Xcode processes to exit. QA used isolated review storage and preserved the normal saved-look library. This is geometry, rendering, and interaction verification, not a device performance or gyro certification.
 
-## Before changing visibility
+## Public source distribution
 
-The owner must explicitly request publication. The current Daybeat-branded example inscriptions and reverse mark are intentionally retained, with their origin explained; a fork can replace the source mark and regenerate its own fixtures. They are examples, not required branding for a new project.
+The current Daybeat-branded example inscriptions and reverse mark are intentionally retained, with their origin explained; a fork can replace the source mark and regenerate its own fixtures. They are examples, not required branding for a new project.
 
-Existing history is preserved. It includes the original developer's non-secret Xcode path and Apple team identifier in older commits; current setup no longer depends on either. Do not rewrite shared history merely to hide ordinary attribution. A future review that identifies an actual credential would require revocation and a coordinated cleanup before publication.
+Existing history is preserved. It includes the original developer's non-secret Xcode path and Apple team identifier in older commits; current setup no longer depends on either. Do not rewrite shared history merely to hide ordinary attribution. Any actual credential identified in a future review would require revocation and coordinated cleanup.
 
-The `package.json` private flag prevents accidental npm publication independently of GitHub visibility. This project is distributed as source and skills, not an npm runtime library. No new access is granted while GitHub remains private.
+The `package.json` private flag prevents accidental npm publication independently of GitHub visibility. This project is distributed as source and skills, not an npm runtime library. The public GitHub repository allows anyone to read, clone, and fork the source under its licenses.
 
 ## Hosted CI status
 

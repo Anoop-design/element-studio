@@ -16,7 +16,7 @@ The repository includes three portable [agent skills](skills/README.md): an inte
 
 The [asset authoring guide](Authoring/README.md) covers optional mesh-generation tools and regeneration of the HDR environment and surface textures. App testing always uses the native SwiftUI/RealityKit app in a simulator or on an iPhone. Runtime previews remain offline. [MIT](LICENSE) covers original code, skills, documentation, and assets, subject to the [bundled third-party notices](THIRD-PARTY.md).
 
-This repository is currently private. Preparing these materials does not publish it. See [release preparation](Documentation/OPEN-SOURCE.md).
+Element Studio is open source under the MIT license. See the [release and validation record](Documentation/OPEN-SOURCE.md).
 
 ## Using the app
 
