@@ -34,7 +34,7 @@ The first browser run used the legacy headless-shell path and timed out during a
 
 The native compiler reported an existing weak-capture warning in ElementStudioApp.swift; no compilation or test failure resulted. This preparation does not include a new physical-device performance or gyro review. Historical visual reviews remain in [REVIEW.md](REVIEW.md) and retain their original dates.
 
-Reproduce the portable checks with `python3 scripts/check_repository.py` and `npm run verify:browser` while the loopback server is running. GitHub Actions runs those checks on Linux for pushes and pull requests. Native validation is local because it requires an appropriate Xcode and simulator. Local outputs are ignored under `build/` and `Authoring/verification/`.
+Reproduce the portable checks with `python3 scripts/check_repository.py` and `npm run verify:browser` while the loopback server is running. The GitHub Actions workflow is configured to run those checks on Ubuntu 24.04 for pushes and pull requests. Native validation is local because it requires an appropriate Xcode and simulator. Local outputs are ignored under `build/` and `Authoring/verification/`.
 
 ## Before changing visibility
 
@@ -43,3 +43,7 @@ The owner must explicitly request publication. The current Daybeat-branded examp
 Existing history is preserved. It includes the original developer's non-secret Xcode path and Apple team identifier in older commits; current setup no longer depends on either. Do not rewrite shared history merely to hide ordinary attribution. A future review that identifies an actual credential would require revocation and a coordinated cleanup before publication.
 
 The `package.json` private flag prevents accidental npm publication independently of GitHub visibility. This project is distributed as source and skills, not an npm runtime library. No new access is granted while GitHub remains private.
+
+## Hosted CI status
+
+The [first hosted run](https://github.com/Anoop-design/element-studio/actions/runs/39115789169) stopped before allocating a runner or executing any steps. GitHub reported that recent account payments failed or the spending limit needs to be increased. Local checks above passed; hosted Linux verification remains unperformed until the account issue is resolved. No billing setting was changed and no futile rerun was requested. The workflow pins Ubuntu 24.04 to avoid an unrelated runner-image migration during release preparation.
