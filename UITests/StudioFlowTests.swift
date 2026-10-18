@@ -118,6 +118,7 @@ import XCTest
     }
     func testMeshInspectionDoesNotLeakAcrossObjectsOrRelaunch() {
         let app = XCUIApplication()
+        app.launchEnvironment = ["STUDIO_REVIEW":"1"]
         app.launchArguments = ["-studio.appearance", "Dark"]
         app.launch()
         XCTAssertTrue(app.buttons["element-stopwatch"].waitForExistence(timeout: 60))

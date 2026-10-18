@@ -1,24 +1,31 @@
-name: Validate portable package
+name: Validate native app and skills
 on:
   push:
   pull_request:
 permissions:
   contents: read
 jobs:
-  authoring-and-skills:
-    runs-on: ubuntu-24.04
+  native-and-skills:
+    runs-on: xcode-27
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 scripts/check_repository.py
-      - run: npm ci --ignore-scripts
-      - run: npx playwright install --with-deps chromium
-      - name: Start local authoring server
-        run: python3 -m http.server 8786 --bind 127.0.0.1 --directory Authoring > /tmp/element-studio-server.log 2>&1 &
-      - run: npm run verify:browser
+      - name: Check portable skills and mesh buffers
+        run: python3 scripts/check_repository.py
+      - name: Report native toolchain
+        run: xcodebuild -version
+      - name: Build and test on a dedicated iPhone simulator
+        run: python3 scripts/test-native.py
+      - name: Preserve native test results and captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-test-results
+          path: |
+            build/NativeTests-*.xcresult
+            build/NativeTests-*.log
+          if-no-files-found: warn
+          retention-days: 7

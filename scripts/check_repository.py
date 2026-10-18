@@ -62,7 +62,7 @@ def check_docs():
         require(not re.search(r'/Users/[^/\s]+/', path.read_text()), f'{path}: personal home path')
     for name in ('project.yml', 'ElementStudio.xcodeproj/project.pbxproj'):
         text = (ROOT / name).read_text()
-        require(not re.search(r'DEVELOPMENT_TEAM\s*[:=]\s*[A-Z0-9]{10}', text), f'{name}: personal signing team')
+        require(not re.search(r'(?:DEVELOPMENT_TEAM|DevelopmentTeam)\s*[:=]\s*[A-Z0-9]{10}', text), f'{name}: personal signing team')
     return len(paths)
 
 

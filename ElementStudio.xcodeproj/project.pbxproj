@@ -815,15 +815,12 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					4B1159BA46B0E9FBE2AFCE22 = {
-						DevelopmentTeam = 7YYS5MW5QM;
 						ProvisioningStyle = Automatic;
 					};
 					6296E490E902790A2773A7D6 = {
-						DevelopmentTeam = 7YYS5MW5QM;
 						ProvisioningStyle = Automatic;
 					};
 					EA8A08EF5B39D9FB706A5AB3 = {
-						DevelopmentTeam = 7YYS5MW5QM;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 4B1159BA46B0E9FBE2AFCE22;
 					};

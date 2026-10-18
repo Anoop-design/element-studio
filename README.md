@@ -14,7 +14,7 @@ A standalone, native iOS studio for developing 3D elements, materials and Metal 
 
 The repository includes three portable [agent skills](skills/README.md): an interactive 3D authoring workflow, procedural mesh construction, and RealityKit materials/lighting/Metal shaders. They preserve the methods behind the manually tuned objects and can be used in other projects with any coding agent that can read their Markdown. Start with [the learning map](Documentation/LEARNING-MAP.md) to connect each technique to working source.
 
-The [browser authoring guide](Authoring/README.md) covers preview, locked developer dependencies, mesh export, and regeneration of the HDR environment and surface textures. Runtime previews remain offline. [MIT](LICENSE) covers original code, skills, documentation, and assets, subject to the [bundled third-party notices](THIRD-PARTY.md).
+The [asset authoring guide](Authoring/README.md) covers optional mesh-generation tools and regeneration of the HDR environment and surface textures. App testing always uses the native SwiftUI/RealityKit app in a simulator or on an iPhone. Runtime previews remain offline. [MIT](LICENSE) covers original code, skills, documentation, and assets, subject to the [bundled third-party notices](THIRD-PARTY.md).
 
 This repository is currently private. Preparing these materials does not publish it. See [release preparation](Documentation/OPEN-SOURCE.md).
 
@@ -52,18 +52,18 @@ User configurations are stored atomically at `Application Support/Element Studio
 
 ## Build and verify
 
-From this repository, use a full Xcode installation supporting the project. The deployment floor is iOS 26. Discover an available destination with `xcodebuild -project ElementStudio.xcodeproj -scheme ElementStudio -showdestinations`, then replace `SIMULATOR_ID` below:
+Use full Xcode and an installed iOS 26+ simulator. From the repository root:
 
 ```sh
-xcodebuild -project ElementStudio.xcodeproj \
-  -scheme ElementStudio \
-  -destination 'platform=iOS Simulator,id=SIMULATOR_ID' \
-  -derivedDataPath build build
+python3 scripts/check_repository.py
+python3 scripts/test-native.py
 ```
 
-Replace `build` with `test` to run the tests. Keep DerivedData warm. Use `project.yml` with XcodeGen when changing project structure. iOS 26.0 is the minimum supported version.
+The helper builds the real SwiftUI/RealityKit app and runs unit and UI tests in a dedicated Element Studio QA iPhone simulator. It keeps DerivedData warm and saves logs, test results, and native captures under `build/`. No browser or Node installation is needed for testing.
 
-No personal signing team is committed. For an automatically signed phone build, supply your own `DEVELOPMENT_TEAM=YOUR_TEAM_ID` and use `-destination 'generic/platform=iOS' -configuration Debug -allowProvisioningUpdates`. Install `build/Build/Products/Debug-iphoneos/ElementStudio.app` over the existing Element Studio installation.
+For a paired, unlocked iPhone, use `python3 scripts/test-native.py --device DEVICE_UDID --team YOUR_TEAM_ID`. No personal signing team is committed. Install updates over the existing bundle ID and use isolated review storage; never uninstall or reset a user's library for QA.
+
+See [native validation](Documentation/NATIVE-VALIDATION.md) for destination discovery, focused tests, signing, device installation, capture commands, and visual acceptance. Use `project.yml` with XcodeGen when changing project structure. iOS 26.0 is the minimum supported version.
 
 Materials are real-time approximations: glass uses a custom shader, and finish/detail controls are bounded artistic settings. Judge the final effect on the target phone as well as in the simulator.
 

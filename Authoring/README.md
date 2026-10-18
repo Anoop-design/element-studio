@@ -1,8 +1,10 @@
-# Element Studio browser authoring
+# Optional mesh authoring tools
 
 A self-contained WebGL2 study with sixteen code-authored 3D objects, material/light controls, component inspection, and alternate swept forms. The example collection originated in Daybeat; dates, counts, inscriptions, and the procedural landscape are synthetic fixtures. It has no dependency on the Daybeat application.
 
-## Preview
+Element Studio testing takes place in the native SwiftUI/RealityKit app on an iOS simulator or connected iPhone. Follow [native validation](../Documentation/NATIVE-VALIDATION.md). This directory preserves mesh source and the historical WebGL study; it is not the product test harness.
+
+## Historical study preview
 
 From the repository root:
 
@@ -16,7 +18,7 @@ Use clay, front/side/reverse, mesh inspection, separated components, moving ligh
 
 ## Install developer tools
 
-Node 20+ is required for automated checks and export:
+Node 20+ is required only for mesh export:
 
 ```sh
 npm ci
@@ -25,16 +27,6 @@ npx playwright install chromium
 
 The default is Playwright's managed Chromium. Optionally set `STUDIO_CHROME` to an existing compatible Chromium executable; no personal Chrome path or agent-bundled runtime is assumed. Linux environments may need Playwright's documented OS dependencies. Python's server is still a separate terminal process.
 
-## Verify the browser
-
-With the server running:
-
-```sh
-npm run verify:browser
-```
-
-Override the URL with `STUDIO_URL` and capture directory with `STUDIO_OUTPUT`. The runner uses an isolated browser context. It verifies controls, all sixteen selectors, orientations, component separation, changed light/material renders, full-turn completion, direct drag, Reduce Motion, idle frames, 390px reflow, console errors, and same-origin runtime requests. Captures go to ignored `Authoring/verification/` by default. It is not a native device benchmark.
-
 ## Export candidate native meshes
 
 ```sh
@@ -42,7 +34,7 @@ node export-meshes.cjs http://127.0.0.1:8786/ --output build/mesh-candidate ribb
 python3 scripts/check_repository.py --geometry build/mesh-candidate
 ```
 
-Omit IDs to export all current variants. `--live` removes fixture inscriptions and supplies a sampled surface grid for a consuming application's marks. `--help` documents options. The default output is ignored `build/mesh-export`; existing outputs require explicit `--overwrite`. Review and preserve existing editions before promoting files into `Resources/`.
+Omit IDs to export all current variants. `--live` removes fixture inscriptions and supplies a sampled surface grid for a consuming application's marks. `--help` documents options. The default output is ignored `build/mesh-export`; existing outputs require explicit `--overwrite`. Review and preserve existing editions before promoting files into `Resources/`, then build and inspect the promoted geometry in the native app.
 
 The exporter includes named parts, PBR roles, UVs, normals, and index buffers. See [native transfer](../skills/procedural-3d-geometry/references/native-transfer.md). Current builders do not regenerate every preserved historical edition.
 

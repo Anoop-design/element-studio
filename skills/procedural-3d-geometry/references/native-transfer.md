@@ -22,7 +22,7 @@ node export-meshes.cjs http://127.0.0.1:8786/ --output build/mesh-candidate ribb
 python3 scripts/check_repository.py --geometry build/mesh-candidate
 ```
 
-The output includes shared photo and sand fixtures. Unknown IDs must fail rather than silently export nothing. Promotion into Resources is a separate deliberate step after visual comparison and preservation of any edition already referenced by saved libraries. The exporter refuses overwrites unless `--overwrite` is explicit.
+The output includes shared photo and sand fixtures. Unknown IDs must fail rather than silently export nothing. Promotion into Resources is a separate deliberate step after visual comparison and preservation of any edition already referenced by saved libraries. The exporter refuses overwrites unless `--overwrite` is explicit. After promotion, build and run the SwiftUI/RealityKit app in a dedicated iOS simulator or on a connected iPhone. Use `python3 scripts/test-native.py` in the reference repository. Inspect actual native front/side/reverse renders, material assignments, UV orientation, and saved-look compatibility. A buffer check or browser render alone does not validate the native result.
 
 `--live` strips fixture inscriptions and additionally exports front/back surface samples. It is a compatibility mechanism for a consuming application that supplies its own data-driven marks; it does not calculate achievements or import personal history. No Daybeat checkout is required to run it.
 

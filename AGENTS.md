@@ -34,6 +34,6 @@ Read `skills/README.md` to choose the relevant workflow. Skills are provider-neu
 
 Keep numbers tabular with `.monospacedDigit()` or `font-variant-numeric: tabular-nums`, and reserve stable field widths. Use natural sentences rather than em dashes in new user-facing descriptions.
 
-Run `python3 scripts/check_repository.py` after skill/package changes. Browser verification/export uses `npm ci` and Playwright's managed Chromium, or explicit `STUDIO_CHROME`. Asset generators live in `scripts/`; candidate exports belong under `build/`. Preserve the authored and third-party license notices.
+Run `python3 scripts/check_repository.py` after skill/package changes. Build and test the actual SwiftUI/RealityKit app with `python3 scripts/test-native.py` in a dedicated simulator, or pass `--device DEVICE_UDID --team YOUR_TEAM_ID` for a connected iPhone. Read `Documentation/NATIVE-VALIDATION.md`. Do not run browser-based tests for Element Studio. Only optional mesh export uses `npm ci` and Playwright's managed Chromium, or explicit `STUDIO_CHROME`. Asset generators live in `scripts/`; candidate exports belong under `build/`. Preserve the authored and third-party license notices.
 
 The repository is private during release preparation. Do not change visibility, publish a release, or deploy a site without the owner's explicit request. Historical `DAYWAKE_ELEMENT_*` environment names are diagnostic compatibility aliases; they do not require the Daybeat app.

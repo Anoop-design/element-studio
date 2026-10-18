@@ -4,12 +4,16 @@
   "private": true,
   "description": "Developer tools for Element Studio procedural 3D authoring",
   "license": "MIT",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "serve": "python3 -m http.server 8786 --bind 127.0.0.1 --directory Authoring",
-    "verify:browser": "node Authoring/verify.cjs",
     "verify:repository": "python3 scripts/check_repository.py",
-    "export:meshes": "node export-meshes.cjs"
+    "export:meshes": "node export-meshes.cjs",
+    "test:native": "python3 scripts/test-native.py"
   },
-  "devDependencies": { "playwright": "1.64.1" }
+  "devDependencies": {
+    "playwright": "1.64.1"
+  }
 }

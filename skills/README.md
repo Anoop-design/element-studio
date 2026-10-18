@@ -26,7 +26,7 @@ python3 scripts/install-skills.py --destination /path/to/agent/skills
 
 The installer copies all three directories and the MIT license, refuses existing names, and never changes agent configuration. To update an installed copy, compare changes and explicitly replace it yourself. A previous personal `element-studio` skill may already exist; inspect it before choosing a destination. No home directory, provider, or private MCP integration is assumed. Each skill's reference links stay inside its own directory, so copying one skill also works. Its knowledge can be read alone; running the reference app requires a repository checkout.
 
-The native implementation needs macOS, full Xcode, and an iOS 26+ destination. The browser preview needs Python and a WebGL2 browser. Automated browser tests and export additionally need the pinned Node/Playwright development dependencies. Apple signing credentials are needed only for device delivery. The library of techniques does not require Daybeat, HealthKit, an account, or a specific AI subscription.
+Build and test the native implementation on macOS with full Xcode and an iOS 26+ simulator or connected iPhone. Follow the self-contained [native validation guide](element-studio/references/native-validation.md); browser testing is not part of this workflow. Only optional mesh export needs the pinned Node/Playwright dependencies. Apple signing credentials are needed for physical-device builds. The library of techniques does not require Daybeat, HealthKit, an account, or a specific AI subscription.
 
 ## What was captured
 

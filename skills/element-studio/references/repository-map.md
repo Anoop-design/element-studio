@@ -18,25 +18,22 @@ The reference repository is `Anoop-design/element-studio` on GitHub. A private c
 | PNG export | `Sources/StudioShareView.swift`, renderer `snapshot` |
 | Regenerate HDR/maps | `scripts/make-environment.py`, `scripts/make-surface-textures.py` |
 
-From the checkout, preview the browser studio with:
+From the checkout, build and test the native app:
+
+```sh
+python3 scripts/check_repository.py
+python3 scripts/test-native.py
+```
+
+Read [native validation](native-validation.md) for explicit simulator/device destinations, signing, isolated review storage, captures, and acceptance evidence. Native testing needs Xcode and Python, with no browser or Node dependency. Keep DerivedData under `build/`; keep bundle identifiers stable when updating an existing installation. No Daybeat checkout is required.
+
+Only when changing procedural source assets, install the locked export tools with `npm ci` and `npx playwright install chromium`, then serve `Authoring` on loopback and export candidates:
 
 ```sh
 python3 -m http.server 8786 --bind 127.0.0.1 --directory Authoring
-```
-
-Open `http://127.0.0.1:8786`. Runtime modules are vendored. Developer verification/export needs `npm ci` and `npx playwright install chromium` first. In another terminal:
-
-```sh
-npm run verify:browser
+# In another terminal:
 node export-meshes.cjs http://127.0.0.1:8786/ --output build/mesh-candidate ribbon
+python3 scripts/check_repository.py --geometry build/mesh-candidate
 ```
 
-Inspect candidate files before replacing Resources. Run `node export-meshes.cjs --help` for the full interface.
-
-For the native app, use a full Xcode installation that supports the project (iOS 26 deployment floor). Discover available destinations with `xcodebuild -project ElementStudio.xcodeproj -scheme ElementStudio -showdestinations`, then use the chosen simulator ID:
-
-```sh
-xcodebuild -project ElementStudio.xcodeproj -scheme ElementStudio   -destination 'platform=iOS Simulator,id=SIMULATOR_ID' -derivedDataPath build build
-```
-
-Replace the final action with `test -only-testing:ElementStudioTests` for unit tests. UI tests use `ElementStudioUITests` and review-mode storage. Keep DerivedData under `build/`. A simulator needs no personal development team; device signing uses the contributor's own team. Keep bundle identifiers stable when updating an existing installation. No Daybeat checkout is required.
+This is asset generation, not app testing. Inspect candidate buffers and preserve previous editions before promotion into Resources. Validate promoted geometry in the native app. Run `node export-meshes.cjs --help` for the export interface.

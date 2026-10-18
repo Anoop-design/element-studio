@@ -52,4 +52,6 @@ schemes:
       targets:
         ElementStudio: all
     test:
+      environmentVariables:
+        STUDIO_REVIEW: "1"
       targets: [ElementStudioTests, ElementStudioUITests]
