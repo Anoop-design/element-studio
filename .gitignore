@@ -9,3 +9,10 @@ xcuserdata/
 !.env.example
 *.p12
 *.mobileprovision
+
+/node_modules/
+/.venv/
+/Authoring/verification/
+__pycache__/
+*.pyc
+*.xcresult/

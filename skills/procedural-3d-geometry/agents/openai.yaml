@@ -1,0 +1,4 @@
+interface:
+  display_name: "Procedural 3D Geometry"
+  short_description: "Construct and refine solid procedural meshes"
+  default_prompt: "Use $procedural-3d-geometry to build and verify the requested 3D element."

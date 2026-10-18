@@ -2,9 +2,9 @@
 
 This is the self-contained Element Studio iOS app. Scheme: `ElementStudio`. Bundle ID: `com.anoop.elementstudio.dev`. iOS floor: 26.0. Its native UI, library, rendering and authored fixtures live here.
 
-- Build with the working Xcode at `/Users/anoop/Downloads/Xcode-beta.app/Contents/Developer`.
+- Use a full Xcode installation supporting this project; select it with `DEVELOPER_DIR` or xcode-select. Discover available simulators rather than assuming a device name. No development team is committed; use your own team for device signing.
 - This is the canonical independent checkout. Run `xcodebuild -project ElementStudio.xcodeproj -scheme ElementStudio -derivedDataPath build`. No Daywake checkout or app data is required.
-- Use the dedicated Element Studio Interaction QA simulator for UI work; do not take over a simulator reviewing another app.
+- Use a dedicated Element Studio QA simulator for UI work; discover or create one rather than taking over a simulator reviewing another app.
 - `project.yml` is the project-generation source; run xcodegen after adding targets or file groups.
 - The home screen is only the floating collection, with a top options menu. No search or bottom tab bar. Saved looks and collection management are in the menu. The editor is an in-place camera focus in the same persistent Metal view, never a per-object modal or fresh renderer. Its official `.bottomBar` toolbar uses separate, content-sized native glass buttons for Surface, Light, Form and Reset, centered with flexible outer spacers. Fixed toolbar spacers keep their glass backgrounds separate; never wrap them in a stretched custom HStack. Each tool expands into native controls with a zoom transition from its own button. Keep the selected tool and transition source stable through dismissal. Controls use a background-interactive partial-height sheet so the live viewport stays usable.
 - Appearance follows System, Light or Dark: pale gray in light mode, pure black in dark. Catalogue PNGs must be transparent.
@@ -25,5 +25,15 @@ This is the self-contained Element Studio iOS app. Scheme: `ElementStudio`. Bund
 - Gyro tilt is bounded and smoothed; stop Core Motion when inactive, disabled, or Reduce Motion is on.
 - User libraries live in Application Support/Element Studio/library.json. Never reset or uninstall an existing app to deliver a routine update.
 - Named looks preserve geometry edition/study, materials, tint, lighting, form and camera. Export/import must preserve them; imports add copies and remap collection IDs.
-- Resources contains the stable geometry catalogue. Never overwrite a preserved geometry edition when adding a new version. Authoring contains editable mesh construction; export-meshes.cjs writes to this app's Resources.
+- Resources contains the stable geometry catalogue. Never overwrite a preserved geometry edition when adding a new version. Authoring contains editable mesh construction; export-meshes.cjs writes candidates under build/mesh-export; promote reviewed fixtures into Resources deliberately.
 - Daywake production code and its stored data are independent of this app.
+
+## Portable agent knowledge
+
+Read `skills/README.md` to choose the relevant workflow. Skills are provider-neutral Markdown and have no dependency on a personal path or private tool. Use `element-studio` for authoring/interaction, `procedural-3d-geometry` for mesh work, and `realitykit-materials-lighting` for native materials and shaders. The current native shader is a RealityKit CustomMaterial shader, not a SwiftUI layer effect.
+
+Keep numbers tabular with `.monospacedDigit()` or `font-variant-numeric: tabular-nums`, and reserve stable field widths. Use natural sentences rather than em dashes in new user-facing descriptions.
+
+Run `python3 scripts/check_repository.py` after skill/package changes. Browser verification/export uses `npm ci` and Playwright's managed Chromium, or explicit `STUDIO_CHROME`. Asset generators live in `scripts/`; candidate exports belong under `build/`. Preserve the authored and third-party license notices.
+
+The repository is private during release preparation. Do not change visibility, publish a release, or deploy a site without the owner's explicit request. Historical `DAYWAKE_ELEMENT_*` environment names are diagnostic compatibility aliases; they do not require the Daybeat app.

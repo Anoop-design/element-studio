@@ -5,14 +5,16 @@ const {
 const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
-const output = path.join(__dirname, 'verification');
+const sourceURL = new URL(process.env.STUDIO_URL || 'http://127.0.0.1:8786/');
+const isLocal = url => url.startsWith('data:') || new URL(url).origin === sourceURL.origin;
+const output = path.resolve(process.env.STUDIO_OUTPUT || path.join(__dirname, 'verification'));
 fs.mkdirSync(output, {
   recursive: true
 });
 (async () => {
   const browser = await chromium.launch({
-    headless: true,
-    executablePath: process.env.BADGE_CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    headless: true, channel: 'chromium',
+    ...(process.env.STUDIO_CHROME ? { executablePath: process.env.STUDIO_CHROME } : {}),
     args: ['--enable-webgl', '--ignore-gpu-blocklist']
   });
   const page = await browser.newPage({
@@ -31,8 +33,8 @@ fs.mkdirSync(output, {
     if (m.type() === 'warning') warnings.push(m.text());
   });
   page.on('request', r => requests.push(r.url()));
-  const settle = async () => page.waitForFunction(() => window.badgeStudio && !window.badgeStudio.inspect().animating, {
-    timeout: 10000
+  const settle = async () => page.waitForFunction(() => window.badgeStudio && !window.badgeStudio.inspect().animating && !window.badgeStudio.inspect().preparing, null, {
+    timeout: 60000
   });
   const inspect = async () => page.evaluate(() => window.badgeStudio.inspect());
   const snap = async name => {
@@ -44,7 +46,7 @@ fs.mkdirSync(output, {
   };
   const results = [];
   try {
-    await page.goto('http://127.0.0.1:8786', {
+    await page.goto(sourceURL.href, {
       waitUntil: 'networkidle'
     });
     await settle();
@@ -209,14 +211,14 @@ fs.mkdirSync(output, {
     });
     results.push('390px layout reflows without horizontal overflow');
     assert.equal(errors.length, 0, errors.join('\n'));
-    assert(requests.every(url => url.startsWith('http://127.0.0.1:8786/') || url.startsWith('data:')));
+    assert(requests.every(isLocal));
     results.push('No console errors and no external runtime requests');
     fs.writeFileSync(path.join(output, 'results.json'), JSON.stringify({
       passed: true,
       checks: results,
       warnings,
       initialGeometry: initial,
-      externalRequests: requests.filter(u => !u.startsWith('http://127.0.0.1:8786/')),
+      externalRequests: requests.filter(u => !isLocal(u)),
       note: 'Desktop Chromium functional and visual prototype checks; not an iOS performance measurement.'
     }, null, 2));
     console.log(JSON.stringify({
@@ -224,6 +226,10 @@ fs.mkdirSync(output, {
       checks: results,
       warnings
     }, null, 2));
+  } catch (error) {
+    const state = await inspect().catch(() => null);
+    fs.writeFileSync(path.join(output, 'failure.json'), JSON.stringify({ message: error.message, checks: results, errors, warnings, state }, null, 2));
+    throw error;
   } finally {
     await browser.close();
   }

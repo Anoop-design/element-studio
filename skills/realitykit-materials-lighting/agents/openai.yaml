@@ -1,0 +1,4 @@
+interface:
+  display_name: "RealityKit Materials and Lighting"
+  short_description: "Tune PBR surfaces, studio lights, and Metal shaders"
+  default_prompt: "Use $realitykit-materials-lighting to build and verify the requested 3D element."

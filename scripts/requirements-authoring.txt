@@ -1,0 +1,2 @@
+# Optional surface-map regeneration; use a virtual environment.
+numpy==2.0.2

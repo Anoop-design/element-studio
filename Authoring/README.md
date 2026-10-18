@@ -1,59 +1,64 @@
-# Daybeat — Highlight object studio
+# Element Studio browser authoring
 
-10 September 2026 · Interactive code artifact · No native app changes
+A self-contained WebGL2 study with sixteen code-authored 3D objects, material/light controls, component inspection, and alternate swept forms. The example collection originated in Daybeat; dates, counts, inscriptions, and the procedural landscape are synthetic fixtures. It has no dependency on the Daybeat application.
 
-A working browser prototype of sixteen collectible Highlight badges. Every object is assembled from actual 3D meshes. Materials, light, orientation, wireframe, and component separation change the live render. The prototype contains **no AI-generated images**. The default memory landscape is drawn procedurally in code; the photo picker can replace it with a local image held only in browser memory.
+## Preview
 
-## Open the studio
-
-The current New forms preview runs at **http://127.0.0.1:54528/?object=ribbon&forms=3**.
-
-To start it again from this directory:
+From the repository root:
 
 ```sh
-python3 -m http.server 54528 --bind 127.0.0.1
+python3 -m http.server 8786 --bind 127.0.0.1 --directory Authoring
 ```
 
-Then open http://127.0.0.1:54528 in a browser supporting WebGL2. A local HTTP server is needed for ES modules and the packaged font. All runtime dependencies are vendored; the studio makes no external network requests.
+Open http://127.0.0.1:8786 in a WebGL2 browser. All runtime modules, fonts, and textures are vendored. The browser does not save arbitrary slider adjustments; record them or use the native saved-look library. Local photo selection stays in browser memory.
 
-### Collection update · 11 September 2026
+Use clay, front/side/reverse, mesh inspection, separated components, moving light, and the finite full turn to judge construction. The controls directly change meshes/materials. The scene stops rendering at rest and respects Reduce Motion. [The original design study](DESIGN-SPEC.md) records historical intent; [the learning map](../Documentation/LEARNING-MAP.md) and skills explain current refinements and their limits.
 
-Collection now prepares uncached objects between browser frames, shows progress, and cancels preparation when another view is selected. Rear-logo projection uses a spatial lookup and reuses repeated surface samples. Every logo vertex, normal and UV remains identical across all twenty current variants. The first Collection opening measured 1.3 seconds in the browser regression run; cached arrangement switches reuse the existing models. See `../collection-fix/README.md` and run `node ../verify-collection.cjs` for the focused regression checks.
+## Install developer tools
 
-## What to inspect
-
-1. **Reference trio** compares the stopwatch, hourglass, and locket under one light.
-2. Select a badge below the viewer for a larger individual view. All sixteen kinds are available.
-3. Drag horizontally to rotate; drag vertically for a bounded pitch. Scroll to zoom. Front, Side, and Reverse provide direct keyboard-accessible poses.
-4. **Separate components** moves the actual meshes and turns to an oblique view so their construction remains visible. Returning to zero restores the preceding pose.
-5. **Crafted / All metal / Clay** compares material treatment with the same geometry. Wireframe exposes the mesh structure.
-6. Move the studio light and metal roughness controls to inspect how the surfaces respond.
-7. **Full turn** performs a finite opening rotation, then becomes still. Touch takes over immediately. Reduce Motion resolves the opening directly.
-8. **Collection** shows all sixteen objects together. Select any named button below it to inspect that badge.
-9. In the locket view, choose a local photo to test the actual window. It is center-cropped for this prototype, never uploaded, and resettable.
-
-## Package
-
-| File | Purpose |
-| --- | --- |
-| `index.html` | Accessible controls and local studio entry point |
-| `studio.css` | Responsive desktop/mobile presentation |
-| `objects.js` | Sixteen mesh builders, material palette, inset geometry, inscriptions, and procedural memory scene |
-| `studio.js` | Scene, reflection environment, light rig, interaction, animation, and local photo handling |
-| `DESIGN-SPEC.md` | Design decisions, implemented scope, limitations, and native delivery stages |
-| `verify.cjs` | Browser interaction and rendering checks using Playwright |
-| `verification/` | Screenshots of the actual running prototype and the verification result |
-| `vendor/` | Pinned Three.js, font helpers, font, and polygon-offset library |
-| `THIRD-PARTY.md` | Versions, licenses, and primary technical references |
-
-## Verification
-
-The check script uses an isolated headless Chromium profile. With Playwright available to Node and the local server running:
+Node 20+ is required for automated checks and export:
 
 ```sh
-node verify.cjs
+npm ci
+npx playwright install chromium
 ```
 
-Set `BADGE_CHROME` to an alternate Chromium executable if necessary. The default executable is the installed macOS Google Chrome. The script checks all sixteen selectors, the three reference meshes, front/side/reverse poses, component separation, material changes, moving light, full-turn completion, direct dragging and snap, Reduce Motion, idle rendering, mobile reflow, console errors, and runtime network locality. See `verification/results.json` for the completed result.
+The default is Playwright's managed Chromium. Optionally set `STUDIO_CHROME` to an existing compatible Chromium executable; no personal Chrome path or agent-bundled runtime is assumed. Linux environments may need Playwright's documented OS dependencies. Python's server is still a separate terminal process.
 
-This is a desktop/browser design prototype. It does not measure native iOS performance or reproduce the native accessibility tree. No app source, achievement engine, HealthKit history, native dependency, or installation was changed.
+## Verify the browser
+
+With the server running:
+
+```sh
+npm run verify:browser
+```
+
+Override the URL with `STUDIO_URL` and capture directory with `STUDIO_OUTPUT`. The runner uses an isolated browser context. It verifies controls, all sixteen selectors, orientations, component separation, changed light/material renders, full-turn completion, direct drag, Reduce Motion, idle frames, 390px reflow, console errors, and same-origin runtime requests. Captures go to ignored `Authoring/verification/` by default. It is not a native device benchmark.
+
+## Export candidate native meshes
+
+```sh
+node export-meshes.cjs http://127.0.0.1:8786/ --output build/mesh-candidate ribbon returning
+python3 scripts/check_repository.py --geometry build/mesh-candidate
+```
+
+Omit IDs to export all current variants. `--live` removes fixture inscriptions and supplies a sampled surface grid for a consuming application's marks. `--help` documents options. The default output is ignored `build/mesh-export`; existing outputs require explicit `--overwrite`. Review and preserve existing editions before promoting files into `Resources/`.
+
+The exporter includes named parts, PBR roles, UVs, normals, and index buffers. See [native transfer](../skills/procedural-3d-geometry/references/native-transfer.md). Current builders do not regenerate every preserved historical edition.
+
+## Regenerate environment and surface maps
+
+The environment generator needs only Python's standard library. The surface generator additionally needs NumPy; use a virtual environment (Python 3.10 to 3.12 is suitable for the pinned version):
+
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install -r scripts/requirements-authoring.txt
+python3 scripts/make-environment.py --output build/generated/ElementStudio-environment.bin
+.venv/bin/python scripts/make-surface-textures.py --output build/generated --browser-output build/generated/browser
+```
+
+Both generators refuse existing outputs unless `--overwrite` is explicit. These scripts preserve the original authored formulas and seed. The HDR environment must remain 1024 × 512 linear float RGBA unless the native loader also changes. Surface maps encode slopes and roughness rather than painted highlights. Native refinement prepares quieter normals once, then selects cached levels during edits.
+
+## Source and licenses
+
+`objects.js` builds the collection; `forms.js` contains continuous loop/ribbon studies; `brand-mark.js` fits the example reverse mark; `studio.js` owns scene/light/interaction; `studio.css` and `index.html` present the inspector. Retain `vendor/` and [third-party notices](THIRD-PARTY.md) when reusing the browser source. The [asset provenance record](../Documentation/ASSET-PROVENANCE.md) explains generated and historical inputs.

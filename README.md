@@ -1,4 +1,4 @@
-# Element Studio for iPhone
+# Element Studio
 
 A standalone, native iOS studio for developing 3D elements, materials and Metal shaders, and keeping repeatable visual configurations. Open `ElementStudio.xcodeproj` and select the `ElementStudio` scheme. The Debug app appears on the phone as **Element Studio**, with bundle ID `com.anoop.elementstudio.dev` and its own library. It does not read Daywake data.
 
@@ -9,6 +9,14 @@ A standalone, native iOS studio for developing 3D elements, materials and Metal 
 </p>
 
 [Interaction review and validation](Documentation/REVIEW.md)
+
+## Learn and build with an agent
+
+The repository includes three portable [agent skills](skills/README.md): an interactive 3D authoring workflow, procedural mesh construction, and RealityKit materials/lighting/Metal shaders. They preserve the methods behind the manually tuned objects and can be used in other projects with any coding agent that can read their Markdown. Start with [the learning map](Documentation/LEARNING-MAP.md) to connect each technique to working source.
+
+The [browser authoring guide](Authoring/README.md) covers preview, locked developer dependencies, mesh export, and regeneration of the HDR environment and surface textures. Runtime previews remain offline. [MIT](LICENSE) covers original code, skills, documentation, and assets, subject to the [bundled third-party notices](THIRD-PARTY.md).
+
+This repository is currently private. Preparing these materials does not publish it. See [release preparation](Documentation/OPEN-SOURCE.md).
 
 ## Using the app
 
@@ -36,7 +44,7 @@ This repository is the canonical home for future app and shader work. The earlie
 - `Sources/`: native SwiftUI library, editor, RealityKit/Metal renderer and settings model.
 - `Resources/`: authored native geometry fixtures, preserved editions and textures; the app runs fully offline.
 - `Authoring/`: editable browser mesh builders and reference studio, including its vendored dependencies and licenses.
-- `export-meshes.cjs`: developer conversion of authored browser geometry to native vertex/index buffers. It requires Node, Playwright and Chrome. Serve `Authoring` locally and pass that URL explicitly. The default export updates current geometry; preserve previous versions under a new edition before changing existing looks' geometry.
+- `export-meshes.cjs`: developer conversion of authored browser geometry to native vertex/index buffers. It requires Node and Playwright's managed Chromium. Serve `Authoring` locally and pass that URL explicitly. The default export writes candidates under `build/mesh-export`; preserve previous versions under a new edition before promoting changed geometry.
 - `Tests/` and `UITests/`: library round-trip, import isolation, geometry validation, and the create/save/relaunch/open flow.
 - `Documentation/`: architecture and review notes. Local `Review/` logs and captures are gitignored.
 
@@ -44,18 +52,19 @@ User configurations are stored atomically at `Application Support/Element Studio
 
 ## Build and verify
 
-From this repository:
+From this repository, use a full Xcode installation supporting the project. The deployment floor is iOS 26. Discover an available destination with `xcodebuild -project ElementStudio.xcodeproj -scheme ElementStudio -showdestinations`, then replace `SIMULATOR_ID` below:
 
 ```sh
-env DEVELOPER_DIR=/Users/anoop/Downloads/Xcode-beta.app/Contents/Developer \
-  xcodebuild -project ElementStudio.xcodeproj \
+xcodebuild -project ElementStudio.xcodeproj \
   -scheme ElementStudio \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro,OS=27.0' \
+  -destination 'platform=iOS Simulator,id=SIMULATOR_ID' \
   -derivedDataPath build build
 ```
 
 Replace `build` with `test` to run the tests. Keep DerivedData warm. Use `project.yml` with XcodeGen when changing project structure. iOS 26.0 is the minimum supported version.
 
-For an automatically signed phone build use `-destination 'generic/platform=iOS' -configuration Debug -allowProvisioningUpdates`. Install `build/Build/Products/Debug-iphoneos/ElementStudio.app` over the existing Element Studio installation.
+No personal signing team is committed. For an automatically signed phone build, supply your own `DEVELOPMENT_TEAM=YOUR_TEAM_ID` and use `-destination 'generic/platform=iOS' -configuration Debug -allowProvisioningUpdates`. Install `build/Build/Products/Debug-iphoneos/ElementStudio.app` over the existing Element Studio installation.
 
 Materials are real-time approximations: glass uses a custom shader, and finish/detail controls are bounded artistic settings. Judge the final effect on the target phone as well as in the simulator.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, verification, and compatibility expectations. Run `python3 scripts/check_repository.py` to validate skill packaging, documentation links, and native mesh buffers.

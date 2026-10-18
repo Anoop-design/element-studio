@@ -1,0 +1,4 @@
+interface:
+  display_name: "Element Studio"
+  short_description: "Build and tune editable 3D objects and controls"
+  default_prompt: "Use $element-studio to build and verify the requested 3D element."

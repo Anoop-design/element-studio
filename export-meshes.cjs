@@ -1,18 +1,45 @@
 /* Export the authored browser geometry into native RealityKit mesh buffers.
  * No badge screenshots, web runtime, or third-party library enters the app.
- * NODE_PATH=<bundled node_modules> node export-meshes.cjs [source URL]
+ * npm ci && npx playwright install chromium; then node export-meshes.cjs --help
  */
-const { chromium } = require('playwright');
 const fs = require('node:fs');
 const path = require('node:path');
-const output = path.resolve(__dirname, 'Resources');
+const usage = `Usage: node export-meshes.cjs [http://127.0.0.1:8786/] [--output DIRECTORY] [--overwrite] [--live] [OBJECT_ID ...]
+Exports candidate meshes, with photo/sand fixtures. Default output: build/mesh-export.
+No IDs means every current variant. Existing files require --overwrite.
+Use STUDIO_CHROME for an optional Chromium executable; otherwise install Playwright Chromium.`;
+const args = process.argv.slice(2);
+if (args.includes('--help') || args.includes('-h')) { console.log(usage); process.exit(0); }
+let sourceURL = 'http://127.0.0.1:8786/', output = path.resolve(__dirname, 'build/mesh-export');
+let overwrite = false, live = false, gotURL = false;
+const onlyIDs = [];
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
+  if (arg === '--output') {
+    if (!args[i + 1] || args[i + 1].startsWith('--')) throw Error('--output requires a directory');
+    output = path.resolve(args[++i]);
+  } else if (arg === '--overwrite') overwrite = true;
+  else if (arg === '--live') live = true;
+  else if (/^https?:\/\//.test(arg) && !gotURL) { sourceURL = arg; gotURL = true; }
+  else if (arg.startsWith('-')) throw Error(`Unknown option: ${arg}`);
+  else onlyIDs.push(arg);
+}
+const parsedURL = new URL(sourceURL);
+if (!['127.0.0.1', 'localhost', '[::1]'].includes(parsedURL.hostname)) {
+  throw Error('Serve the authoring source locally on a loopback host');
+}
+// Dynamic modules resolve relative to this served directory.
+if (!parsedURL.pathname.endsWith('/')) parsedURL.pathname += '/';
+sourceURL = parsedURL.href;
+const { chromium } = require('playwright');
 
 (async () => {
-  const browser = await chromium.launch({ headless: true,
-    executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' });
+  const browser = await chromium.launch({ headless: true, channel: 'chromium',
+    ...(process.env.STUDIO_CHROME ? { executablePath: process.env.STUDIO_CHROME } : {}) });
   try {
     const page = await browser.newPage();
-    await page.goto(process.argv[2] || 'http://127.0.0.1:8796/');
+    await page.goto(sourceURL);
+    await page.waitForFunction(() => window.badgeStudio, null, { timeout: 30000 });
     const exported = await page.evaluate(async ({onlyIDs, live}) => {
       const T = await import('./vendor/three.module.min.js');
       const { FontLoader } = await import('./vendor/FontLoader.js');
@@ -23,7 +50,10 @@ const output = path.resolve(__dirname, 'Resources');
         m === materials.lettering ? 'lettering' : m === materials.ink ? 'ink' :
         m === materials.sand ? 'sand' : m.transmission > 0 ? 'glass' : m.map === photo ? 'photo' : 'enamel');
       const variants=[['returning','folded'],['returning','ceramic'],['ribbon','curved'],['ribbon','ceramic']].map(([id,study])=>({...BADGES.find(b=>b.id===id),id:id+'-'+study,baseID:id,study}));
-      const badges = [...BADGES,...variants].filter(meta => !onlyIDs.length || onlyIDs.includes(meta.id)).map(meta => {
+      const all = [...BADGES, ...variants];
+      const unknown = onlyIDs.filter(id => !all.some(meta => meta.id === id));
+      if (unknown.length) throw Error(`Unknown object IDs: ${unknown.join(', ')}`);
+      const badges = all.filter(meta => !onlyIDs.length || onlyIDs.includes(meta.id)).map(meta => {
         const root = buildBadge(meta.baseID || meta.id, materials, font, photo, meta.study);
         if (live) {
           const removed = [];
@@ -105,7 +135,13 @@ const output = path.resolve(__dirname, 'Resources');
           geometry:root.userData.meta.geometry, printSurface, batches: nativeBatches };
       });
       return { badges, photo: photo.image.toDataURL('image/png'), sand: materials.sand.map.image.toDataURL('image/png') };
-    }, {onlyIDs:process.argv.slice(3).filter(x=>x!=='--live'),live:process.argv.includes('--live')});
+    }, {onlyIDs, live});
+    const names = exported.badges.flatMap(badge => [`ElementStudio-${badge.id}.bin`, `ElementStudio-${badge.id}.json`]);
+    names.push('ElementStudio-photo.png', 'ElementStudio-sand.png');
+    if (!overwrite) {
+      const existing = names.filter(name => fs.existsSync(path.join(output, name)));
+      if (existing.length) throw Error(`Refusing to overwrite ${existing.join(', ')}; use a new --output or explicit --overwrite`);
+    }
     fs.mkdirSync(output, { recursive: true });
     for (const badge of exported.badges) {
       const chunks = []; let offset = 0;
@@ -113,7 +149,8 @@ const output = path.resolve(__dirname, 'Resources');
         for (const key of ['positions', 'normals', 'uv', 'indices']) {
           const values = key === 'indices' ? new Uint32Array(batch[key]) : new Float32Array(batch[key]);
           if ([...values].some(v => !Number.isFinite(v))) throw Error(`${badge.id}: nonfinite ${key}`);
-          const buffer = Buffer.from(values.buffer);
+          const buffer = Buffer.alloc(values.length * 4);
+          values.forEach((value, index) => key === 'indices' ? buffer.writeUInt32LE(value, index * 4) : buffer.writeFloatLE(value, index * 4));
           batch[key] = { offset, count: values.length };
           chunks.push(buffer); offset += buffer.length;
         }
