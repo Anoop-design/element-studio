@@ -12,7 +12,7 @@ Review clay from the front, 90-degree side, reverse, and a slow full turn. Look 
 
 Use a broad upper-left softbox, weaker fill, narrow rear/right strip, and quiet low bounce. The broad reflection explains a curved shoulder; the strip exposes bevel continuity. Rotate the environment and key light together. First judge the same clay geometry, then satin metal. A nearly black metal often needs a useful reflection environment rather than a brighter base color.
 
-Keep camera and exposure fixed while comparing forms. Inspect the reverse as deliberately as the front. Test both a pale and a dark background. Browser ACES tone mapping and native RealityKit rendering differ; transfer the design intent, then retune the native result.
+Keep camera and exposure fixed while comparing forms. Inspect the reverse as deliberately as the front. Test both a pale and a dark background. Keep RealityKit tone mapping and the reflection environment consistent between comparisons; judge the result in the target native renderer.
 
 ## 3. Tune surface roles separately
 
@@ -29,7 +29,7 @@ A useful recording table is:
 | Evidence | Front/side/reverse captures, motion clip, test command and result |
 | Decision | What improved, what failed, remaining approximation |
 
-The native library saves geometry selection, material values, tint, light, form, and camera. The browser reference does not persist arbitrary slider edits. For browser work, record the parameters or implement explicit preset serialization before claiming a look is saved.
+The native library saves geometry selection, material values, tint, light, form, and camera. For reusable generators, record recipe parameters and source revisions alongside the rendered look; runtime edits do not rewrite the Swift source.
 
 ## 4. Make manipulation trustworthy
 

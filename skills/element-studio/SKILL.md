@@ -6,7 +6,7 @@ license: MIT
 
 # Element Studio workflow
 
-Deliver a real rendered object and controls that change it. Work in the user's chosen project; the Element Studio repository is a reference implementation, not a requirement to use its badge theme or UI. The knowledge here works with any coding agent that can read Markdown. Native execution and validation require macOS, Xcode, and an iOS simulator or connected iPhone. The browser mesh source is an optional asset-generation tool.
+Deliver a real rendered object and controls that change it. Work in the user's chosen project; the Element Studio repository is a reference implementation, not a requirement to use its badge theme or UI. The knowledge here works with any coding agent that can read Markdown. Native execution and validation require macOS, Xcode, and an iOS simulator or connected iPhone. The reference geometry authoring and export pipeline is entirely Swift, using native CoreGraphics paths and RealityKit mesh buffers.
 
 ## Research delegation
 
@@ -14,7 +14,7 @@ Delegate research to lightweight subagents: **Luna in Codex**, **Haiku or Sonnet
 
 ## Start with the intended object
 
-Identify its silhouette, construction, useful viewing distance, materials, and interactions. Choose a lathe, extrusion, sweep, or assembled mesh according to the form. Use RealityKit for native lit 3D and SwiftUI for native controls. Existing JavaScript mesh builders can generate candidate assets, which must be reviewed in the native renderer. SwiftUI shader effects are appropriate for 2D view effects, not a substitute for a mesh.
+Identify its silhouette, construction, useful viewing distance, materials, and interactions. Choose a lathe, extrusion, sweep, or assembled mesh according to the form. Use RealityKit for native lit 3D and SwiftUI for native controls. Use Swift mesh builders to generate versioned candidate assets and review them in the native renderer. SwiftUI shader effects are appropriate for 2D view effects, not a substitute for a mesh.
 
 Work from a small, repeatable baseline: a fixed camera, a neutral clay material, one movable light, and a saved set of parameters. Inspect front, side, reverse, and grazing angles before adding detail. If the request is for a new object, actually replace or extend the example geometry before presenting it.
 

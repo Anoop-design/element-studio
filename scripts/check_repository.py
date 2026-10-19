@@ -55,7 +55,7 @@ def links(path):
 
 def check_docs():
     paths = list(ROOT.glob('*.md'))
-    for folder in ('Documentation', 'Authoring', 'skills'):
+    for folder in ('Documentation', 'NativeAuthoring', 'skills'):
         paths += [p for p in (ROOT / folder).rglob('*.md') if 'vendor' not in p.parts and 'verification' not in p.parts]
     for path in paths:
         list(links(path))
@@ -102,6 +102,16 @@ def check_geometry(folder):
     return len(manifests), batches
 
 
+def check_native_toolchain():
+    for retired in ('Authoring', 'export-meshes.cjs', 'package.json', 'package-lock.json'):
+        require(not (ROOT / retired).exists(), f'Retired browser toolchain restored: {retired}')
+    require((ROOT / 'Package.swift').is_file(), 'Missing native Swift authoring package')
+    for folder in ('Sources', 'NativeAuthoring', 'AuthoringTests', 'Tests', 'UITests', 'scripts'):
+        for path in (ROOT / folder).rglob('*'):
+            require(path.suffix.lower() not in {'.js', '.cjs', '.mjs', '.html', '.css'},
+                    f'Browser source is outside the native repository contract: {path}')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--geometry', type=Path, help='Validate only candidate geometry in this directory')
@@ -114,6 +124,7 @@ def main():
         elif args.skills:
             print(f'Skills passed: {check_skills(args.skills.resolve())} packages')
         else:
+            check_native_toolchain()
             skills = check_skills(ROOT / 'skills')
             docs = check_docs()
             meshes, batches = check_geometry(ROOT / 'Resources')

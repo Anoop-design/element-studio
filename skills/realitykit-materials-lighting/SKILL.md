@@ -1,6 +1,6 @@
 ---
 name: realitykit-materials-lighting
-description: Build and tune native 3D materials, studio lighting, procedural normal maps, and RealityKit CustomMaterial Metal surface shaders. Use for real mesh rendering, glass approximations, reflection problems, and browser-to-native material translation.
+description: Build and tune native 3D materials, studio lighting, procedural normal maps, and RealityKit CustomMaterial Metal surface shaders. Use for real mesh rendering, glass approximations, reflection problems, and native material integration.
 license: MIT
 ---
 

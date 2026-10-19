@@ -33,7 +33,7 @@ The renderer rotates the environment by `light + 35` degrees around Y, and place
 
 Use the renderer's applied values when copying the rig; its initial key intensity is overwritten during settings application. Environment rotation and the direct light move together so highlights describe the same scene. Shadow projection/bias are scaled to these study units. Diagnose acne versus detached shadows with side/grazing views before increasing bias.
 
-The browser reference instead builds a PMREM environment from luminous panels and uses its own direct key/fill/rim lights. It uses ACES and sRGB output. Those numbers are not interchangeable with native intensity values. Match the visual relationships, then inspect native output.
+When adapting a study from another renderer, preserve the relationship between reflection panels and direct key/fill/rim lights. Exposure and tone-mapping numbers are not interchangeable with RealityKit intensity values. Judge the transferred material in native output.
 
 ## Bake slopes, not moving highlights
 

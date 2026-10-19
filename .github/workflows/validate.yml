@@ -13,6 +13,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Test native Swift geometry and exporter
+        run: |
+          swift test
+          swift run -c release ElementStudioAuthor --output build/ci-meshes
+          python3 scripts/check_repository.py --geometry build/ci-meshes
       - name: Check portable skills and mesh buffers
         run: python3 scripts/check_repository.py
       - name: Report native toolchain

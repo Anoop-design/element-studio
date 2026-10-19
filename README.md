@@ -1,6 +1,6 @@
 # Element Studio
 
-A native iOS studio for building editable 3D objects with SwiftUI, RealityKit, and Metal. Explore **19 examples**, tune their materials and lighting, and save repeatable looks. Reuse the geometry, shaders, and agent skills in your own projects.
+A native iOS studio for building editable 3D objects with SwiftUI, RealityKit, and Metal. **All shape generators are Swift**, including the original Daybeat collection. Explore **19 examples**, tune their materials and lighting, and save repeatable looks. Reuse the geometry, shaders, and agent skills in your own projects.
 
 Open source under [MIT](LICENSE), with [third-party notices](THIRD-PARTY.md) retained. No Daybeat app, HealthKit data, or account is required.
 
@@ -11,6 +11,24 @@ Open source under [MIT](LICENSE), with [third-party notices](THIRD-PARTY.md) ret
 | <img src="Documentation/orbit-native.png" width="220" alt="Element Studio showing a turquoise ceramic orbit around a polished gold core"> | <img src="Documentation/twisted-loop-native.png" width="220" alt="Element Studio showing a warm ceramic band with a full twist"> | <img src="Documentation/stacked-pebbles-native.png" width="220" alt="Element Studio showing four stacked pebbles with separate ceramic colors"> |
 
 Actual native iOS Simulator screenshots from the new-shape UI test. These three forms join the original 16 Daybeat examples. Their [standalone Swift generator and construction guide](Documentation/NATIVE-SHAPES.md) explain how to copy, adapt, and render them in another app.
+
+## Native authoring
+
+![All twenty Daybeat object and form-study variants rendered from Swift-generated geometry](Documentation/daybeat-swift-catalogue.png)
+
+Actual RealityKit simulator renders of the Swift catalogue.
+
+Shape authoring and rendering use Swift, CoreGraphics, RealityKit and Metal. The repository contains all 16 Daybeat examples, their Comeback/ribbon variants, and the three neutral shapes above. Browser tools and JavaScript dependencies have been removed. Python remains for installation, validation, test orchestration, and optional offline lighting/normal-map generation.
+
+On a Mac with full Xcode and Swift 6:
+
+```sh
+swift test
+swift run -c release ElementStudioAuthor --output build/mesh-export
+python3 scripts/check_repository.py --geometry build/mesh-export
+```
+
+This exports all 20 Daybeat object/study variants as native mesh candidates. Use `--ids energy,ribbon-ceramic` for selected recipes, or `--live` for geometry without fixture inscriptions. See the [native authoring guide](NativeAuthoring/README.md) for source entry points, adaptation, versioning, and simulator review. Published geometry stays intact for existing saved looks; new work uses the Swift v1 edition.
 
 ## Install and use the agent skills
 
@@ -133,7 +151,7 @@ Open `ElementStudio.xcodeproj` and select the `ElementStudio` scheme. The Debug 
 - **Save look (+):** name the current version and choose a collection. Each version keeps geometry edition, study, color, material, lighting, form, and camera angle. Its thumbnail is rendered from that saved state. A brief Saved confirmation and success haptic acknowledge the completed save.
 - **Looks:** reopen, rename, favorite, duplicate, and delete saved versions. Export a JSON library through Files or import one. Imports add copies without replacing existing looks.
 
-The catalogue contains the 16 Daybeat objects plus three original [native Swift shape examples](Documentation/NATIVE-SHAPES.md): Orbit, Twisted loop, and Stacked pebbles. The Daybeat examples retain four preserved prior editions and six Comeback/ribbon studies. The latest Daywake update brings a continuous enamel flame, a clearer Comeback arrow with its workout symbol, a full six-month medallion, and a numbered activity medal. The alternate Comeback studies also include their workout marks. Earlier standalone geometry remains under -studio20260911, and New forms under -forms20260910. Existing saved looks keep their original geometry through the library migration; new looks use the updated shapes. This is a visual authoring library with bounded controls, not a general polygon modelling application. New mesh families are added in source. There is no account or cloud synchronization; use Export library to keep a portable backup.
+The catalogue contains the 16 Daybeat objects plus three original [native Swift shape examples](Documentation/NATIVE-SHAPES.md): Orbit, Twisted loop, and Stacked pebbles. The Daybeat examples retain five preserved prior editions and six Comeback/ribbon studies. The retained Daybeat designs include a continuous enamel flame, a clearer Comeback arrow with its workout symbol, a full six-month medallion, and a numbered activity medal. The alternate Comeback studies also include their workout marks. Swift-generated Daybeat geometry uses `-swift-v1`. Earlier standalone geometry remains under `-studio20260911`, New forms under `-forms20260910`, and other published editions keep their original IDs. Existing saved looks keep their original geometry through the library migration; new looks use the updated shapes. This is a visual authoring library with bounded controls, not a general polygon modelling application. New mesh families are added in source. There is no account or cloud synchronization; use Export library to keep a portable backup.
 
 ## Source of truth
 
@@ -142,8 +160,8 @@ This repository is the canonical home for future app and shader work. The earlie
 
 - `Sources/`: native SwiftUI library, editor, RealityKit/Metal renderer, settings model, and independently reusable Swift shape generators.
 - `Resources/`: authored native geometry fixtures, preserved editions and textures; the app runs fully offline.
-- `Authoring/`: editable browser mesh builders and reference studio, including its vendored dependencies and licenses.
-- `export-meshes.cjs`: developer conversion of authored browser geometry to native vertex/index buffers. It requires Node and Playwright's managed Chromium. Serve `Authoring` locally and pass that URL explicitly. The default export writes candidates under `build/mesh-export`; preserve previous versions under a new edition before promoting changed geometry.
+- `NativeAuthoring/`: editable Swift Daybeat recipes, geometry primitives, text/vector paths, procedural textures and the native exporter.
+- `Package.swift` and `AuthoringTests/`: dependency-free macOS authoring command and geometry tests. The iOS app itself has no external packages.
 - `Tests/` and `UITests/`: library round-trip, import isolation, geometry validation, and the create/save/relaunch/open flow.
 - `Documentation/`: architecture and review notes. Local `Review/` logs and captures are gitignored.
 
@@ -154,6 +172,7 @@ User configurations are stored atomically at `Application Support/Element Studio
 Use full Xcode and an installed iOS 26+ simulator. From the repository root:
 
 ```sh
+swift test
 python3 scripts/check_repository.py
 python3 scripts/test-native.py
 ```

@@ -1,0 +1,114 @@
+[
+  {
+    "id": "stopwatch",
+    "name": "Fastest distance",
+    "sub": "Stopwatch",
+    "description": "A machined case, separate fluted crown, recessed blue enamel dial and sixty individually modeled timing marks.",
+    "geometry": "The body and bezel have lathed cross-sections. The crown has 32 physical flutes. Lettering and ticks have actual relief; the rear cap has its own seam."
+  },
+  {
+    "id": "hourglass",
+    "name": "Longest workout",
+    "sub": "Hourglass",
+    "description": "Continuous curved glass, a narrow neck, warm granular sand and a compact frame. The chambers remain transparent from behind.",
+    "geometry": "A continuous lathed glass volume is flattened into a compact object. Curved rails, separate caps and modeled sand beds are individual components."
+  },
+  {
+    "id": "memory",
+    "name": "Saved memory",
+    "sub": "Photo locket",
+    "description": "A softly domed heart shell, recessed image, fine enamel gasket and a clear protective window. Choose a local photo to try it.",
+    "geometry": "The heart has a constant-width inset lip, a domed rear and a separate curved lens. The photograph is mapped to the actual inset geometry."
+  },
+  {
+    "id": "energy",
+    "name": "Biggest burn",
+    "sub": "Sculpted flame",
+    "description": "A continuous fire-red enamel flame with a softly crowned face and a fine satin edge. Light passes across it without an internal metal seam.",
+    "geometry": "The concave flame is triangulated as one closed outline, then finely subdivided and bent by a smooth analytic surface. The front has no radial fan or crossing ridge."
+  },
+  {
+    "id": "distance",
+    "name": "Farthest",
+    "sub": "Hexagonal token",
+    "description": "The established hexagon, now with a machined edge profile and a gently convex recessed face.",
+    "geometry": "A real beveled hexagonal body supports a domed enamel inset. The distance and activity mark are solid relief."
+  },
+  {
+    "id": "sunrise",
+    "name": "First workout",
+    "sub": "Dawn",
+    "description": "A clear half-disc, five broad rays and a softly raised horizon. Warm dawn color stays within the beginning family.",
+    "geometry": "The sun, rays and horizon are separately shaped solids. Each ray has a rounded profile and receives the same light as the face."
+  },
+  {
+    "id": "pennant",
+    "name": "First distance",
+    "sub": "Folded pennant",
+    "description": "A folded pennant with a raised seam and a readable target distance.",
+    "geometry": "A genuine stepped fold changes the face plane. A narrow polished frame follows the pennant contour."
+  },
+  {
+    "id": "returning",
+    "name": "Comeback",
+    "sub": "Return arrow",
+    "description": "One rounded return arrow around a workout symbol, with a clear head and an amber enamel face seated inside its satin casting.",
+    "geometry": "The curved shaft, round tail and arrowhead form one united outline. A continuous bevel follows the complete silhouette, including the neck of the arrow."
+  },
+  {
+    "id": "week",
+    "name": "Perfect week",
+    "sub": "Seven completed days",
+    "description": "A softly domed calendar, fitted metal rim and seven completed days.",
+    "geometry": "A rounded calendar shell and raised binding seam make the seven-day meaning explicit. The New forms edition replaces the earlier rosette."
+  },
+  {
+    "id": "month",
+    "name": "Perfect month",
+    "sub": "Calendar leaf",
+    "description": "A gently curved calendar leaf, a raised top seam and a real July 2026 arrangement.",
+    "geometry": "The calendar uses the correct 31-day July 2026 layout, starting on Wednesday. Individual day dots sit above the inset plane."
+  },
+  {
+    "id": "halfYear",
+    "name": "Active half-year",
+    "sub": "Six-month medallion",
+    "description": "A complete six-lobed medallion, clearly marked 6 MONTHS. Six month markers sit around a calm violet enamel center.",
+    "geometry": "Six broad scallops belong to one closed casting with a continuous rounded edge. The number and unit carry the meaning from the first glance."
+  },
+  {
+    "id": "year",
+    "name": "Active year",
+    "sub": "Twelve-lobe seal",
+    "description": "A twelve-lobe seal with a quiet central year and twelve precise month markers.",
+    "geometry": "Twelve scallops and twelve markers are explicitly modeled. The center is recessed so the year remains the primary detail."
+  },
+  {
+    "id": "ribbon",
+    "name": "Weekly rhythm",
+    "sub": "Folded ribbon",
+    "description": "One thin strip turns over at the top and flows into two unequal tails. A fine binding follows both edges.",
+    "geometry": "A continuous indexed shell with a rounded section, real reverse and shaped end caps. Its material and clay views use the same geometry."
+  },
+  {
+    "id": "activity",
+    "name": "Weekly run",
+    "sub": "Weekly activity medal",
+    "description": "An upright activity medal with a sport symbol, explicit week count and teal enamel. Its rounded track-shaped case replaces the eye silhouette.",
+    "geometry": "A softly crowned enamel face sits within one continuous satin case. The top and bottom share the same broad radius; there is no artificial twist."
+  },
+  {
+    "id": "frequency",
+    "name": "Run rhythm",
+    "sub": "Frequency crest",
+    "description": "A grooved crest that carries the explicit sample threshold, independently of its silhouette.",
+    "geometry": "A rounded crest and three shallow grooves support the label. The outline stays stable if a canonical threshold changes."
+  },
+  {
+    "id": "collection",
+    "name": "Rhythms together",
+    "sub": "Layered crest",
+    "description": "Two genuinely layered crests with a clear sample count, and carefully separated edges.",
+    "geometry": "The front and rear crests are separate beveled bodies. Their offset and shadows express collection without an extra stack pictogram."
+  }
+]

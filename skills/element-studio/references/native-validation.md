@@ -1,6 +1,6 @@
 # Validate the native SwiftUI and RealityKit app
 
-Build and exercise the real iOS app in an iOS simulator or on a connected iPhone. Use Xcode, XCTest/XCUITest, native screenshots, and device profiling. Browser automation is not an Element Studio test path. The optional JavaScript mesh builders are an asset-generation tool; their output still needs native validation.
+Build and exercise the real iOS app in an iOS simulator or on a connected iPhone. Use Xcode, XCTest/XCUITest, native screenshots, and device profiling. Browser automation is not an Element Studio test path. The Swift authoring command generates candidates; its buffer checks still need native rendering validation.
 
 Commands below run from the reference repository root. When applying this skill elsewhere, discover that project's scheme, bundle ID, test targets, and supported destinations. No agent-specific tool is required. Use an available Xcode integration or the standard command-line tools below.
 

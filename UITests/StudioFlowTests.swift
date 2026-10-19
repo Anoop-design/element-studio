@@ -231,8 +231,20 @@ import XCTest
         // Native alert fields do not retain SwiftUI accessibility identifiers.
         let existing = input.value as? String ?? ""
         input.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: existing.count) + "0.62")
+        let entered = XCTNSPredicateExpectation(predicate: NSPredicate(format: "value == %@", "0.62"), object: input)
+        XCTAssertEqual(XCTWaiter.wait(for: [entered], timeout: 5), .completed)
         capture("Precise finish entry")
-        app.alerts.buttons["Apply"].tap()
+        let alert = app.alerts["Set finish"]
+        let apply = alert.buttons["Apply"]
+        XCTAssertTrue(apply.isEnabled)
+        apply.tap()
+        // The simulator keyboard can move the native alert after XCTest resolves
+        // the tap point. Re-query once if that tap missed the moving button.
+        if !alert.waitForNonExistence(timeout: 2) {
+            XCTAssertEqual(input.value as? String, "0.62")
+            apply.tap()
+        }
+        XCTAssertTrue(alert.waitForNonExistence(timeout: 5), "Applying a valid finish must dismiss the alert")
         XCTAssertEqual(app.buttons["value-finish"].value as? String, "Matte")
         app.buttons["reset-object"].tap()
         capture("Undo and reset menu")

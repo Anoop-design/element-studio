@@ -2,7 +2,7 @@ import Foundation
 
 nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
     enum Edition: String, Codable, CaseIterable, Identifiable {
-        case latest = "Latest", studioOriginal = "Studio original", newForms = "New forms", sculpted = "Sculpted", earlier = "Earlier"
+        case native = "Swift v1", latest = "Latest", studioOriginal = "Studio original", newForms = "New forms", sculpted = "Sculpted", earlier = "Earlier"
         var id: String { rawValue }
     }
     enum Finish: String, Codable, CaseIterable, Identifiable {
@@ -32,7 +32,7 @@ nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
     var colorBackdrop = false
     var reduceMotion = false
     // Optional so looks saved before editions were introduced continue decoding intact.
-    var edition: Edition? = .latest
+    var edition: Edition? = .native
     // Missing in older saved looks: retain their original material response.
     var surfaceRevision: Int? = 1
     var tintRGB: [Double]?
@@ -74,7 +74,7 @@ nonisolated struct ElementStudioSettings: Codable, Equatable, Sendable {
             if StudioExampleShapes.ids.contains(id) { return id }
             if chosenEdition == .earlier { return id + "-earlier" }
             if chosenEdition == .sculpted { return id + "-sculpted" }
-            let suffix = chosenEdition == .studioOriginal ? "-studio20260911" : chosenEdition == .newForms ? "-forms20260910" : ""
+            let suffix = chosenEdition == .native ? "-swift-v1" : chosenEdition == .studioOriginal ? "-studio20260911" : chosenEdition == .newForms ? "-forms20260910" : ""
             if id == "returning" || id == "ribbon" {
                 let selectedStudy = study(for: id)
                 let defaultStudy: ShapeStudy = id == "ribbon" ? .folded : .curved

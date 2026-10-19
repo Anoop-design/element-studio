@@ -11,15 +11,11 @@ import argparse
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output', type=Path, required=True, help='Candidate directory for native maps')
-parser.add_argument('--browser-output', type=Path, help='Optional directory for four browser maps')
 parser.add_argument('--overwrite', action='store_true')
 args = parser.parse_args()
 folder = args.output.resolve()
-browser = args.browser_output.resolve() if args.browser_output else None
 names = [f'{kind}-{level}' for kind in ('brush', 'glaze') for level in range(1, 9)] + ['dial', 'roughness']
 targets = [folder / f'ElementStudio-surface-{name}.png' for name in names]
-if browser:
-    targets += [browser / f'{name}.png' for name in ('brush-4', 'glaze-4', 'dial', 'roughness')]
 if not args.overwrite and any(path.exists() for path in targets):
     parser.error('Output files exist; choose new directories or pass --overwrite')
 try:
@@ -27,8 +23,6 @@ try:
 except ImportError:
     parser.error('Install scripts/requirements-authoring.txt in a Python virtual environment first')
 folder.mkdir(parents=True, exist_ok=True)
-if browser:
-    browser.mkdir(parents=True, exist_ok=True)
 
 size = 512
 y, x = np.mgrid[0:size, 0:size].astype(float) / size
@@ -43,8 +37,6 @@ def save(name, rgb):
     png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">2I5B", size, size, 8, 6, 0, 0, 0))
     png += chunk(b"IDAT", zlib.compress(raw, 9)) + chunk(b"IEND", b"")
     (folder / f"ElementStudio-surface-{name}.png").write_bytes(png)
-    if browser and name in ["brush-4", "glaze-4", "dial", "roughness"]:
-        (browser / f"{name}.png").write_bytes(png)
 
 def normal(name, dx, dy):
     n = np.stack((-dx, -dy, np.ones_like(x)), axis=-1)

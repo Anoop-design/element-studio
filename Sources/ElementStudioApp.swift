@@ -46,7 +46,7 @@ struct StudioRoot: View {
                 return
             }
             if let id = ProcessInfo.processInfo.environment["STUDIO_OBJECT"] {
-                var settings = library.archive.workspace; settings.selected = id; settings.camera = nil; settings.chosenEdition = .latest
+                var settings = library.archive.workspace; settings.selected = id; settings.camera = nil; settings.chosenEdition = .native
                 selection = StudioSelection(settings: settings)
             }
         }
@@ -173,7 +173,8 @@ struct StudioEditor: View {
         .task {
             guard !ready else { return }
             settings = initial; settings.wireframe = false; settings.reduceMotion = settings.reduceMotion || reduceMotion
-            settings.chosenEdition = .latest; settings.surfaceRevision = 1; settings.camera = nil; settings.clamp()
+            if startsInCollection { settings.chosenEdition = .native; settings.surfaceRevision = 1; settings.camera = nil }
+            settings.clamp()
             history.start(settings)
             let editingSettings = $settings
             history.restore = { [weak renderer] restored in

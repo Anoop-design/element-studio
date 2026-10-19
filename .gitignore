@@ -10,9 +10,10 @@ xcuserdata/
 *.p12
 *.mobileprovision
 
-/node_modules/
 /.venv/
-/Authoring/verification/
 __pycache__/
 *.pyc
 *.xcresult/
+
+/.build/
+/.swiftpm/

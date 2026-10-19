@@ -54,4 +54,4 @@ The no-culling/no-depth-write settings suit these thin transparent surfaces. The
 
 A geometry modifier can move rendered vertices without moving collision/physics geometry; account for that and expanded culling bounds if using one. Element Studio's persistent form edits primarily use authored geometry/transforms rather than an unverified general-purpose geometry-modifier pipeline.
 
-Validate the shader by compiling, then render front/side/reverse with changed light, presence, and background. Save a look, relaunch, and compare. A browser material with transmission can be a useful reference but does not prove native equivalence.
+Validate the shader by compiling, then render front/side/reverse with changed light, presence, and background. Save a look, relaunch, and compare. Transmission behavior in another renderer does not establish native equivalence; inspect the actual RealityKit material.

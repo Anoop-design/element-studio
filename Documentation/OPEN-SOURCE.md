@@ -5,15 +5,15 @@ The owner authorized public GitHub visibility on **18 October 2026**, following 
 ## Included
 
 - Three portable skills with local references, optional display metadata, and a license in each distributable directory.
-- The working iOS app, browser authoring studio, current and preserved mesh fixtures, Metal shader, and native tests.
+- The working iOS app, native Swift authoring package, current and preserved mesh fixtures, Metal shader, and native tests.
 - Recovered HDR environment and surface-texture generators, with explicit candidate output paths.
-- Locked browser development dependencies, provider-independent installation instructions, a collision-safe skill installer, and repository/mesh validation.
+- Dependency-free Swift geometry tools, provider-independent installation instructions, a collision-safe skill installer, and repository/mesh validation.
 - Contributor instructions, source/lesson map, asset provenance, MIT license, and retained third-party/font notices.
 - Native simulator and connected-iPhone testing, without a committed signing team or a personal Xcode path. The portable workflow includes signing, review storage, native captures, and visual acceptance.
 
-## Initial native verification
+## Initial native verification (historical, 18 October 2026)
 
-Owner clarification: app acceptance uses native SwiftUI/RealityKit execution in the simulator or on a connected iPhone. The browser test runner was removed, the skills now require native testing, and CI is configured for Xcode. The optional JavaScript tools remain only for mesh authoring/export.
+Owner clarification: app acceptance uses native SwiftUI/RealityKit execution in the simulator or on a connected iPhone. The browser test runner was removed, the skills now require native testing, and CI is configured for Xcode. At that stage JavaScript remained for mesh authoring/export; the subsequent native port removes that toolchain entirely.
 
 Executed on 18 October 2026:
 
@@ -65,8 +65,34 @@ The current Daybeat-branded example inscriptions and reverse mark are intentiona
 
 Existing history is preserved. It includes the original developer's non-secret Xcode path and Apple team identifier in older commits; current setup no longer depends on either. Do not rewrite shared history merely to hide ordinary attribution. Any actual credential identified in a future review would require revocation and coordinated cleanup.
 
-The `package.json` private flag prevents accidental npm publication independently of GitHub visibility. This project is distributed as source and skills, not an npm runtime library. The public GitHub repository allows anyone to read, clone, and fork the source under its licenses.
+This project is distributed as native source and skills. The former npm manifest and browser dependencies have been removed. The public GitHub repository allows anyone to read, clone, and fork the source under its licenses.
 
-## Hosted CI status
+## Initial hosted CI result
 
-The [first hosted run](https://github.com/Anoop-design/element-studio/actions/runs/39115789169) stopped before allocating a runner or executing any steps. GitHub reported that recent account payments failed or the spending limit needs to be increased. The replacement native macOS workflow remains unexecuted until the account issue is resolved. No billing setting was changed and no futile rerun was requested. Local native execution is recorded separately from hosted CI; configuring the workflow does not establish a hosted pass.
+The [first hosted run](https://github.com/Anoop-design/element-studio/actions/runs/39115789169) stopped before allocating a runner or executing any steps. GitHub reported that recent account payments failed or the spending limit needed to be increased. That run did not execute the native macOS workflow. No billing setting was changed. Check the repository's Actions page for subsequent runs; local execution and hosted CI are separate evidence.
+
+## Complete Swift authoring port, 19 October 2026
+
+All sixteen Daybeat recipes and four additional Comeback/ribbon variants now build through the dependency-free `ElementStudioAuthor` Swift package. Orbit, Twisted loop, and Stacked pebbles retain their independent native generators. The browser editor, JavaScript exporter, vendored browser runtime, npm manifests and browser-only textures are removed. Python remains for installation, validation, native test orchestration, and optional offline environment/normal-map generation.
+
+New work uses the `-swift-v1` geometry and versioned photo/sand textures. All 206 previously published resource files were checked against their pre-port SHA-256 hashes and remain unchanged. Saved looks retain their geometry, materials and camera. CoreGraphics offsets and native tessellation have small sampling differences from the earlier implementation; the separate edition makes those changes explicit.
+
+Local validation used Xcode 27.1 (27A9275) and the dedicated iPhone 17 Pro simulator with iOS 27.0:
+
+| Check | Result |
+| --- | --- |
+| Swift authoring package | Release build and four host tests passed; concave/holed cap area, closed bent extrusion, normals/winding and command-line validation covered |
+| Native mesh export | All twenty variants exported; 120 batches validated; independent runs produced 42 byte-identical mesh/texture files |
+| Live templates and safeguards | Inscription-free Comeback exported with two batches and a 101 × 113 front/back grid; collisions, unknown/duplicate IDs, missing values and direct Resources output rejected |
+| Native app unit suite | All 26 tests passed, zero failures; library migration/import/relaunch, geometry and native rendering covered |
+| Native catalogue review | Two focused tests passed after expanding reverse coverage; 80 front/reverse captures across twenty Swift and twenty preserved variants, with real transparent/opaque pixel checks |
+| Native UI coverage | All nine scenarios validated: eight passed in the complete run, and the final two-test follow-up passed both the native examples/save/reopen and precision/undo/comparison/export flows |
+| UI test correction | The first precision flow missed Apply when the simulator keyboard moved the alert. The test now verifies entered text, re-queries once if dismissal did not occur, and requires dismissal plus the original finish/undo/redo/export assertions |
+| Portable skills | All three packages passed Skill Creator validation; installation into a separate path containing spaces succeeded; collision refusal preserved installed files |
+| Repository check | Three portable skills, 29 Markdown documents, 112 mesh manifests and 740 batches passed; zero tracked JavaScript, HTML or CSS source files |
+
+Local result bundles are `build/NativeTests-20261019T030431Z-7f8274.xcresult` (26 unit tests), `build/NativePortReview-20261019T031300Z.xcresult` (expanded catalogue captures), `build/NativePortUI-20261019T031600Z.xcresult` (complete UI run, including the diagnosed alert miss), and `build/NativePortUIFinal-20261019T033500Z.xcresult` (two passing follow-up UI tests). An intermediate test-only rebuild failed on a mistyped XCTest expectation and executed no tests; the corrected expectation is covered by the final run. The normal saved-look library was preserved throughout.
+
+The README includes a contact sheet of all twenty Swift-generated Daybeat variants and retains the three neutral-shape screenshots and agent installation instructions. The skills describe the native recipes, geometry kernel, export contract, RealityKit materials, Metal shaders, lighting, hand-tuning and simulator/device validation, while retaining lightweight research delegation.
+
+These results establish local native geometry, rendering and interaction coverage. They do not claim a new physical-iPhone performance/gyro review or a successful hosted CI run. GitHub Actions is configured to run the Swift package/export checks and native simulator suite on `xcode-27`; its actual run result must be assessed separately.

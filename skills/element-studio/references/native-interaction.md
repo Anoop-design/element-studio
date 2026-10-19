@@ -16,7 +16,7 @@ Keep native tool transition sources mounted through dismissal. Element Studio's 
 
 Allow at most two live GPU submissions in this implementation. Coalesce further requests; decrement the count from completion and schedule pending work. Never block a gesture waiting for a third drawable. Skip unchanged transforms/materials; disable roots after they finish fading. Gyro samples reach weakly registered renderers without invalidating the whole SwiftUI editor. Stop sensors and motion while inactive or with Reduce Motion.
 
-The browser version similarly caches models, yields between uncached builds, and uses a revision to discard obsolete arrangements. Preserve the last visible scene if a new build fails. Spatial bins and repeated-sample caching made reverse-logo projection practical without changing the resulting vertices. Treat past timings as historical observations, not portable guarantees.
+For expensive native mesh preparation, cache models, yield between uncached builds, and use a revision to discard obsolete arrangements. Preserve the last visible scene if a new build fails. Spatial bins and repeated-sample caching made reverse-logo projection practical without changing the resulting vertices. Treat past timings as historical observations, not portable guarantees.
 
 ## Keep view state out of authored state
 

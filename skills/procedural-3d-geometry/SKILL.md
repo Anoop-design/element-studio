@@ -6,7 +6,7 @@ license: MIT
 
 # Procedural 3D geometry
 
-Construct an inspectable solid with useful editable parameters. This guidance comes from Element Studio's hand-tuned objects and can be applied to unrelated forms or renderers. The reference includes independent native Swift generators as well as the original Three.js builders and typed mesh buffers for RealityKit. The geometric principles do not require a particular authoring tool.
+Construct an inspectable solid with useful editable parameters. This guidance comes from Element Studio's hand-tuned objects and can be applied to unrelated forms or renderers. The reference contains Swift generators for all Daybeat and neutral examples, native CoreGraphics outline operations, and typed mesh buffers for RealityKit. The geometric principles do not require a particular authoring tool.
 
 Read [construction and corrections](references/construction.md) for the actual algorithms and failure modes. Read [native transfer](references/native-transfer.md) when exporting geometry or preserving editions. Read [native Swift examples](references/native-examples.md) to reuse or extend the orbit, twisted loop, and stacked pebble generators.
 

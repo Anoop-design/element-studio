@@ -4,21 +4,21 @@ The example collection began as Daybeat's Highlight object study in September 20
 
 | Asset | Origin and regeneration |
 | --- | --- |
-| Current mesh manifests/buffers | Code-authored `Authoring/objects.js`, `forms.js`, `brand-mark.js`; `export-meshes.cjs` exports candidates |
-| Earlier/sculpted/new-forms/studio-original mesh editions | Preserved authored fixtures for old saved looks; current builders do not reconstruct every historical edition |
+| Current mesh manifests/buffers | `NativeAuthoring/DaybeatShapes.swift`, `FormStudies.swift`, `Inscriptions.swift`; native Swift exporter writes `-swift-v1` candidates |
+| Previous Latest/earlier/sculpted/new-forms/studio-original mesh editions | Preserved authored fixtures for old saved looks; current builders do not reconstruct every historical edition |
 | Linear HDR environment | `scripts/make-environment.py`, deterministic procedural panels; float32 RGBA, 1024 × 512 |
-| Brush, glaze, dial and roughness maps | `scripts/make-surface-textures.py`; seeded procedural slopes, eighteen native maps and four browser copies |
-| Default landscape/photo and sand textures | `drawMemory`/`makeMaterials` in `Authoring/objects.js`; exported with meshes |
+| Brush, glaze, dial and roughness maps | `scripts/make-surface-textures.py`; seeded procedural slopes, eighteen native maps |
+| Default landscape/photo and sand textures | `NativeAuthoring/NativeTextures.swift`; versioned CoreGraphics/ImageIO images exported with meshes; older textures preserved |
 | Native catalogue thumbnails | Rendered from the native geometry/materials; `STUDIO_REVIEW=1` isolates diagnostics from the normal library |
 | Documentation captures | Synthetic app/studio review captures, not photographs of private health records |
 | Letter geometry | Bundled Helvetiker/MgOpen-derived typeface; retain the font notices |
-| Daybeat sample mark | Original code-authored vector paths in `Authoring/brand-mark.js`; retained as a study example |
+| Daybeat sample mark | Original vector paths in `NativeAuthoring/Resources/DaybeatMark.json`; constructed and projected by native Swift |
 
-Recovered generator formulas are preserved from the original study. They now take explicit output directories and do not reach into another project. Do not overwrite a released geometry edition or normal-map revision to experiment. Generate candidates under `build/`, inspect them, and promote deliberately. See [Authoring/README.md](../Authoring/README.md) for commands.
+Recovered generator formulas are preserved from the original study. They now take explicit output directories and do not reach into another project. Do not overwrite a released geometry edition or normal-map revision to experiment. Generate candidates under `build/`, inspect them, and promote deliberately. See [the native authoring guide](../NativeAuthoring/README.md) for commands.
 
-The native reflection image and the browser PMREM rig are separately authored implementations of the same lighting intent. They need not produce pixel-identical output. Browser-generated geometry can vary in byte ordering or tiny floating-point details across toolchains; assess semantic mesh attributes and actual renders as well as hashes.
+The Swift port preserves the authored recipe dimensions and formulas. CoreGraphics path operations and native triangulation have different sampling from the historical pipeline, so new files use a separate version instead of replacing old geometry. Check semantic mesh attributes, topology, materials, inscriptions and native renders as well as reproducibility within a toolchain.
 
-Every runtime dependency and font notice needed by the browser is bundled. No image-generation output is used for the modeled objects, landscape, textures, or light rig. The app is a visual authoring tool: its example numbers and dates do not establish real achievements.
+The native generator has no third-party runtime dependency. Its bundled font data retains its original license. No image-generation output is used for the modeled objects, landscape, textures, or light rig. The app is a visual authoring tool: its example numbers and dates do not establish real achievements.
 
 ## Neutral native forms, 18 October 2026
 

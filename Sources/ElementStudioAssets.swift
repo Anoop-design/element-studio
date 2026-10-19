@@ -72,6 +72,8 @@ final class ElementStudioMaterials {
     private var grain: TextureResource?
     private var sand: TextureResource?
     private var photo: TextureResource?
+    private var nativeSand: TextureResource?
+    private var nativePhoto: TextureResource?
     private var glassMaterial: CustomMaterial?
     private var surfaces: [String: TextureResource] = [:]
     private var prepared = false
@@ -103,20 +105,26 @@ final class ElementStudioMaterials {
         glass.faceCulling = .none
         glass.writesDepth = false
         glassMaterial = glass
-        for name in ["sand", "photo"] {
+        for name in ["sand", "photo", "sand-swift-v1", "photo-swift-v1"] {
             guard let url = Bundle.main.url(forResource: "ElementStudio-\(name)", withExtension: "png"),
                   let image = UIImage(contentsOfFile: url.path)?.cgImage else { throw CocoaError(.fileReadCorruptFile) }
             let texture = try await TextureResource(image: image, options: .init(semantic: .color))
-            if name == "sand" { sand = texture } else { photo = texture }
+            switch name {
+            case "sand": sand = texture
+            case "photo": photo = texture
+            case "sand-swift-v1": nativeSand = texture
+            default: nativePhoto = texture
+            }
         }
         prepared = true
     }
 
     func setPhoto(_ image: CGImage) async throws {
         photo = try await TextureResource(image: image, options: .init(semantic: .color))
+        nativePhoto = photo
     }
 
-    func clearPhoto() { photo = nil }
+    func clearPhoto() { photo = nil; nativePhoto = nil }
 
     func make(_ batch: ElementStudioAsset.Batch, settings: ElementStudioSettings) -> any Material {
         var material = PhysicallyBasedMaterial()
@@ -161,12 +169,12 @@ final class ElementStudioMaterials {
             material.faceCulling = .none
             material.writesDepth = false
         case "photo":
-            if let photo { material.baseColor = .init(tint: .white, texture: .init(photo)) }
+            if let photo = settings.chosenEdition == .native ? nativePhoto : photo { material.baseColor = .init(tint: .white, texture: .init(photo)) }
             else { material.baseColor = .init(tint: UIColor(red: 0.12, green: 0.19, blue: 0.23, alpha: 1)) }
             material.roughness = 0.7
             material.textureCoordinateTransform = .init(offset: [0, 1], scale: [1, -1])
         case "sand":
-            if let sand { material.baseColor = .init(tint: .white, texture: .init(sand)) }
+            if let sand = settings.chosenEdition == .native ? nativeSand : sand { material.baseColor = .init(tint: .white, texture: .init(sand)) }
             material.roughness = 0.88
             material.textureCoordinateTransform = .init(scale: [3, 3])
         case "clay":
