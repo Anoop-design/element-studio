@@ -1,6 +1,115 @@
 # Element Studio
 
-A standalone, native iOS studio for developing 3D elements, materials and Metal shaders, and keeping repeatable visual configurations. Open `ElementStudio.xcodeproj` and select the `ElementStudio` scheme. The Debug app appears on the phone as **Element Studio**, with bundle ID `com.anoop.elementstudio.dev` and its own library. It does not read Daywake data.
+A native iOS studio for building editable 3D objects with SwiftUI, RealityKit, and Metal. Explore **19 examples**, tune their materials and lighting, and save repeatable looks. Reuse the geometry, shaders, and agent skills in your own projects.
+
+Open source under [MIT](LICENSE), with [third-party notices](THIRD-PARTY.md) retained. No Daybeat app, HealthKit data, or account is required.
+
+## New shapes
+
+| Orbit | Twisted loop | Stacked pebbles |
+| --- | --- | --- |
+| <img src="Documentation/orbit-native.png" width="220" alt="Element Studio showing a turquoise ceramic orbit around a polished gold core"> | <img src="Documentation/twisted-loop-native.png" width="220" alt="Element Studio showing a warm ceramic band with a full twist"> | <img src="Documentation/stacked-pebbles-native.png" width="220" alt="Element Studio showing four stacked pebbles with separate ceramic colors"> |
+
+Actual native iOS Simulator screenshots from the new-shape UI test. These three forms join the original 16 Daybeat examples. Their [standalone Swift generator and construction guide](Documentation/NATIVE-SHAPES.md) explain how to copy, adapt, and render them in another app.
+
+## Install and use the agent skills
+
+The skills preserve the techniques behind the hand-tuned geometry, materials, lighting, shaders, and native interactions. They are self-contained Markdown packages that work in your own project. You can install them for automatic discovery or ask any coding agent to read them directly.
+
+| Skill | Start here when you want to… |
+| --- | --- |
+| [element-studio](skills/element-studio/SKILL.md) | Build and refine an editable 3D object, including controls, undo, saved looks, export, and native verification |
+| [procedural-3d-geometry](skills/procedural-3d-geometry/SKILL.md) | Construct swept, lathed, beveled, or assembled meshes with clean normals, seams, and fitted inscriptions |
+| [realitykit-materials-lighting](skills/realitykit-materials-lighting/SKILL.md) | Tune PBR materials, reflections, HDR lighting, normal maps, and RealityKit Metal material shaders |
+
+### 1. Get the repository
+
+Install [Git](https://git-scm.com/downloads) and [Python 3](https://www.python.org/downloads/), then run:
+
+```sh
+git clone https://github.com/Anoop-design/element-studio.git
+cd element-studio
+```
+
+The skill installer uses only Python's standard library. Reading or installing the skills does not require Xcode, Node, or the iOS app. Building and visually testing native iOS code requires macOS, full Xcode, and an iOS 26+ simulator or connected iPhone.
+
+### 2. Install all three skills
+
+Run **one** of these commands from the cloned `element-studio` directory. Each installs the skills for your user account so they are available across projects.
+
+**Codex**
+
+```sh
+python3 scripts/install-skills.py --destination "$HOME/.agents/skills"
+```
+
+**Claude Code**
+
+```sh
+python3 scripts/install-skills.py --destination "$HOME/.claude/skills"
+```
+
+To install for just one project instead, pass that project's absolute path:
+
+| Agent | Project-only destination |
+| --- | --- |
+| Codex | `/absolute/path/to/your-project/.agents/skills` |
+| Claude Code | `/absolute/path/to/your-project/.claude/skills` |
+| Another agent | Its documented skill directory, or use the files directly as described below |
+
+For example:
+
+```sh
+python3 scripts/install-skills.py --destination /absolute/path/to/your-project/.agents/skills
+```
+
+Successful installation prints `Installed` for `element-studio`, `procedural-3d-geometry`, and `realitykit-materials-lighting`. The installer copies each complete package, including its references and MIT license. It **refuses to overwrite an existing skill**. If a name already exists, compare or back up that directory before replacing it, or choose a different project destination. It does not edit your agent's configuration.
+
+### 3. Ask your agent to use a skill
+
+Open the project you want to work on in your agent, then use an explicit skill invocation:
+
+**Codex prompt**
+
+```text
+$element-studio Build an editable ceramic orbit with a separate polished
+metal core in this iOS project. Use $procedural-3d-geometry for the mesh
+and $realitykit-materials-lighting for the materials and lighting.
+Verify the result in an iOS simulator and show the native captures.
+```
+
+**Claude Code prompt**
+
+```text
+/element-studio Build an editable ceramic orbit with a separate polished
+metal core in this iOS project. Use the procedural-3d-geometry and
+realitykit-materials-lighting skills as needed. Verify the result in an
+iOS simulator and show the native captures.
+```
+
+You can also invoke a focused skill directly, such as `$procedural-3d-geometry` in Codex or `/realitykit-materials-lighting` in Claude Code. If your agent does not list a newly installed skill, start a fresh session and check that the destination contains `<skill-name>/SKILL.md`. You can always use the direct-file method below.
+
+Install locations and invocation syntax follow the official [Codex skills guide](https://learn.chatgpt.com/docs/build-skills) and [Claude Code skills guide](https://code.claude.com/docs/en/skills).
+
+### Use with any other coding agent
+
+No installation or plugin is required if your agent can read files. Open this checkout in your agent, or give it access to a complete skill directory, then paste:
+
+```text
+Read skills/element-studio/SKILL.md and the relevant linked references.
+Use procedural-3d-geometry and realitykit-materials-lighting when needed.
+In my iOS project, build a ceramic orbit with a separate metal core,
+editable light direction and finish, and native SwiftUI controls.
+Build and verify it in an iOS simulator, and show the native captures.
+```
+
+For another project, replace the paths with the location of your checkout or installed skills. Keep each skill's entire directory, including `references/` and `LICENSE`, together. If the agent cannot run Xcode, it can still use the construction guidance and produce code; native rendering remains unverified until run on a Mac.
+
+The included workflow delegates research to available **Luna** subagents in Codex, or **Haiku/Sonnet** in Claude Code, with concise findings returned to the main agent. Model availability depends on your environment; installation does not change agent settings or purchase API access. See [skill details and troubleshooting](skills/README.md), the [learning map](Documentation/LEARNING-MAP.md), and the [release and validation record](Documentation/OPEN-SOURCE.md).
+
+## Using the app
+
+Open `ElementStudio.xcodeproj` and select the `ElementStudio` scheme. The Debug app appears as **Element Studio**, with bundle ID `com.anoop.elementstudio.dev` and its own library. It does not read Daywake data.
 
 <p>
   <img src="Documentation/collection-light.png" width="220" alt="Three-column live collection in light mode">
@@ -9,16 +118,6 @@ A standalone, native iOS studio for developing 3D elements, materials and Metal 
 </p>
 
 [Interaction review and validation](Documentation/REVIEW.md)
-
-## Learn and build with an agent
-
-The repository includes three portable [agent skills](skills/README.md): an interactive 3D authoring workflow, procedural mesh construction, and RealityKit materials/lighting/Metal shaders. They preserve the methods behind the manually tuned objects and can be used in other projects with any coding agent that can read their Markdown. Start with [the learning map](Documentation/LEARNING-MAP.md) to connect each technique to working source.
-
-The [asset authoring guide](Authoring/README.md) covers optional mesh-generation tools and regeneration of the HDR environment and surface textures. App testing always uses the native SwiftUI/RealityKit app in a simulator or on an iPhone. Runtime previews remain offline. [MIT](LICENSE) covers original code, skills, documentation, and assets, subject to the [bundled third-party notices](THIRD-PARTY.md).
-
-Element Studio is open source under the MIT license. See the [release and validation record](Documentation/OPEN-SOURCE.md).
-
-## Using the app
 
 - **Home:** all nineteen elements share a three-column live 3D canvas. The last row is centered. Drag with one finger to rotate them together, pinch to zoom under your fingers, and drag with two fingers to move around. Zoom out stops at the fitted 1× view; pan limits tighten as you zoom out, so the canvas cannot drift away. Show all resets the view. There is no search or bottom home toolbar.
 - **Appearance:** follows System, with Light and Dark overrides in the top menu. Light uses a pale gray canvas; Dark uses pure black.

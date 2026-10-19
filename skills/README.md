@@ -8,6 +8,20 @@ Reusable instructions for building real, editable 3D objects, distilled from thi
 | [procedural-3d-geometry](procedural-3d-geometry/SKILL.md) | Lathed/swept/beveled forms, concave caps, fitted inscriptions, mesh export |
 | [realitykit-materials-lighting](realitykit-materials-lighting/SKILL.md) | PBR roles, HDR light, normal maps, native Metal material shaders |
 
+## Install in Codex or Claude Code
+
+The [README quick start](../README.md#install-and-use-the-agent-skills) includes clone commands, personal and project install destinations, and ready-to-paste prompts for both agents. From the cloned repository, choose one:
+
+```sh
+# Codex: personal skills available across projects
+python3 scripts/install-skills.py --destination "$HOME/.agents/skills"
+
+# Claude Code: personal skills available across projects
+python3 scripts/install-skills.py --destination "$HOME/.claude/skills"
+```
+
+For project-only discovery, use that project's `.agents/skills` (Codex) or `.claude/skills` (Claude Code) as the destination instead. Invoke `$element-studio` in Codex or `/element-studio` in Claude Code; the other two skill names work the same way. Keep full directories together, including references and licenses. The installer refuses existing names, so inspect an older installation before replacing it. See the official [Codex](https://learn.chatgpt.com/docs/build-skills) and [Claude Code](https://code.claude.com/docs/en/skills) documentation for discovery behavior.
+
 ## Use with any coding agent
 
 An agent does not need a plugin to read these instructions. Give it the skill file and a concrete task, for example:
@@ -36,4 +50,4 @@ Each skill includes self-contained [research delegation guidance](element-studio
 
 The references preserve the reasons behind the tweaks: polygon offsets instead of shrinking outlines; conforming subdivision before bending; continuous flame and arrow faces; ordered ribbon-notch rows; curved inscription seating; spatially cached projection; softer normal maps; coordinated reflection/key lighting; native thin-glass limitations; stable camera identity; transient mesh inspection; reversible edits; geometry/material versioning; and actual-alpha export. The original builders, shaders, fixtures, and regeneration scripts remain runnable examples in this repository.
 
-See [the learning map](../Documentation/LEARNING-MAP.md) for source symbols and [the release preparation record](../Documentation/OPEN-SOURCE.md) for validation and publication status. Skills are instructions, not a claim of certification by every agent platform. Visual judgment and supported execution tools are still required.
+See [the learning map](../Documentation/LEARNING-MAP.md) for source symbols and [the release and validation record](../Documentation/OPEN-SOURCE.md) for validation and publication status. Skills are instructions, not a claim of certification by every agent platform. Visual judgment and supported execution tools are still required.
